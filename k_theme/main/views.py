@@ -4,13 +4,23 @@ import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import KthemeImageForm, ColorForm
-from .models import KthemeImage
+
+# from .models import KthemeImage
 from django.conf import settings
 from django.http import JsonResponse
+
+# import time
+# timestamp = int(time.time())
+
+from django.views.decorators.cache import never_cache
+
+from datetime import datetime
+
 
 # static_dir = settings.STATICFILES_DIRS[0]
 
 
+@never_cache
 def main(request):
     img_form = KthemeImageForm(request.POST, request.FILES)
     color_form = ColorForm(request.POST)
@@ -18,13 +28,14 @@ def main(request):
     if request.method == "POST":
         if action == "upload_images":
             image_upload = request.FILES["image_upload"]
-
+            # image_upload = img_form.cleaned_data["image_upload"]
             if image_upload:
+                version = str(int(datetime.now().timestamp()))
                 image_path = request.POST.get("image_path")
-                if image_path:
-                    with open(image_path, "wb") as destination:
-                        for chunk in image_upload.chunks():
-                            destination.write(chunk)
+                # if image_path:
+                with open(image_path, "wb") as destination:
+                    for chunk in image_upload.chunks():
+                        destination.write(chunk)
 
             # if img_form.is_valid():
             #     img_form.save()
@@ -50,7 +61,7 @@ def main(request):
         img_form = KthemeImageForm()
         color_form = ColorForm()
 
-    images = KthemeImage.objects.all()
+    # images = KthemeImage.objects.all()
     image_filenames = [
         "chatroomBgImage@3x.png",
         "chatroomBubbleReceive01@2x.png",
@@ -128,14 +139,15 @@ def main(request):
         "profileImg01@3x.png",
     ]
 
-    image_paths = [f"media/images/{filename}" for filename in image_filenames]
+    image_paths = [f"media/n_images/{filename}" for filename in image_filenames]
     return render(
         request,
         "main/main.html",
         {
             "img_form": img_form,
             "color_form": color_form,
-            "images": images,
+            # "images": images,
+            "version": version,
             "image_paths": image_paths,
         },
     )

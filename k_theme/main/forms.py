@@ -1,22 +1,27 @@
 from django import forms
-from .models import KthemeImage
+
+# from .models import KthemeImage
 
 
-class KthemeImageForm(forms.ModelForm):
-    class Meta:
-        model = KthemeImage
-        fields = (
-            "image1",
-            # "image2",
-            # "image3",
-            # "image4",
-            # "image5",
-            # "image6",
-            # "image7",
-            # "image8",
-            # "image9",
-            # "image10",
-        )
+class KthemeImageForm(forms.Form):
+    image = forms.ImageField(required=True)
+
+
+# class KthemeImageForm(forms.ModelForm):
+#     class Meta:
+#         model = KthemeImage
+#         fields = (
+#             "image1",
+#             # "image2",
+#             # "image3",
+#             # "image4",
+#             # "image5",
+#             # "image6",
+#             # "image7",
+#             # "image8",
+#             # "image9",
+#             # "image10",
+#         )
 
 
 # image1 = forms.ImageField(required=False)

@@ -1,24 +1,13 @@
 {% load static %}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function previewImage() {
-        var fileInput = document.getElementById('image-input');
-        var imagePreview = document.getElementById('image-preview');
-
-        // Check if a file is selected
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-
-            reader.onload = function (e) {
-                imagePreview.innerHTML = '<img src="' + e.target.result + '" alt="Image Preview" style="max-width: 100%; max-height: 200px;">';
-            };
-
-            reader.readAsDataURL(fileInput.files[0]);
-        } else {
-            imagePreview.innerHTML = ''; // Clear the image preview if no file is selected
-        }
+    function updateImage() {
+        var image = document.querySelector('.image-preview');
+        var timestamp = new Date().getTime(); // Unique timestamp
+        image.src = "{{ image_path }}?" + timestamp;
     }
 </script>
+
 
 <style>
     .square {
@@ -71,17 +60,18 @@
 </style>
 <div class="squares-container">
     {% for image_path in image_paths %}
-    <form method="post" enctype="multipart/form-data" action="{% url 'main' %}">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="hidden" name="image_path" value="{{ image_path }}">
         <div class="square">
             <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}" class="hidden-file-input">
             <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
-                <img src="{{ image_path }}" alt="Image" class="image-preview">
+                <img src="{{ image_path }}?={{ version }}" alt="Image" class="image-preview">
             </label>
         </div>
-        <p>{{ image_path }}</p>
+        <!-- <p>{{ image_path }}</p> -->
         <button type="submit" name="action" value="upload_images">Upload</button>
+
     </form>
     {% endfor %}
 </div>
