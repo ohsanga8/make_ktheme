@@ -22,6 +22,7 @@ from datetime import datetime
 
 @never_cache
 def main(request):
+    version = str(int(datetime.now().timestamp()))
     img_form = KthemeImageForm(request.POST, request.FILES)
     color_form = ColorForm(request.POST)
     action = request.POST.get("action", "")
@@ -30,7 +31,6 @@ def main(request):
             image_upload = request.FILES["image_upload"]
             # image_upload = img_form.cleaned_data["image_upload"]
             if image_upload:
-                version = str(int(datetime.now().timestamp()))
                 image_path = request.POST.get("image_path")
                 # if image_path:
                 with open(image_path, "wb") as destination:
@@ -48,13 +48,13 @@ def main(request):
                 text_color = color_form.cleaned_data["text_color"]
 
                 origin_css = os.path.join("static", "origin.css")
-                ktheme_css = os.path.join("static", "KakaoTalkTheme.css")
+                ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
                 create_css(origin_css, ktheme_css, bg_color, text_color)
 
         elif action == "create_zip":
-            css_file_path = os.path.join("static", "KakaoTalkTheme.css")
+            css_file_path = os.path.join("media", "KakaoTalkTheme.css")
             source_directory = os.path.join("media", "images")
-            output_zip_path = os.path.join("media", "output.ktheme")
+            output_zip_path = os.path.join("media", "sample.ktheme")
             zip_css_and_directory(css_file_path, source_directory, output_zip_path)
 
     else:
@@ -139,7 +139,7 @@ def main(request):
         "profileImg01@3x.png",
     ]
 
-    image_paths = [f"media/n_images/{filename}" for filename in image_filenames]
+    image_paths = [f"media/images/{filename}" for filename in image_filenames]
     return render(
         request,
         "main/main.html",
@@ -151,6 +151,11 @@ def main(request):
             "image_paths": image_paths,
         },
     )
+
+
+def button1_view(request):
+    image_path = os.path.join("media", "images", "chatroomBubbleReceive01@3x.png")
+    return JsonResponse({"image_path": image_path})
 
 
 def create_css(original_file, modified_file, bg_color, text_color):
@@ -167,7 +172,7 @@ def create_css(original_file, modified_file, bg_color, text_color):
 def zip_css_and_directory(css_file, source_directory, output_zip_path):
     with zipfile.ZipFile(output_zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
         zipf.write(css_file, os.path.basename(css_file))
-        directory_subdir = os.path.join("Images", "")
+        directory_subdir = "Images"
 
         for root, _, files in os.walk(source_directory):
             for file in files:

@@ -75,6 +75,11 @@
 </div>
 
 <h2>Modify CSS</h2>
+<button id="button1" class="open-modal">보낸 말풍선 1</button>
+<div id="imageModal" style="display: none;">
+    <img id="modalImage" src="{{ image_path }}" alt="Image">
+</div>
+
 <form method="post">
     {% csrf_token %}
     {{ color_form.as_p }}
@@ -99,4 +104,14 @@
             form.submit();
         })
     })
+
+    $(".open-modal").on("click", function () {
+        $("#imageModal").show();
+    });
+
+    // Close the modal when the modal or the close button is clicked
+    $("#imageModal, #modalImage").on("click", function () {
+        $("#imageModal").hide();
+    });
+
 </script>
