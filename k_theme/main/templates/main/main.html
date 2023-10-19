@@ -1,13 +1,9 @@
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    function updateImage() {
-        var image = document.querySelector('.image-preview');
-        var timestamp = new Date().getTime(); // Unique timestamp
-        image.src = "{{ image_path }}?" + timestamp;
-    }
-</script>
 
+<!-- <?
+    echo "Filename: ".$_FILES['image_upload']['name']."<br>";
+?> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
     .square {
@@ -60,17 +56,19 @@
 </style>
 <div class="squares-container">
     {% for image_path in image_paths %}
-    <form method="post" enctype="multipart/form-data">
+    <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="hidden" name="image_path" value="{{ image_path }}">
+        <input type="hidden" name="action" value="upload_images">
+        <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
         <div class="square">
-            <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}" class="hidden-file-input">
+            <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
+                class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
             <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
                 <img src="{{ image_path }}?={{ version }}" alt="Image" class="image-preview">
             </label>
         </div>
         <!-- <p>{{ image_path }}</p> -->
-        <button type="submit" name="action" value="upload_images">Upload</button>
+        <!-- <button type="submit" name="action" value="upload_images">Upload</button> -->
 
     </form>
     {% endfor %}
@@ -88,3 +86,17 @@
     {% csrf_token %}
     <button type="submit" name="action" value="create_zip">Create ZIP</button>
 </form>
+
+<script>
+    $(document).ready(function () {
+        $(".image-label").on('click', function () {
+            var form = $(this).closest('form');
+            var fileInput = form.find('.image-upload')
+            fileInput.click();
+        });
+        $(".image-upload").on('change', function () {
+            var form = $(this).closest('form');
+            form.submit();
+        })
+    })
+</script>
