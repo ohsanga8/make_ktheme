@@ -3,7 +3,7 @@ import os
 import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import KthemeImageForm, ColorForm
+from .forms import KthemeImageForm, cssForm
 
 # from .models import KthemeImage
 from django.conf import settings
@@ -24,7 +24,7 @@ from datetime import datetime
 def main(request):
     version = str(int(datetime.now().timestamp()))
     img_form = KthemeImageForm(request.POST, request.FILES)
-    color_form = ColorForm(request.POST)
+    css_form = cssForm(request.POST)
     action = request.POST.get("action", "")
     if request.method == "POST":
         if action == "upload_images":
@@ -43,9 +43,9 @@ def main(request):
             #     return JsonResponse({"error": "Invalid form data."}, status=400)
 
         elif action == "create_css":
-            if color_form.is_valid():
-                bg_color = color_form.cleaned_data["bg_color"]
-                text_color = color_form.cleaned_data["text_color"]
+            if css_form.is_valid():
+                bg_color = css_form.cleaned_data["bg_color"]
+                text_color = css_form.cleaned_data["text_color"]
 
                 origin_css = os.path.join("static", "origin.css")
                 ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
@@ -59,7 +59,7 @@ def main(request):
 
     else:
         img_form = KthemeImageForm()
-        color_form = ColorForm()
+        css_form = cssForm()
 
     # images = KthemeImage.objects.all()
     image_filenames = [
@@ -140,22 +140,26 @@ def main(request):
     ]
 
     image_paths = [f"media/images/{filename}" for filename in image_filenames]
+    modal_filenames = [
+        "chatroomBubbleReceive01@3x.png",
+        "chatroomBubbleReceive02@3x.png",
+        "chatroomBubbleSend01@3x.png",
+        "chatroomBubbleSend02@3x.png",
+    ]
+    modal_image_paths = [f"media/images/{filename}" for filename in modal_filenames]
+
     return render(
         request,
         "main/main.html",
         {
             "img_form": img_form,
-            "color_form": color_form,
+            "css_form": css_form,
             # "images": images,
             "version": version,
             "image_paths": image_paths,
+            "modal_image_paths": modal_image_paths,
         },
     )
-
-
-def button1_view(request):
-    image_path = os.path.join("media", "images", "chatroomBubbleReceive01@3x.png")
-    return JsonResponse({"image_path": image_path})
 
 
 def create_css(original_file, modified_file, bg_color, text_color):

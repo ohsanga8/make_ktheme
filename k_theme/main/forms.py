@@ -36,6 +36,6 @@ class KthemeImageForm(forms.Form):
 # image10 = forms.ImageField(required=False)
 
 
-class ColorForm(forms.Form):
+class cssForm(forms.Form):
     bg_color = forms.CharField(label="bg color", max_length=7)
     text_color = forms.CharField(label="text color", max_length=7)
