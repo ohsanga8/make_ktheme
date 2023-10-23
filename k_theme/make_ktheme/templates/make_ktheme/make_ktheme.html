@@ -1,0 +1,308 @@
+{% load static %}
+
+<!-- <?
+    echo "Filename: ".$_FILES['image_upload']['name']."<br>";
+?> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .square {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .square img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .squares-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .placeholder-image {
+        /* position: absolute;
+        width: 100%;
+        height: 100%; */
+    }
+
+    .hidden-file-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    .image-label {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .image-label img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .modal_overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0, 0, 0, 0.5);
+        /* backdrop-filter: blur(1.5px); */
+        /* -webkit-backdrop-filter: blur(1.5px); */
+    }
+
+    .modal_window {
+        background: white;
+        backdrop-filter: blur(13.5px);
+        -webkit-backdrop-filter: blur(13.5px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        width: 800px;
+        height: 600px;
+        position: relative;
+        padding: 10px;
+    }
+
+    .modal_title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        font-weight: bold;
+        font-size: 20px;
+    }
+
+    .modal_title_side {
+        flex: 0 0 40px;
+        text-align: center;
+    }
+
+    .modal_close {
+        cursor: pointer;
+    }
+
+    .canvas-container {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+</style>
+<div class="squares-container">
+    {% for image_path in image_paths %}
+    <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="upload_images">
+        <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
+        <div class="square">
+            <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
+                class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
+            <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
+                <img src="{{ image_path }}?={{ version }}" alt="Image" class="image-preview">
+            </label>
+        </div>
+        <!-- <p>{{ image_path }}</p> -->
+        <!-- <button type="submit" name="action" value="upload_images">Upload</button> -->
+
+    </form>
+    {% endfor %}
+</div>
+
+<h2>Modify CSS</h2>
+<button id="button1" class="open-modal">말풍선 px</button>
+<div class="modal_overlay" id="modal_overlay">
+    <div id="imageModal" class="modal_window">
+        <div class="modal_title">
+            <div class="modal_title_side"></div>
+            <div>title</div>
+            <div class="modal_title_side">
+                <span id="close_modal" class="modal_close">close</span>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ bubble_size_form.as_p }}
+            <button type="submit" name="action" value="create_css">Create CSS</button>
+        </form>
+        <!-- <form action="">
+            {% for modal_image_path in modal_image_paths %}
+            <div class="canvas-container">
+                <img src="{{ modal_image_path }}" alt="Image" id="image-modal-{{ forloop.counter }}">
+                <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
+                <input type="text" id="x-{{ forloop.counter }}" name="x-{{ forloop.counter }}" value=""
+                    style="width:100px">
+                <input type=" text" id="y-{{ forloop.counter }}" name="y-{{ forloop.counter }}" value=""
+                    style="width:100px">
+                <input type=" text" id="t-{{ forloop.counter }}" name="t-{{ forloop.counter }}" value=""
+                    style="width:100px">
+                <input type=" text" id="l-{{ forloop.counter }}" name="l-{{ forloop.counter }}" value=""
+                    style="width:100px">
+                <input type=" text" id="b-{{ forloop.counter }}" name="b-{{ forloop.counter }}" value=""
+                    style="width:100px">
+                <input type=" text" id="r-{{ forloop.counter }}" name="r-{{ forloop.counter }}" value=""
+                    style="width:100px">
+            </div>
+            {% endfor %}
+            <button type="submit">저장하기</button>
+        </form> -->
+        <!-- <img id="modalImage" class="modal_image" src="{{ image_path }}" alt="Image"> -->
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    {{ css_form.as_p }}
+    <button type="submit" name="action" value="create_css">Create CSS</button>
+</form>
+
+<h2>Create ZIP</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" name="action" value="create_zip">Create ZIP</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $(".image-label").on('click', function () {
+            var form = $(this).closest('form');
+            var fileInput = form.find('.image-upload')
+            fileInput.click();
+        });
+        $(".image-upload").on('change', function () {
+            var form = $(this).closest('form');
+            form.submit();
+        })
+    })
+
+    // $(".open-modal").on("click", function () {
+    //     $("#imageModal").show();
+    // });
+
+    // // Close the modal when the modal or the close button is clicked
+    // $("#imageModal, #modalImage").on("click", function () {
+    //     $("#imageModal").hide();
+    // });
+    const modal = document.getElementById("modal_overlay");
+    const openModal = document.getElementById("button1");
+    openModal.addEventListener("click", e => {
+        modal.style.top = window.pageYOffset + 'px';
+        modal.style.display = "flex";
+        document.body.style.overflowY = "hidden";
+    })
+
+    const closeModal = document.getElementById("close_modal");
+    closeModal.addEventListener("click", e => {
+        modal.style.display = "none";
+        document.body.style.overflowY = "visible"
+    })
+
+
+    // const drawLine = document.getElementById("draw-1")
+    // drawLine.addEventListener("click", e => {
+    //     imageId = 'image-modal-' + 1;
+    //     canvasId = 'canvas-' + 1;
+    //     var image = document.getElementById(imageId);
+    //     var canvas = document.getElementById(canvasId);
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
+
+    // })
+
+    for (i = 1; i < 5; i++) {
+        imageId = 'image-modal-' + i;
+        canvasId = 'canvas-' + i;
+        var image = document.getElementById(imageId);
+        var canvas = document.getElementById(canvasId);
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        // var x = document.getElementById('x-' + i).value;
+        // var y = document.getElementById('y-' + i).value;
+        // var t = document.getElementById('t-' + i).value;
+        // var l = document.getElementById('l-' + i).value;
+        // var b = document.getElementById('b-' + i).value;
+        // var r = document.getElementById('r-' + i).value;
+
+        x = 17;
+        y = 17;
+        t = 10;
+        l = 11;
+        b = 7;
+        r = 17;
+
+        var context = canvas.getContext('2d');
+        context.fillStyle = 'red';
+        context.fillRect(t * 3, l * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
+
+        context.beginPath();
+        context.moveTo(x * 3, 0);
+        context.lineTo(x * 3, canvas.height);
+        context.stroke();
+
+        context.beginPath();
+        context.moveTo(0, y * 3);
+        context.lineTo(canvas.width, y * 3);
+        context.stroke();
+
+
+    }
+    // var s_01_x = document.getElementById("x-1").value;
+    // var s_01_y = document.getElementById("y-1").value;
+    // var s_01_t = document.getElementById("t-1").value;
+    // var s_01_l = document.getElementById("l-1").value;
+    // var s_01_b = document.getElementById("b-1").value;
+    // var s_01_r = document.getElementById("r-1").value;
+    // context.fillStyle = 'red';
+    // context.fillRect(s_01_t, s_01_l, (s_01_r) - (s_01_l), (s_01_t) - (s_01_b));
+
+    // var s_02_x = document.getElementById("x-2");
+    // var s_02_y = document.getElementById("y-2");
+    // var s_02_t = document.getElementById("t-2");
+    // var s_02_l = document.getElementById("l-2");
+    // var s_02_b = document.getElementById("b-2");
+    // var s_02_r = document.getElementById("r-2");
+
+    // var r_01_x = document.getElementById("x-3");
+    // var r_01_y = document.getElementById("y-3");
+    // var r_01_t = document.getElementById("t-3");
+    // var r_01_l = document.getElementById("l-3");
+    // var r_01_b = document.getElementById("b-3");
+    // var r_01_r = document.getElementById("r-3");
+
+    // var r_02_x = document.getElementById("x-4");
+    // var r_02_y = document.getElementById("y-4");
+    // var r_02_t = document.getElementById("t-4");
+    // var r_02_l = document.getElementById("l-4");
+    // var r_02_b = document.getElementById("b-4");
+    // var r_02_r = document.getElementById("r-4");
+
+
+    // var context = canvas.getContext('2d');
+    // context.fillStyle = 'red';
+    // context.fillRect(50, 50, 100, 100);
+
+
+</script>

@@ -4,7 +4,7 @@ import os
 import sys
 
 
-def main():
+def make_ktheme():
     """Run administrative tasks."""
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "k_theme.settings")
     try:
@@ -19,4 +19,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    make_ktheme()
