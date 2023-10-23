@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "make_ktheme",
     "main",
+    "authapp",
     # "main.apps.MainConfig",
 ]
 
@@ -53,6 +54,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 ROOT_URLCONF = "k_theme.urls"
 
@@ -130,3 +133,7 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+LOGIN_URL = "/auth/login/"
+LOGOUT_URL = "/auth/logout/"
+LOGIN_REDIRECT_URL = "/"

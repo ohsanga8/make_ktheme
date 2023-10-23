@@ -22,6 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("makektheme/", include("make_ktheme.urls")),
     path("", include("main.urls")),
+    path("auth/", include("authapp.urls")),
 ]
 
 if settings.DEBUG:

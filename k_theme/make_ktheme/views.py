@@ -3,7 +3,7 @@ import os
 import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import KthemeImageForm, cssForm, bubbleSizeForm
+from .forms import KthemeForm, CssColorForm, CssBubbleForm
 
 # from .models import KthemeImage
 from django.conf import settings
@@ -19,7 +19,7 @@ from datetime import datetime
 
 # static_dir = settings.STATICFILES_DIRS[0]
 def create_theme(request):
-    
+    pass
 
 
 @never_cache

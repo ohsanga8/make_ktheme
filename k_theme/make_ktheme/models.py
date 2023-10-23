@@ -1,5 +1,45 @@
 from django.db import models
-from main.models import Ktheme
+from django.contrib.auth.models import User
+import os
+import shutil
+from django.conf import settings
+
+# from main.models import Ktheme
+
+
+def ktheme_save_path(instance, filename):
+    return os.path.join("kthemes", str(instance.user.id), filename)
+
+
+class Ktheme(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    # user_id = models.CharField(max_length=50)
+    theme_name = models.CharField(max_length=50)
+    theme_id = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.theme_name} by {self.user.username}"
+
+    # image_dir = models.CharField(max_length=255, black=True)
+    def theme_dir(self):
+        return os.path.join(settings.MEDIA_ROOT, self.user.username, self.theme_name)
+
+    def create_dir(self):
+        theme_dir_path = self.theme_dir()
+        os.makedires(theme_dir_path, exist_ok=True)
+
+        image_dir_path = os.path.join(theme_dir_path, "Images")
+        os.makedires(image_dir_path, exist_ok=True)
+
+        src_dir_path = os.path.join(settings.STATIC_ROOT, "Images")
+
+        for filename in os.listdir(src_dir_path):
+            src_image_path = os.path.join(src_dir_path, filename)
+            dest_image_path = os.path.join(image_dir_path, filename)
+            shutil.copy2(src_image_path, dest_image_path)
+
+    # def dir_path(self):
+    #     return f"media/{self.user_id}/{self.theme_name}"
 
 
 class CssColor(models.Model):
@@ -14,7 +54,6 @@ class CssColor(models.Model):
 
 class CssBubble(models.Model):
     ktheme = models.OneToOneField(Ktheme, on_delete=models.CASCADE)
-
     s_1_x = models.PositiveIntegerField(default=17)
     s_1_y = models.PositiveIntegerField(default=17)
     s_1_t = models.PositiveIntegerField(default=10)

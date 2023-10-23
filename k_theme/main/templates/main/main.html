@@ -1,6 +1,5 @@
 {% load static %}
-<form method="post">
-    {% csrf_token %}
-    {{ bubble_size_form.as_p }}
-    <button type="submit" name="action" value="create_css">Create CSS</button>
-</form>
+
+{% for ktheme in user_kthemes %}
+<li>{{ktheme.theme_name}}</li>
+{% endfor %}
