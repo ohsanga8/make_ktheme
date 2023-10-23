@@ -4,8 +4,8 @@ from .models import Ktheme, CssColor, CssBubble
 # from .models import KthemeImage
 
 
-# class KthemeImageForm(forms.Form):
-#     image = forms.ImageField(required=True)
+class KthemeImageForm(forms.Form):
+    image = forms.ImageField(required=True)
 
 
 class KthemeForm(forms.Form):

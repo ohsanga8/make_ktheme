@@ -3,7 +3,7 @@ import os
 import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import KthemeForm, CssColorForm, CssBubbleForm
+from .forms import KthemeImageForm, KthemeForm, CssColorForm, CssBubbleForm
 
 # from .models import KthemeImage
 from django.conf import settings
@@ -26,8 +26,8 @@ def create_theme(request):
 def make_theme(request):
     version = str(int(datetime.now().timestamp()))
     img_form = KthemeImageForm(request.POST, request.FILES)
-    css_form = cssForm(request.POST)
-    bubble_size_form = bubbleSizeForm(request.POST)
+    css_form = CssColorForm(request.POST)
+    bubble_size_form = CssBubbleForm(request.POST)
     action = request.POST.get("action", "")
     if request.method == "POST":
         if action == "upload_images":
