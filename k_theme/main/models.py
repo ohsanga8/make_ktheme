@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 import os
 import shutil
 from django.conf import settings
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 # from main.models import Ktheme
 
@@ -88,3 +90,9 @@ class CssBubble(models.Model):
     r_2_l = models.PositiveIntegerField(default=17)
     r_2_b = models.PositiveIntegerField(default=9)
     r_2_r = models.PositiveIntegerField(default=11)
+
+
+@receiver(post_save, sender=Ktheme)
+def create_css_model(sender, instance, **kwargs):
+    CssColor.objects.get_or_create(ktheme=instance)
+    CssBubble.objects.get_or_create(ktheme=instance)

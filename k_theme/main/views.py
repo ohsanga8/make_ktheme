@@ -8,7 +8,13 @@ import os
 import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import KthemeForm, KthemeImageForm, CssColorForm, CssBubbleForm
+from .forms import (
+    KthemeImageForm,
+    KthemeCreateForm,
+    KthemeUpdateForm,
+    CssColorUpdateForm,
+    CssBubbleUpdateForm,
+)
 from .models import Ktheme, CssColor, CssBubble
 
 # from .models import KthemeImage
@@ -28,30 +34,28 @@ import re
 @login_required
 def main(request):
     user = request.user
-    user_kthemes = Ktheme.objects.filter(user=user)
-    return render(request, "main/main.html", {"user_kthemes": user_kthemes})
+    user_theme_list = Ktheme.objects.filter(user=user)
+    return render(request, "main/main.html", {"user_theme_list": user_theme_list})
 
 
 # static_dir = settings.STATICFILES_DIRS[0]
 def create_theme(request):
-    src_css = os.path.join("static", "origin.css")
-    ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
     if request.method == "POST":
-        form = KthemeForm(request.POST)
+        form = KthemeCreateForm(request.POST)
         if form.is_valid():
             ktheme = form.save()
-            # theme_dir = ktheme.theme_dir()
-            ktheme_css = os.path.join(ktheme.theme_dir, "KakaoTalkTheme.css")
-            if os.path.exists(ktheme_css):
-                with open(src_css, "r", encoding="utf-8") as f:
+            src_css_path = os.path.join("static", "source.css")
+            ktheme_css_path = os.path.join(ktheme.theme_dir, "KakaoTalkTheme.css")
+            if os.path.exists(ktheme_css_path):
+                with open(src_css_path, "r", encoding="utf-8") as f:
                     css_content = f.read()
                 css_content = css_content.replace("themeId", ktheme.theme_id)
                 css_content = css_content.replace("themeName", ktheme.theme_name)
-                with open(ktheme_css, "w", encoding="utf-8") as f:
+                with open(ktheme_css_path, "w", encoding="utf-8") as f:
                     f.write(css_content)
             return redirect("ktheme_detail")
     else:
-        form = KthemeForm()
+        form = KthemeCreateForm()
     return render(request, "main/create_ktheme.html", {"form": form})
 
 
@@ -59,18 +63,18 @@ def ktheme_detail(request, theme_id):
     ktheme = get_object_or_404(Ktheme, theme_id=theme_id)
     css_color = CssColor.objects.filter(ktheme=ktheme)
     css_bubble = CssBubble.objects.filter(ktheme=ktheme)
-    ktheme_form = KthemeForm(request.POST, isinstance=ktheme)
-    css_color_form = CssColorForm(request.POST, instance=css_color)
-    css_bubble_form = CssBubbleForm(request.POST, instance=css_bubble)
+    ktheme_update_form = KthemeCreateForm(request.POST, isinstance=ktheme)
+    css_color_update_form = CssColorUpdateForm(request.POST, instance=css_color)
+    css_bubble_update_form = CssBubbleUpdateForm(request.POST, instance=css_bubble)
     action = request.POST.get("action", "")
 
     src_css = os.path.join("static", "origin.css")
     ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
 
     if request.method == "POST":
-        if action == "ktheme_revise" and ktheme_form.is_valid():
-            theme_id = ktheme_form.cleaned_data["theme_id"]
-            theme_name = ktheme_form.cleaned_data["theme_name"]
+        if action == "ktheme_update" and ktheme_update_form.is_valid():
+            theme_id = ktheme_update_form.cleaned_data["theme_id"]
+            theme_name = ktheme_update_form.cleaned_data["theme_name"]
 
             with open(src_css, "r", encoding="utf-8") as f:
                 css_content = f.read()
@@ -87,26 +91,28 @@ def ktheme_detail(request, theme_id):
                     for chunk in image_upload.chunks():
                         destination.write(chunk)
 
-        elif action == "css_color" and css_color_form.is_valid():
-            css_color_form.save()
+        elif action == "css_color" and css_color_update_form.is_valid():
+            css_color = css_color_update_form.save()
 
-            bg_color = css_color_form.cleaned_data["bg_color"]
-            main_text_color = css_color_form.cleaned_data["main_text_color"]
-            point_text_color = css_color_form.cleaned_data["point_text_color"]
-            input_bg_color = css_color_form.cleaned_data["input_bg_color"]
-            send_text_color = css_color_form.cleaned_data["send_text_color"]
-            receive_text_color = css_color_form.cleaned_data["receive_text_color"]
+            # bg_color = css_color_update_form.cleaned_data["bg_color"]
+            # main_text_color = css_color_update_form.cleaned_data["main_text_color"]
+            # point_text_color = css_color_update_form.cleaned_data["point_text_color"]
+            # input_bg_color = css_color_update_form.cleaned_data["input_bg_color"]
+            # send_text_color = css_color_update_form.cleaned_data["send_text_color"]
+            # receive_text_color = css_color_update_form.cleaned_data[
+            #     "receive_text_color"
+            # ]
 
             with open(src_css, "r", encoding="utf-8") as f:
                 original_content = f.read()
 
             color_replacement = {
-                "white": bg_color,
-                "black": main_text_color,
-                "pink": point_text_color,
-                "lightgray": input_bg_color,
-                "darkgray": send_text_color,
-                "gray": receive_text_color,
+                "white": css_color.bg_color,
+                "black": css_color.main_text_color,
+                "pink": css_color.point_text_color,
+                "lightgray": css_color.input_bg_color,
+                "darkgray": css_color.send_text_color,
+                "gray": css_color.receive_text_color,
             }
 
             # Read the original CSS file
@@ -121,70 +127,79 @@ def ktheme_detail(request, theme_id):
             with open(ktheme_css, "w", encoding="utf-8") as f:
                 f.write(css_content)
 
-        elif action == "css_bubble" and css_bubble_form.is_valid():
-            css_bubble_form.save()
-            # s_1_x = css_bubble_form.cleaned_data["s_1_x"]
-            # s_1_y = css_bubble_form.cleaned_data["s_1_y"]
-            # s_1_t = css_bubble_form.cleaned_data["s_1_t"]
-            # s_1_l = css_bubble_form.cleaned_data["s_1_l"]
-            # s_1_b = css_bubble_form.cleaned_data["s_1_b"]
-            # s_1_r = css_bubble_form.cleaned_data["s_1_r"]
+        elif action == "css_bubble" and css_bubble_update_form.is_valid():
+            css_bubble = css_bubble_update_form.save()
+            # s_1_x = css_bubble_update_form.cleaned_data["s_1_x"]
+            # s_1_y = css_bubble_update_form.cleaned_data["s_1_y"]
+            # s_1_t = css_bubble_update_form.cleaned_data["s_1_t"]
+            # s_1_l = css_bubble_update_form.cleaned_data["s_1_l"]
+            # s_1_b = css_bubble_update_form.cleaned_data["s_1_b"]
+            # s_1_r = css_bubble_update_form.cleaned_data["s_1_r"]
 
-            # s_2_x = css_bubble_form.cleaned_data["s_2_x"]
-            # s_2_y = css_bubble_form.cleaned_data["s_2_y"]
-            # s_2_t = css_bubble_form.cleaned_data["s_2_t"]
-            # s_2_l = css_bubble_form.cleaned_data["s_2_l"]
-            # s_2_b = css_bubble_form.cleaned_data["s_2_b"]
-            # s_2_r = css_bubble_form.cleaned_data["s_2_r"]
+            # s_2_x = css_bubble_update_form.cleaned_data["s_2_x"]
+            # s_2_y = css_bubble_update_form.cleaned_data["s_2_y"]
+            # s_2_t = css_bubble_update_form.cleaned_data["s_2_t"]
+            # s_2_l = css_bubble_update_form.cleaned_data["s_2_l"]
+            # s_2_b = css_bubble_update_form.cleaned_data["s_2_b"]
+            # s_2_r = css_bubble_update_form.cleaned_data["s_2_r"]
 
-            # r_1_x = css_bubble_form.cleaned_data["r_1_x"]
-            # r_1_y = css_bubble_form.cleaned_data["r_1_y"]
-            # r_1_t = css_bubble_form.cleaned_data["r_1_t"]
-            # r_1_l = css_bubble_form.cleaned_data["r_1_l"]
-            # r_1_b = css_bubble_form.cleaned_data["r_1_b"]
-            # r_1_r = css_bubble_form.cleaned_data["r_1_r"]
+            # r_1_x = css_bubble_update_form.cleaned_data["r_1_x"]
+            # r_1_y = css_bubble_update_form.cleaned_data["r_1_y"]
+            # r_1_t = css_bubble_update_form.cleaned_data["r_1_t"]
+            # r_1_l = css_bubble_update_form.cleaned_data["r_1_l"]
+            # r_1_b = css_bubble_update_form.cleaned_data["r_1_b"]
+            # r_1_r = css_bubble_update_form.cleaned_data["r_1_r"]
 
-            # r_2_x = css_bubble_form.cleaned_data["r_2_x"]
-            # r_2_y = css_bubble_form.cleaned_data["r_2_y"]
-            # r_2_t = css_bubble_form.cleaned_data["r_2_t"]
-            # r_2_l = css_bubble_form.cleaned_data["r_2_l"]
-            # r_2_b = css_bubble_form.cleaned_data["r_2_b"]
-            # r_2_r = css_bubble_form.cleaned_data["r_2_r"]
+            # r_2_x = css_bubble_update_form.cleaned_data["r_2_x"]
+            # r_2_y = css_bubble_update_form.cleaned_data["r_2_y"]
+            # r_2_t = css_bubble_update_form.cleaned_data["r_2_t"]
+            # r_2_l = css_bubble_update_form.cleaned_data["r_2_l"]
+            # r_2_b = css_bubble_update_form.cleaned_data["r_2_b"]
+            # r_2_r = css_bubble_update_form.cleaned_data["r_2_r"]
 
             with open(src_css, "r") as f:
                 css_content = f.read()
 
-            css_content = re.sub(
-                r"-ios-background-image: .+? (\d+)px (\d+)px;",
-                f'-ios-background-image: "chatroomBubbleReceive01.png" {px_1}px {px_2}px;',
-                css_content,
-            )
-            css_content = re.sub(
-                r"-ios-selected-background-image: .+? (\d+)px (\d+)px;",
-                f'-ios-selected-background-image: "chatroomBubbleReceive01Selected.png" {px_1}px {px_2}px;',
-                css_content,
-            )
+            replacement_dict = {
+                # send
+                r"-ios-background-image: 'chatroomBubbleSend01.png' (\d+)px (\d+)px;": r'-ios-background-image: "chatroomBubbleSend01.png" {s_1_x}px {s_1_y}px;',
+                r"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' (\d+)px (\d+)px;": r'-ios-selected-background-image: "chatroomBubbleSend01Selected.png" {s_1_x}px {s_1_y}px;',
+                r"-ios-group-background-image: 'chatroomBubbleSend02.png' (\d+)px (\d+)px;": r"-ios-group-background-image: 'chatroomBubbleSend02.png' {s_2_x}px {s_2_y}px;",
+                r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' (\d+)px (\d+)px;": r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' {s_2_x}px {s_2_y}px;",
+                r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-title-edgeinsets: {s_1_t}px {s_1_l}px {s_1_b}px {s_1_r}px;",
+                r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-group-title-edgeinsets: {s_2_t}px {s_2_l}px {s_2_b}px {s_2_r}px;",
+                # recieve
+                r"-ios-background-image: 'chatroomBubbleReceive01.png' (\d+)px (\d+)px;": r"-ios-background-image: 'chatroomBubbleReceive01.png' {r_1_x}px {r_1_y}px;",
+                r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' (\d+)px (\d+)px;": r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' {r_1_x}px {r_1_y}px;",
+                r"-ios-group-background-image: 'chatroomBubbleReceive02.png' (\d+)px (\d+)px;": r"-ios-group-background-image: 'chatroomBubbleReceive02.png' {r_2_x}px {r_2_y}px;",
+                r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' (\d+)px (\d+)px;": r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' {r_2_x}px {r_2_y}px;",
+                r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
+                r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-group-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
+            }
+
+            for pattern, replacement in replacement_dict.items():
+                css_content = re.sub(pattern, replacement, css_content)
 
             with open(src_css, "w") as f:
                 f.write(css_content)
 
         # if (
-        #     ktheme_form.is_valid()
-        #     and css_color_form.is_valid()
-        #     and css_bubble_form.is_valid()
+        #     ktheme_update_form.is_valid()
+        #     and css_color_update_form.is_valid()
+        #     and css_bubble_update_form.is_valid()
         # ):
-        #     ktheme_form.save()
-        #     css_color_form.save()
-        #     css_bubble_form.save()
+        #     ktheme_update_form.save()
+        #     css_color_update_form.save()
+        #     css_bubble_update_form.save()
         #     return redirect("ktheme_detail", theme_id=ktheme.theme_id)
     return render(
         request,
         "ktheme_detail.html",
         {
             "ktheme": ktheme,
-            "ktheme_form": ktheme_form,
-            "css_color_form": css_color_form,
-            "css_bubble_form": css_bubble_form,
+            "ktheme_update_form": ktheme_update_form,
+            "css_color_update_form": css_color_update_form,
+            "css_bubble_update_form": css_bubble_update_form,
         },
     )
 
@@ -193,8 +208,8 @@ def ktheme_detail(request, theme_id):
 def make_theme(request):
     version = str(int(datetime.now().timestamp()))
     img_form = KthemeImageForm(request.POST, request.FILES)
-    css_form = CssColorForm(request.POST)
-    bubble_size_form = CssBubbleForm(request.POST)
+    css_form = CssColorUpdateForm(request.POST)
+    bubble_size_form = CssBubbleUpdateForm(request.POST)
     action = request.POST.get("action", "")
     if request.method == "POST":
         if action == "upload_images":

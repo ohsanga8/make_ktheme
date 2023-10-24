@@ -8,13 +8,19 @@ class KthemeImageForm(forms.Form):
     image = forms.ImageField(required=True)
 
 
-class KthemeForm(forms.Form):
+class KthemeCreateForm(forms.Form):
     class Meta:
         model = Ktheme
         fields = ("theme_id", "theme_name")
 
 
-class CssColorForm(forms.Form):
+class KthemeUpdateForm(forms.Form):
+    class Meta:
+        model = Ktheme
+        fields = ("theme_id", "theme_name")
+
+
+class CssColorUpdateForm(forms.Form):
     class Meta:
         model = CssColor
         fields = (
@@ -27,7 +33,7 @@ class CssColorForm(forms.Form):
         )
 
 
-class CssBubbleForm(forms.Form):
+class CssBubbleUpdateForm(forms.Form):
     class Meta:
         model = CssBubble
         fields = {
