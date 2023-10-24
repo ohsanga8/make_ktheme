@@ -4,8 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("create", views.create_theme, name="create_theme"),
-    path("", views.make_theme, name="make_theme"),
+    # path("create", views.create_theme, name="create_theme"),
+    # path("", views.make_theme, name="make_theme"),
 ]
 
 if settings.DEBUG:

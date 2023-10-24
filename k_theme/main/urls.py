@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("", views.main, name="main"),
+    path("ktheme/<str:theme_id>/", views.ktheme_detail, name="ktheme_detail"),
 ]
 
 if settings.DEBUG:

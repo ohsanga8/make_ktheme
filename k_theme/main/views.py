@@ -1,21 +1,15 @@
-from django.shortcuts import render
-from make_ktheme.models import Ktheme
+from django.shortcuts import render, get_object_or_404
+
+# from make_ktheme.models import Ktheme
 from django.contrib.auth.decorators import login_required
-
-
-@login_required
-def main(request):
-    user = request.user
-    user_kthemes = Ktheme.objects.filter(user=user)
-    return render(request, "main/main.html", {"user_kthemes": user_kthemes})
-
 
 from django.shortcuts import render
 import os
 import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import KthemeImageForm, KthemeForm, CssColorForm, CssBubbleForm
+from .forms import KthemeForm, KthemeImageForm, CssColorForm, CssBubbleForm
+from .models import Ktheme, CssColor, CssBubble
 
 # from .models import KthemeImage
 from django.conf import settings
@@ -29,9 +23,94 @@ from django.views.decorators.cache import never_cache
 from datetime import datetime
 
 
+@login_required
+def main(request):
+    user = request.user
+    user_kthemes = Ktheme.objects.filter(user=user)
+    return render(request, "main/main.html", {"user_kthemes": user_kthemes})
+
+
 # static_dir = settings.STATICFILES_DIRS[0]
 def create_theme(request):
-    pass
+    if request.method == "POST":
+        form = KthemeForm(request.POST)
+        if form.is_valid():
+            ktheme = form.save()
+            return redirect("ktheme_detail")
+    else:
+        form = KthemeForm()
+    return render(request, "main/create_ktheme.html", {"form": form})
+
+
+def ktheme_detail(request, theme_id):
+    ktheme = get_object_or_404(Ktheme, theme_id=theme_id)
+    css_color = CssColor.objects.filter(ktheme=ktheme)
+    css_bubble = CssBubble.objects.filter(ktheme=ktheme)
+    ktheme_form = KthemeForm(request.POST, isinstance=ktheme)
+    css_color_form = CssColorForm(request.POST, instance=css_color)
+    css_bubble_form = CssBubbleForm(request.POST, instance=css_bubble)
+    action = request.POST.get("action", "")
+
+    origin_css = os.path.join("static", "origin.css")
+    ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
+
+    if request.method == "POST":
+        if action == "ktheme_revise" and ktheme_form.is_valid():
+            theme_id = ktheme_form.cleaned_data["theme_id"]
+            theme_name = ktheme_form.cleaned_data["theme_name"]
+        elif action == "upload_image":
+            image_upload = request.FILES["image_upload"]
+            if image_upload:
+                image_path = request.POST.get("image_path")
+                with open(image_path, "wb") as destination:
+                    for chunk in image_upload.chunks():
+                        destination.write(chunk)
+
+        elif action == "css_color" and css_color_form.is_valid():
+            theme_name = css_color_form.cleaned_data["theme_name"]
+            bg_color = css_color_form.cleaned_data["bg_color"]
+            main_text_color = css_color_form.cleaned_data["main_text_color"]
+            point_text_color = css_color_form.cleaned_data["point_text_color"]
+            input_bg_color = css_color_form.cleaned_data["input_bg_color"]
+            send_text_color = css_color_form.cleaned_data["send_text_color"]
+            receive_text_color = css_color_form.cleaned_data["receive_text_color"]
+
+            with open(origin_css, "r", encoding="utf-8") as f:
+                original_content = f.read()
+            modified_content = (
+                original_content.replace("themeId", theme_id)
+                .replace("themeName", theme_name)
+                .replace("white", bg_color)
+                .replace("black", main_text_color)
+                .replace("pink", point_text_color)
+                .replace("lightgray", input_bg_color)
+                .replace("darkgray", send_text_color)
+                .replace("gray", receive_text_color)
+            )
+            with open(ktheme_css, "w", encoding="utf-8") as f:
+                f.write(modified_content)
+
+        elif action == "css_bubble" and css_bubble_form.is_valid():
+            pass
+        # if (
+        #     ktheme_form.is_valid()
+        #     and css_color_form.is_valid()
+        #     and css_bubble_form.is_valid()
+        # ):
+        #     ktheme_form.save()
+        #     css_color_form.save()
+        #     css_bubble_form.save()
+        #     return redirect("ktheme_detail", theme_id=ktheme.theme_id)
+    return render(
+        request,
+        "ktheme_detail.html",
+        {
+            "ktheme": ktheme,
+            "ktheme_form": ktheme_form,
+            "css_color_form": css_color_form,
+            "css_bubble_form": css_bubble_form,
+        },
+    )
 
 
 @never_cache
