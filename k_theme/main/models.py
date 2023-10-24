@@ -24,7 +24,7 @@ class Ktheme(models.Model):
     def theme_dir(self):
         return os.path.join(settings.MEDIA_ROOT, self.user.username, self.theme_name)
 
-    def create_dir(self):
+    def set_dir(self):
         theme_dir_path = self.theme_dir()
         os.makedires(theme_dir_path, exist_ok=True)
 
@@ -38,12 +38,17 @@ class Ktheme(models.Model):
             dest_image_path = os.path.join(image_dir_path, filename)
             shutil.copy2(src_image_path, dest_image_path)
 
-    # def dir_path(self):
-    #     return f"media/{self.user_id}/{self.theme_name}"
+    def save(self, *args, **kwargs):
+        super(Ktheme, self).save(*args, **kwargs)
+        if not self.theme_id:
+            CssColor.objects.create(parent=self)
+            CssBubble.objects.create(parent=self)
 
 
 class CssColor(models.Model):
-    ktheme = models.OneToOneField(Ktheme, on_delete=models.CASCADE)
+    ktheme = models.OneToOneField(
+        Ktheme, on_delete=models.CASCADE, related_name="css_color"
+    )
     bg_color = models.CharField(max_length=7, default="#FFFFFF")
     main_text_color = models.CharField(max_length=7, default="#000000")
     point_text_color = models.CharField(max_length=7, default="#FFC0CB")
@@ -53,7 +58,9 @@ class CssColor(models.Model):
 
 
 class CssBubble(models.Model):
-    ktheme = models.OneToOneField(Ktheme, on_delete=models.CASCADE)
+    ktheme = models.OneToOneField(
+        Ktheme, on_delete=models.CASCADE, related_name="css_bubble"
+    )
     s_1_x = models.PositiveIntegerField(default=17)
     s_1_y = models.PositiveIntegerField(default=17)
     s_1_t = models.PositiveIntegerField(default=10)
