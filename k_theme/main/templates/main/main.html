@@ -1,0 +1,5 @@
+{% load static %}
+
+{% for ktheme in user_kthemes %}
+<li><a href="{% url 'ktheme_detail' ktheme.theme_id %}">{{ ktheme.theme_name }}</a></li>
+{% endfor %}

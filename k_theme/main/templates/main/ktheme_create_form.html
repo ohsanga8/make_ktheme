@@ -1,0 +1,6 @@
+{% load static %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">테마 생성하기</button>
+</form>
