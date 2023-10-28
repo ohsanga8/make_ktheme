@@ -1,5 +1,6 @@
-from django.contrib import admin
+# from django.contrib import admin
+# from .models import Ktheme
 
-# from .models import KthemeImage
+# # from .models import KthemeImage
 
-# admin.site.register(KthemeImage)
+# admin.site.register(Ktheme)

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import logging
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -62,7 +63,7 @@ ROOT_URLCONF = "k_theme.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -137,3 +138,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_URL = "/auth/login/"
 LOGOUT_URL = "/auth/logout/"
 LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"

@@ -6,8 +6,6 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
-# from main.models import Ktheme
-
 
 def ktheme_save_path(instance, filename):
     return os.path.join("kthemes", str(instance.user.id), filename)
@@ -15,16 +13,14 @@ def ktheme_save_path(instance, filename):
 
 class Ktheme(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    # user_id = models.CharField(max_length=50)
-    theme_id = models.CharField(max_length=50)
-    theme_name = models.CharField(max_length=50)
+    id = models.CharField(max_length=50, unique=True, primary_key=True)
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return f"{self.theme_name} by {self.user.username}"
+        return f"{self.name}"
 
-    # image_dir = models.CharField(max_length=255, black=True)
     def theme_dir(self):
-        return os.path.join(settings.MEDIA_ROOT, self.user.username, self.theme_name)
+        return os.path.join(settings.MEDIA_ROOT, self.name)
 
     def set_dir(self):
         theme_dir_path = self.theme_dir()
@@ -42,7 +38,7 @@ class Ktheme(models.Model):
 
     def save(self, *args, **kwargs):
         super(Ktheme, self).save(*args, **kwargs)
-        if not self.theme_id:
+        if not self.id:
             CssColor.objects.create(parent=self)
             CssBubble.objects.create(parent=self)
 

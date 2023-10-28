@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Create{% endblock %}
+
+{% block content %}
+
+<h1>테마를 생성하세요</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">테마 생성하기</button>
+</form>
+
+{% endblock %}

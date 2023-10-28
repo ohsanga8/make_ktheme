@@ -8,19 +8,31 @@ class KthemeImageForm(forms.Form):
     image = forms.ImageField(required=True)
 
 
-class KthemeCreateForm(forms.Form):
+class AnyForm(forms.Form):
+    any = forms.CharField()
+
+
+class KthemeCreateForm(forms.ModelForm):
     class Meta:
         model = Ktheme
-        fields = ("theme_id", "theme_name")
+        fields = ("id", "name")
+
+    def save(self, commit=True, user=None):
+        instance = super(KthemeCreateForm, self).save(commit=False)
+        if user:
+            instance.user = user
+        if commit:
+            instance.save()
+        return instance
 
 
-class KthemeUpdateForm(forms.Form):
+class KthemeUpdateForm(forms.ModelForm):
     class Meta:
         model = Ktheme
-        fields = ("theme_id", "theme_name")
+        fields = ("name",)
 
 
-class CssColorUpdateForm(forms.Form):
+class CssColorUpdateForm(forms.ModelForm):
     class Meta:
         model = CssColor
         fields = (
@@ -33,7 +45,7 @@ class CssColorUpdateForm(forms.Form):
         )
 
 
-class CssBubbleUpdateForm(forms.Form):
+class CssBubbleUpdateForm(forms.ModelForm):
     class Meta:
         model = CssBubble
         fields = {

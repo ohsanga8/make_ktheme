@@ -1,5 +1,24 @@
-{% load static %}
+{% extends "base.html" %}
 
-{% for ktheme in user_kthemes %}
-<li><a href="{% url 'ktheme_detail' ktheme.theme_id %}">{{ ktheme.theme_name }}</a></li>
-{% endfor %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>Create Theme</h2>
+<!-- <a href="{% url 'create_theme' %}">Create a new theme</a></li> -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">생성하기</button>
+</form>
+
+<h2>Your Themes</h2>
+<ul>
+    {% for theme in user_theme_list %}
+    <li><a href="{% url 'ktheme_detail' theme.id %}">{{ theme.name }}</a></li>
+    {% empty %}
+    <li>No themes found.</li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

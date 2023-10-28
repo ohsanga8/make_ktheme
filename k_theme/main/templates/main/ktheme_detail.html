@@ -1,7 +1,25 @@
-<h1>테마 이름, ID 변경하기</h1>
-{% include 'ktheme_form.html' %}
-<h1>CSS</h1>
-<h2>색상 변경하기</h2>
-{% include 'css_color_form.html' %}
-<h2>말풍선 수치 변경하기</h2>
-{% include 'css_bubble_form.html' %}
+{% extends "base.html" %}
+
+{% block title %}Create{% endblock %}
+
+{% block content %}
+<h1>테마 이름 / ID</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ ktheme_update_form.as_p }}
+    <button type="submit" name="action" value="ktheme_update">적용하기</button>
+</form>
+<h1>테마 컬러</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ css_color_update_form.as_p }}
+    <button type="submit" name="action" value="css_bubble">적용하기</button>
+</form>
+<h1>말풍선 수치</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ css_bubble_update_form.as_p }}
+    <button type="submit" name="action" value="css_color">적용하기</button>
+</form>
+
+{% endblock %}

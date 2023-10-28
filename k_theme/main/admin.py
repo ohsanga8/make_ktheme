@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import Ktheme
 
-# Register your models here.
+# from .models import KthemeImage
+
+admin.site.register(Ktheme)
