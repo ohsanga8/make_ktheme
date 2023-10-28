@@ -9,14 +9,15 @@ import zipfile
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .forms import (
-    KthemeImageForm,
+    # KthemeImageForm,
     KthemeCreateForm,
     KthemeUpdateForm,
     CssColorUpdateForm,
     CssBubbleUpdateForm,
-    AnyForm,
+    KthemeImagesForm,
+    # AnyForm,
 )
-from .models import Ktheme, CssColor, CssBubble
+from .models import Ktheme, KthemeImages, CssColor, CssBubble
 
 # from .models import KthemeImage
 from django.conf import settings
@@ -83,25 +84,22 @@ def create_theme(request):
 
 
 def ktheme_detail(request, id):
-    # ktheme = get_object_or_404(Ktheme, id=id)
-    # initial_name = {"name": ktheme.name}
-    # ktheme_update_form = KthemeUpdateForm(
-    #     request.POST, instance=ktheme, initial=initial_name
-    # )
     ktheme = Ktheme.objects.get(pk=id)
 
+    ktheme_images = KthemeImages.objects.get(ktheme=ktheme)
     css_color = CssColor.objects.get(ktheme=ktheme)
     css_bubble = CssBubble.objects.get(ktheme=ktheme)
 
     src_css = os.path.join("static", "source.css")
-    ktheme_css = os.path.join("media", "KakaoTalkTheme.css")
+    ktheme_css = os.path.join("media", "KakaoTalkTheme.css")  # 나중에바꿔
 
     action = request.POST.get("action", "")
 
     if request.method == "POST":
         ktheme_update_form = KthemeUpdateForm(request.POST, instance=ktheme)
-        css_color_update_form = CssColorUpdateForm(instance=css_color)
-        css_bubble_update_form = CssBubbleUpdateForm(instance=css_bubble)
+        ktheme_images_form = KthemeImagesForm(request.POST, instance=ktheme_images)
+        css_color_update_form = CssColorUpdateForm(request.POST, instance=css_color)
+        css_bubble_update_form = CssBubbleUpdateForm(request.POST, instance=css_bubble)
 
         if action == "ktheme_update":
             if ktheme_update_form.is_valid():
@@ -114,12 +112,15 @@ def ktheme_detail(request, id):
                     f.write(css_content)
 
         elif action == "upload_image":
-            image_upload = request.FILES["image_upload"]
-            if image_upload:
-                image_path = request.POST.get("image_path")
-                with open(image_path, "wb") as destination:
-                    for chunk in image_upload.chunks():
-                        destination.write(chunk)
+            if ktheme_images_form.is_valid():
+                ktheme_images = ktheme_images_form.save()
+
+            # image_upload = request.FILES["image_upload"]
+            # if image_upload:
+            #     image_path = request.POST.get("image_path")
+            #     with open(image_path, "wb") as destination:
+            #         for chunk in image_upload.chunks():
+            #             destination.write(chunk)
 
         elif action == "css_color":
             if css_color_update_form.is_valid():
@@ -173,6 +174,37 @@ def ktheme_detail(request, id):
 
     else:
         initial_name = {"name": ktheme.name}
+        initial_images = {
+            "chat_bg": ktheme_images.chat_bg,
+            "chat_bubble_r_1": ktheme_images.chat_bubble_r_1,
+            "chat_bubble_r_2": ktheme_images.chat_bubble_r_2,
+            "chat_bubble_s_1": ktheme_images.chat_bubble_s_1,
+            "chat_bubble_s_2": ktheme_images.chat_bubble_s_2,
+            "theme_icon": ktheme_images.theme_icon,
+            "main_bg": ktheme_images.main_bg,
+            "tab_bg": ktheme_images.main_bg,
+            "tab_ico_1": ktheme_images.tab_ico_1,
+            "tab_ico_2": ktheme_images.tab_ico_2,
+            "tab_ico_3": ktheme_images.tab_ico_3,
+            "tab_ico_4": ktheme_images.tab_ico_4,
+            "tab_ico_5": ktheme_images.tab_ico_5,
+            "tab_ico_s_1": ktheme_images.tab_ico_s_1,
+            "tab_ico_s_2": ktheme_images.tab_ico_s_2,
+            "tab_ico_s_3": ktheme_images.tab_ico_s_3,
+            "tab_ico_s_4": ktheme_images.tab_ico_s_4,
+            "tab_ico_s_5": ktheme_images.tab_ico_s_5,
+            "passcode_bg": ktheme_images.passcode_bg,
+            "passcode_1": ktheme_images.passcode_1,
+            "passcode_2": ktheme_images.passcode_2,
+            "passcode_3": ktheme_images.passcode_3,
+            "passcode_4": ktheme_images.passcode_4,
+            "passcode_s_1": ktheme_images.passcode_s_1,
+            "passcode_s_2": ktheme_images.passcode_s_2,
+            "passcode_s_3": ktheme_images.passcode_s_3,
+            "passcode_s_4": ktheme_images.passcode_s_4,
+            "passcode_pressed": ktheme_images.passcode_pressed,
+            "profile_img": ktheme_images.profile_img,
+        }
         initial_color = {
             "bg_color": css_color.bg_color,
             "main_text_color": css_color.main_text_color,
@@ -221,7 +253,7 @@ def ktheme_detail(request, id):
         {
             "ktheme": ktheme,
             "ktheme_update_form": ktheme_update_form,
-            # "theme_user": theme_user,
+            "ktheme_images_form": ktheme_images_form,
             "css_color_update_form": css_color_update_form,
             "css_bubble_update_form": css_bubble_update_form,
         },

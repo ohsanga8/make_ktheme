@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ktheme, CssColor, CssBubble
+from .models import Ktheme, CssColor, CssBubble, KthemeImages
 
 # from .models import KthemeImage
 
@@ -30,6 +30,49 @@ class KthemeUpdateForm(forms.ModelForm):
     class Meta:
         model = Ktheme
         fields = ("name",)
+
+
+class KthemeImagesForm(forms.ModelForm):
+    class Meta:
+        model = KthemeImages
+        fields = (
+            "chat_bg",
+            "chat_bubble_r_1",
+            "chat_bubble_r_2",
+            "chat_bubble_s_1",
+            "chat_bubble_s_2",
+            "theme_icon",
+            "main_bg",
+            "tab_bg",
+            "tab_ico_1",
+            "tab_ico_2",
+            "tab_ico_3",
+            "tab_ico_4",
+            "tab_ico_5",
+            "tab_ico_s_1",
+            "tab_ico_s_2",
+            "tab_ico_s_3",
+            "tab_ico_s_4",
+            "tab_ico_s_5",
+            "passcode_bg",
+            "passcode_1",
+            "passcode_2",
+            "passcode_3",
+            "passcode_4",
+            "passcode_s_1",
+            "passcode_s_2",
+            "passcode_s_3",
+            "passcode_s_4",
+            "passcode_pressed",
+            "profile_img",
+        )
+    ],
+    "passcode_pressed": [
+        "passcodeKeypadPressed@3x.png",
+    ],
+    "profile_img": [
+        "profileImg01@3x.png",
+    ],
 
 
 class CssColorUpdateForm(forms.ModelForm):

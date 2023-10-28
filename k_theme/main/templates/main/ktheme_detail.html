@@ -9,6 +9,12 @@
     {{ ktheme_update_form.as_p }}
     <button type="submit" name="action" value="ktheme_update">적용하기</button>
 </form>
+<h1>이미지</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ ktheme_images_form.as_p }}
+    <button type="submit" name="action" value="css_color">적용하기</button>
+</form>
 <h1>테마 컬러</h1>
 <form method="post">
     {% csrf_token %}
