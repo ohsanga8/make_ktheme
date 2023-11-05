@@ -4,7 +4,6 @@
 
 {% block content %}
 <h2>Create Theme</h2>
-<!-- <a href="{% url 'create_theme' %}">Create a new theme</a></li> -->
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

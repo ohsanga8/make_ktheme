@@ -19,28 +19,28 @@ class Ktheme(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-    def theme_dir(self):
-        return os.path.join(settings.MEDIA_ROOT, self.name)
+    # def theme_dir(self):
+    #     return os.path.join(settings.MEDIA_ROOT, self.name)
 
-    def set_dir(self):
-        theme_dir_path = self.theme_dir()
-        os.makedires(theme_dir_path, exist_ok=True)
+    # def set_dir(self):
+    #     theme_dir_path = self.theme_dir()
+    #     os.makedires(theme_dir_path, exist_ok=True)
 
-        image_dir_path = os.path.join(theme_dir_path, "Images")
-        os.makedires(image_dir_path, exist_ok=True)
+    #     image_dir_path = os.path.join(theme_dir_path, "Images")
+    #     os.makedires(image_dir_path, exist_ok=True)
 
-        src_dir_path = os.path.join(settings.STATIC_ROOT, "Images")
+    #     src_dir_path = os.path.join(settings.STATIC_ROOT, "Images")
 
-        for filename in os.listdir(src_dir_path):
-            src_image_path = os.path.join(src_dir_path, filename)
-            dest_image_path = os.path.join(image_dir_path, filename)
-            shutil.copy2(src_image_path, dest_image_path)
+    #     for filename in os.listdir(src_dir_path):
+    #         src_image_path = os.path.join(src_dir_path, filename)
+    #         dest_image_path = os.path.join(image_dir_path, filename)
+    #         shutil.copy2(src_image_path, dest_image_path)
 
-    def save(self, *args, **kwargs):
-        super(Ktheme, self).save(*args, **kwargs)
-        if not self.id:
-            CssColor.objects.create(parent=self)
-            CssBubble.objects.create(parent=self)
+    # def save(self, *args, **kwargs):
+    # super(Ktheme, self).save(*args, **kwargs)
+    # if not self.id:
+    #     CssColor.objects.create(parent=self)
+    #     CssBubble.objects.create(parent=self)
 
 
 name_dic = {
@@ -157,22 +157,34 @@ name_dic = {
 }
 
 
-def upload_path(filename):
-    image_dir = "images/"
-    image_path = f"{image_dir}{filename}"
-    return image_path
+# def user_directory_path(instance, filename):
+#     return "{0}/{1}".format(instance.ktheme.id, filename)
 
 
 class KthemeImages(models.Model):
     ktheme = models.OneToOneField(
         Ktheme, on_delete=models.CASCADE, related_name="ktheme_images"
     )
-    for field_name, filenames in name_dic.items():
-        field = models.ImageField(
-            upload_to=upload_path,
-            default=f"default_images/{filenames[0]}",
-        )
-        locals()[field_name] = field
+
+
+# class KthemeImage(models.Model):
+#     ktheme_images = models.ForeignKey(
+#         KthemeImages, on_delete=models.CASCADE, related_name="ktheme_images"
+#     )
+#     field_name = models.CharField(max_length=255)
+#     image_path = models.CharField(max_length=255)
+
+
+# def create_images(instance):
+#     for field_name, filenames in name_dic.items():
+#         for filename in filenames:
+#             image_path = f"ktheme_images/{filename}"
+#             image = KthemeImage(
+#                 ktheme_images=instance,
+#                 field_name=field_name,
+#                 image_path=image_path,
+#             )
+#             image.save()
 
 
 class CssColor(models.Model):
@@ -220,8 +232,41 @@ class CssBubble(models.Model):
     r_2_r = models.PositiveIntegerField(default=11)
 
 
+# @receiver(post_save, sender=KthemeImages)
+# def create_image_model(sender, instance, created, **kwargs):
+#     if created:
+#         KthemeImage.objects.get_or_create(ktheme_images=instance)
+
+
 @receiver(post_save, sender=Ktheme)
-def create_css_model(sender, instance, **kwargs):
-    CssColor.objects.get_or_create(ktheme=instance)
-    CssBubble.objects.get_or_create(ktheme=instance)
-    KthemeImages.objects.get_or_create(ktheme=instance)
+def ktheme_user(sender, instance, created, **kwargs):
+    if created:
+        user = instance.user
+        instance.user = user
+        instance.save()
+
+
+@receiver(post_save, sender=Ktheme)
+def create_css_model(sender, instance, created, **kwargs):
+    if created:
+        CssColor.objects.get_or_create(ktheme=instance)
+        CssBubble.objects.get_or_create(ktheme=instance)
+
+
+@receiver(post_save, sender=Ktheme)
+def create_theme_dir(sender, instance, created, **kwargs):
+    if created:
+        theme_dir = os.path.join(settings.MEDIA_ROOT, f"{instance.id}")
+
+        theme_image_dir = os.path.join(theme_dir, "Images")
+        default_images_dir = os.path.join(settings.STATIC_ROOT, "default_images")
+
+        theme_css = os.path.join(theme_dir, "KakaoTalkTheme.css")
+        src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
+
+        try:
+            shutil.copytree(theme_image_dir, default_images_dir)
+            shutil.copy2(src_css, theme_css)
+
+        except Exception as e:
+            print(f"Error copying user media: {str(e)}")
