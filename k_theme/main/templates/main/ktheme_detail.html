@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
-{% block title %}Create{% endblock %}
+{% block title %}Detail{% endblock %}
+
 {% block style %}
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -133,21 +134,18 @@
 <div>
     <h1>이미지</h1>
     <div class="squares-container">
-
         {% for image_path in image_paths %}
-        <form name="upload_form" class=upload-form" metohd="POST" enctype="multipart/form-data">
+        <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="hidden" name="action" value="upload_images">
             <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
             <div class="square">
                 <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
-                    class="image-upload hidden-file-input" accept="ktheme_images/*" data-image-path="{{ image_path }}">
+                    class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
                 <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
                     <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" class="image-preview">
                 </label>
-
             </div>
-            <button type="submit">업로드</button>
         </form>
         {% endfor %}
     </div>
@@ -177,10 +175,34 @@
         <input type=" text" id="r-{{ forloop.counter }}" name="r-{{ forloop.counter }}" value="" style="width:100px"> -->
     </div>
     {% endfor %}
-
+    "s_1_x",
+    "s_1_y",
+    "s_1_t",
+    "s_1_l",
+    "s_1_b",
+    "s_1_r",
+    "s_2_x",
+    "s_2_y",
+    "s_2_t",
+    "s_2_l",
+    "s_2_b",
+    "s_2_r",
+    "r_1_x",
+    "r_1_y",
+    "r_1_t",
+    "r_1_l",
+    "r_1_b",
+    "r_1_r",
+    "r_2_x",
+    "r_2_y",
+    "r_2_t",
+    "r_2_l",
+    "r_2_b",
+    "r_2_r",
     <form method="post">
         {% csrf_token %}
-        {{ css_bubble_update_form.as_p }}
+        {{ css_bubble_update_form.non_field_errors }}
+        <input type="number" id="x-1" name="x-1" style="width:100px;" value="css_bubble_update_form.s_1_x.value">
         <button type="submit" name="action" value="css_color">적용하기</button>
     </form>
 </div>

@@ -40,6 +40,7 @@ def main(request):
     if request.method == "POST":
         form = KthemeCreateForm(request.POST)
         if form.is_valid():
+            form.instance.user = request.user
             ktheme = form.save()
             theme_id = ktheme.id
             theme_dir = os.path.join(settings.MEDIA_ROOT, theme_id)
@@ -221,157 +222,130 @@ def ktheme_detail(request, id):
                         arcname = os.path.relpath(file_path, theme_images_dir)
                         zipf.write(file_path, os.path.join(directory_subdir, arcname))
     else:
-        initial_name = {"name": ktheme.name}
-        # initial_images = {
-        #     "chat_bg": ktheme_images.chat_bg,
-        #     "chat_bubble_r_1": ktheme_images.chat_bubble_r_1,
-        #     "chat_bubble_r_2": ktheme_images.chat_bubble_r_2,
-        #     "chat_bubble_s_1": ktheme_images.chat_bubble_s_1,
-        #     "chat_bubble_s_2": ktheme_images.chat_bubble_s_2,
-        #     "theme_icon": ktheme_images.theme_icon,
-        #     "main_bg": ktheme_images.main_bg,
-        #     "tab_bg": ktheme_images.main_bg,
-        #     "tab_ico_1": ktheme_images.tab_ico_1,
-        #     "tab_ico_2": ktheme_images.tab_ico_2,
-        #     "tab_ico_3": ktheme_images.tab_ico_3,
-        #     "tab_ico_4": ktheme_images.tab_ico_4,
-        #     "tab_ico_5": ktheme_images.tab_ico_5,
-        #     "tab_ico_s_1": ktheme_images.tab_ico_s_1,
-        #     "tab_ico_s_2": ktheme_images.tab_ico_s_2,
-        #     "tab_ico_s_3": ktheme_images.tab_ico_s_3,
-        #     "tab_ico_s_4": ktheme_images.tab_ico_s_4,
-        #     "tab_ico_s_5": ktheme_images.tab_ico_s_5,
-        #     "passcode_bg": ktheme_images.passcode_bg,
-        #     "passcode_1": ktheme_images.passcode_1,
-        #     "passcode_2": ktheme_images.passcode_2,
-        #     "passcode_3": ktheme_images.passcode_3,
-        #     "passcode_4": ktheme_images.passcode_4,
-        #     "passcode_s_1": ktheme_images.passcode_s_1,
-        #     "passcode_s_2": ktheme_images.passcode_s_2,
-        #     "passcode_s_3": ktheme_images.passcode_s_3,
-        #     "passcode_s_4": ktheme_images.passcode_s_4,
-        #     "passcode_pressed": ktheme_images.passcode_pressed,
-        #     "profile_img": ktheme_images.profile_img,
-        # }
-        initial_color = {
-            "bg_color": css_color.bg_color,
-            "main_text_color": css_color.main_text_color,
-            "point_text_color": css_color.point_text_color,
-            "input_bg_color": css_color.input_bg_color,
-            "send_text_color": css_color.send_text_color,
-            "receive_text_color": css_color.receive_text_color,
-        }
-        initial_bubble = {
-            "s_1_x": css_bubble.s_1_x,
-            "s_1_y": css_bubble.s_1_y,
-            "s_1_t": css_bubble.s_1_t,
-            "s_1_l": css_bubble.s_1_l,
-            "s_1_b": css_bubble.s_1_b,
-            "s_1_r": css_bubble.s_1_r,
-            "s_2_x": css_bubble.s_2_x,
-            "s_2_y": css_bubble.s_2_y,
-            "s_2_t": css_bubble.s_2_t,
-            "s_2_l": css_bubble.s_2_l,
-            "s_2_b": css_bubble.s_2_b,
-            "s_2_r": css_bubble.s_2_r,
-            "r_1_x": css_bubble.r_1_x,
-            "r_1_y": css_bubble.r_1_y,
-            "r_1_t": css_bubble.r_1_t,
-            "r_1_l": css_bubble.r_1_l,
-            "r_1_b": css_bubble.r_1_b,
-            "r_1_r": css_bubble.r_1_r,
-            "r_2_x": css_bubble.r_2_x,
-            "r_2_y": css_bubble.r_2_y,
-            "r_2_t": css_bubble.r_2_t,
-            "r_2_l": css_bubble.r_2_l,
-            "r_2_b": css_bubble.r_2_b,
-            "r_2_r": css_bubble.r_2_r,
-        }
-        ktheme_update_form = KthemeUpdateForm(instance=ktheme, initial=initial_name)
-        css_color_update_form = CssColorUpdateForm(
-            instance=css_color, initial=initial_color
-        )
-        css_bubble_update_form = CssBubbleUpdateForm(
-            instance=css_bubble, initial=initial_bubble
-        )
-        image_filenames = [
-            "chatroomBgImage@3x.png",
-            "chatroomBubbleReceive01@2x.png",
-            "chatroomBubbleReceive01@3x.png",
-            "chatroomBubbleReceive01Selected@2x.png",
-            "chatroomBubbleReceive01Selected@3x.png",
-            "chatroomBubbleReceive02@2x.png",
-            "chatroomBubbleReceive02@3x.png",
-            "chatroomBubbleReceive02Selected@2x.png",
-            "chatroomBubbleReceive02Selected@3x.png",
-            "chatroomBubbleSend01@2x.png",
-            "chatroomBubbleSend01@3x.png",
-            "chatroomBubbleSend01Selected@2x.png",
-            "chatroomBubbleSend01Selected@3x.png",
-            "chatroomBubbleSend02@2x.png",
-            "chatroomBubbleSend02@3x.png",
-            "chatroomBubbleSend02Selected@2x.png",
-            "chatroomBubbleSend02Selected@3x.png",
-            "commonIcoTheme.png",
-            "findBtnAddFriend@2x.png",
-            "findBtnAddFriend@3x.png",
-            "mainBgImage@3x.png",
-            "maintabBgImage@2x.png",
-            "maintabBgImage@3x.png",
-            "maintabIcoBrowse@2x.png",
-            "maintabIcoBrowse@3x.png",
-            "maintabIcoBrowseSelected@2x.png",
-            "maintabIcoBrowseSelected@3x.png",
-            "maintabIcoCall@2x.png",
-            "maintabIcoCall@3x.png",
-            "maintabIcoCallSelected@2x.png",
-            "maintabIcoCallSelected@3x.png",
-            "maintabIcoChats@2x.png",
-            "maintabIcoChats@3x.png",
-            "maintabIcoChatsSelected@2x.png",
-            "maintabIcoChatsSelected@3x.png",
-            "maintabIcoFind@2x.png",
-            "maintabIcoFind@3x.png",
-            "maintabIcoFindSelected@2x.png",
-            "maintabIcoFindSelected@3x.png",
-            "maintabIcoFriends@2x.png",
-            "maintabIcoFriends@3x.png",
-            "maintabIcoFriendsSelected@2x.png",
-            "maintabIcoFriendsSelected@3x.png",
-            "maintabIcoMore@2x.png",
-            "maintabIcoMore@3x.png",
-            "maintabIcoMoreSelected@2x.png",
-            "maintabIcoMoreSelected@3x.png",
-            "maintabIcoOpenChats@2x.png",
-            "maintabIcoOpenChats@3x.png",
-            "maintabIcoOpenChatsSelected@2x.png",
-            "maintabIcoOpenChatsSelected@3x.png",
-            "maintabIcoPiccoma@2x.png",
-            "maintabIcoPiccoma@3x.png",
-            "maintabIcoPiccomaSelected@2x.png",
-            "maintabIcoPiccomaSelected@3x.png",
-            "maintabIcoShopping@2x.png",
-            "maintabIcoShopping@3x.png",
-            "maintabIcoShoppingSelected@2x.png",
-            "maintabIcoShoppingSelected@3x.png",
-            "maintabIcoView@2x.png",
-            "maintabIcoView@3x.png",
-            "maintabIcoViewSelected@2x.png",
-            "maintabIcoViewSelected@3x.png",
-            "passcodeBgImage@3x.png",
-            "passcodeImgCode01@3x.png",
-            "passcodeImgCode01Selected@3x.png",
-            "passcodeImgCode02@3x.png",
-            "passcodeImgCode02Selected@3x.png",
-            "passcodeImgCode03@3x.png",
-            "passcodeImgCode03Selected@3x.png",
-            "passcodeImgCode04@3x.png",
-            "passcodeImgCode04Selected@3x.png",
-            "passcodeKeypadPressed@3x.png",
-            "profileImg01@3x.png",
-        ]
-
-    image_paths = [f"media/{ktheme.id}/{filename}" for filename in image_filenames]
+        ktheme_update_form = KthemeUpdateForm()
+        css_color_update_form = CssColorUpdateForm()
+        css_bubble_update_form = CssBubbleUpdateForm()
+    initial_name = {"name": ktheme.name}
+    initial_color = {
+        "bg_color": css_color.bg_color,
+        "main_text_color": css_color.main_text_color,
+        "point_text_color": css_color.point_text_color,
+        "input_bg_color": css_color.input_bg_color,
+        "send_text_color": css_color.send_text_color,
+        "receive_text_color": css_color.receive_text_color,
+    }
+    initial_bubble = {
+        "s_1_x": css_bubble.s_1_x,
+        "s_1_y": css_bubble.s_1_y,
+        "s_1_t": css_bubble.s_1_t,
+        "s_1_l": css_bubble.s_1_l,
+        "s_1_b": css_bubble.s_1_b,
+        "s_1_r": css_bubble.s_1_r,
+        "s_2_x": css_bubble.s_2_x,
+        "s_2_y": css_bubble.s_2_y,
+        "s_2_t": css_bubble.s_2_t,
+        "s_2_l": css_bubble.s_2_l,
+        "s_2_b": css_bubble.s_2_b,
+        "s_2_r": css_bubble.s_2_r,
+        "r_1_x": css_bubble.r_1_x,
+        "r_1_y": css_bubble.r_1_y,
+        "r_1_t": css_bubble.r_1_t,
+        "r_1_l": css_bubble.r_1_l,
+        "r_1_b": css_bubble.r_1_b,
+        "r_1_r": css_bubble.r_1_r,
+        "r_2_x": css_bubble.r_2_x,
+        "r_2_y": css_bubble.r_2_y,
+        "r_2_t": css_bubble.r_2_t,
+        "r_2_l": css_bubble.r_2_l,
+        "r_2_b": css_bubble.r_2_b,
+        "r_2_r": css_bubble.r_2_r,
+    }
+    ktheme_update_form = KthemeUpdateForm(instance=ktheme, initial=initial_name)
+    css_color_update_form = CssColorUpdateForm(
+        instance=css_color, initial=initial_color
+    )
+    css_bubble_update_form = CssBubbleUpdateForm(
+        instance=css_bubble, initial=initial_bubble
+    )
+    image_filenames = [
+        "chatroomBgImage@3x.png",
+        "chatroomBubbleReceive01@2x.png",
+        "chatroomBubbleReceive01@3x.png",
+        "chatroomBubbleReceive01Selected@2x.png",
+        "chatroomBubbleReceive01Selected@3x.png",
+        "chatroomBubbleReceive02@2x.png",
+        "chatroomBubbleReceive02@3x.png",
+        "chatroomBubbleReceive02Selected@2x.png",
+        "chatroomBubbleReceive02Selected@3x.png",
+        "chatroomBubbleSend01@2x.png",
+        "chatroomBubbleSend01@3x.png",
+        "chatroomBubbleSend01Selected@2x.png",
+        "chatroomBubbleSend01Selected@3x.png",
+        "chatroomBubbleSend02@2x.png",
+        "chatroomBubbleSend02@3x.png",
+        "chatroomBubbleSend02Selected@2x.png",
+        "chatroomBubbleSend02Selected@3x.png",
+        "commonIcoTheme.png",
+        "findBtnAddFriend@2x.png",
+        "findBtnAddFriend@3x.png",
+        "mainBgImage@3x.png",
+        "maintabBgImage@2x.png",
+        "maintabBgImage@3x.png",
+        "maintabIcoBrowse@2x.png",
+        "maintabIcoBrowse@3x.png",
+        "maintabIcoBrowseSelected@2x.png",
+        "maintabIcoBrowseSelected@3x.png",
+        "maintabIcoCall@2x.png",
+        "maintabIcoCall@3x.png",
+        "maintabIcoCallSelected@2x.png",
+        "maintabIcoCallSelected@3x.png",
+        "maintabIcoChats@2x.png",
+        "maintabIcoChats@3x.png",
+        "maintabIcoChatsSelected@2x.png",
+        "maintabIcoChatsSelected@3x.png",
+        "maintabIcoFind@2x.png",
+        "maintabIcoFind@3x.png",
+        "maintabIcoFindSelected@2x.png",
+        "maintabIcoFindSelected@3x.png",
+        "maintabIcoFriends@2x.png",
+        "maintabIcoFriends@3x.png",
+        "maintabIcoFriendsSelected@2x.png",
+        "maintabIcoFriendsSelected@3x.png",
+        "maintabIcoMore@2x.png",
+        "maintabIcoMore@3x.png",
+        "maintabIcoMoreSelected@2x.png",
+        "maintabIcoMoreSelected@3x.png",
+        "maintabIcoOpenChats@2x.png",
+        "maintabIcoOpenChats@3x.png",
+        "maintabIcoOpenChatsSelected@2x.png",
+        "maintabIcoOpenChatsSelected@3x.png",
+        "maintabIcoPiccoma@2x.png",
+        "maintabIcoPiccoma@3x.png",
+        "maintabIcoPiccomaSelected@2x.png",
+        "maintabIcoPiccomaSelected@3x.png",
+        "maintabIcoShopping@2x.png",
+        "maintabIcoShopping@3x.png",
+        "maintabIcoShoppingSelected@2x.png",
+        "maintabIcoShoppingSelected@3x.png",
+        "maintabIcoView@2x.png",
+        "maintabIcoView@3x.png",
+        "maintabIcoViewSelected@2x.png",
+        "maintabIcoViewSelected@3x.png",
+        "passcodeBgImage@3x.png",
+        "passcodeImgCode01@3x.png",
+        "passcodeImgCode01Selected@3x.png",
+        "passcodeImgCode02@3x.png",
+        "passcodeImgCode02Selected@3x.png",
+        "passcodeImgCode03@3x.png",
+        "passcodeImgCode03Selected@3x.png",
+        "passcodeImgCode04@3x.png",
+        "passcodeImgCode04Selected@3x.png",
+        "passcodeKeypadPressed@3x.png",
+        "profileImg01@3x.png",
+    ]
+    image_paths = [
+        f"/media/{theme_id}/Images/{filename}" for filename in image_filenames
+    ]
     bubble_filenames = [
         "chatroomBubbleReceive01@3x.png",
         "chatroomBubbleReceive02@3x.png",
@@ -379,7 +353,7 @@ def ktheme_detail(request, id):
         "chatroomBubbleSend02@3x.png",
     ]
     bubble_image_paths = [
-        f"media/{ktheme.id}/{filename}" for filename in bubble_filenames
+        f"/media/{theme_id}/Images/{filename}" for filename in bubble_filenames
     ]
 
     return render(

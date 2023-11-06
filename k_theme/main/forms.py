@@ -17,13 +17,13 @@ class KthemeCreateForm(forms.ModelForm):
         model = Ktheme
         fields = ("id", "name")
 
-    def save(self, commit=True, user=None):
-        instance = super(KthemeCreateForm, self).save(commit=False)
-        if user:
-            instance.user = user
-        if commit:
-            instance.save()
-        return instance
+    # def save(self, commit=True, user=None):
+    #     instance = super(KthemeCreateForm, self).save(commit=False)
+    #     if user:
+    #         instance.user = user
+    #     if commit:
+    #         instance.save()
+    #     return instance
 
 
 class KthemeUpdateForm(forms.ModelForm):

@@ -157,10 +157,6 @@ name_dic = {
 }
 
 
-# def user_directory_path(instance, filename):
-#     return "{0}/{1}".format(instance.ktheme.id, filename)
-
-
 class KthemeImages(models.Model):
     ktheme = models.OneToOneField(
         Ktheme, on_delete=models.CASCADE, related_name="ktheme_images"
@@ -238,12 +234,12 @@ class CssBubble(models.Model):
 #         KthemeImage.objects.get_or_create(ktheme_images=instance)
 
 
-@receiver(post_save, sender=Ktheme)
-def ktheme_user(sender, instance, created, **kwargs):
-    if created:
-        user = instance.user
-        instance.user = user
-        instance.save()
+# @receiver(post_save, sender=Ktheme)
+# def ktheme_user(sender, instance, created, **kwargs):
+#     if created:
+#         user = instance.user
+#         instance.user = user
+#         instance.save()
 
 
 @receiver(post_save, sender=Ktheme)
@@ -256,17 +252,33 @@ def create_css_model(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Ktheme)
 def create_theme_dir(sender, instance, created, **kwargs):
     if created:
-        theme_dir = os.path.join(settings.MEDIA_ROOT, f"{instance.id}")
-
+        theme_dir = os.path.join(settings.MEDIA_ROOT, instance.id)
         theme_image_dir = os.path.join(theme_dir, "Images")
-        default_images_dir = os.path.join(settings.STATIC_ROOT, "default_images")
-
         theme_css = os.path.join(theme_dir, "KakaoTalkTheme.css")
-        src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
 
-        try:
-            shutil.copytree(theme_image_dir, default_images_dir)
+        src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
+        default_image_dir = os.path.join(settings.STATIC_ROOT, "Images")
+
+        if not os.path.exists(theme_dir):
+            # os.makedirs(theme_dir)
+            # os.makedirs(theme_image_dir)
+            shutil.copytree(default_image_dir, theme_image_dir)
             shutil.copy2(src_css, theme_css)
 
-        except Exception as e:
-            print(f"Error copying user media: {str(e)}")
+
+# def create_theme_dir(sender, instance, created, **kwargs):
+#     if created:
+#         theme_dir = os.path.join(settings.MEDIA_ROOT, f"{instance.id}")
+
+#         theme_image_dir = os.path.join(theme_dir, "Images")
+#         default_images_dir = os.path.join(settings.STATIC_ROOT, "default_images")
+
+#         theme_css = os.path.join(theme_dir, "KakaoTalkTheme.css")
+#         src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
+
+#         try:
+#             shutil.copytree(theme_image_dir, default_images_dir)
+#             shutil.copy2(src_css, theme_css)
+
+#         except Exception as e:
+#             print(f"Error copying user media: {str(e)}")
