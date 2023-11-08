@@ -46,6 +46,7 @@ def main(request):
             theme_dir = os.path.join(settings.MEDIA_ROOT, theme_id)
             # src_css_path = os.path.join("static", "source.css")
             theme_css = os.path.join(theme_dir, "KakaoTalkTheme.css")
+            src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
             # if os.path.exists(ktheme_css_path):
             #     with open(src_css_path, "r", encoding="utf-8") as f:
             #         css_content = f.read()
@@ -57,7 +58,7 @@ def main(request):
             # return redirect("ktheme_detail", theme_id=theme_id)
 
             try:
-                with open(theme_css, "r") as f:
+                with open(src_css, "r") as f:
                     css_content = f.read()
                 css_content = css_content.replace("themeId", ktheme.id)
                 css_content = css_content.replace("themeName", ktheme.name)
@@ -114,6 +115,7 @@ def ktheme_detail(request, id):
 
     ktheme = Ktheme.objects.get(pk=id)
     theme_id = ktheme.id
+    theme_name = ktheme.name
 
     css_color = CssColor.objects.get(ktheme=ktheme)
     css_bubble = CssBubble.objects.get(ktheme=ktheme)
