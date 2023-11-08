@@ -145,6 +145,9 @@ def ktheme_detail(request, id):
             image_upload = request.FILES["image_upload"]
             if image_upload:
                 image_path = request.POST.get("image_path")
+                if image_path.startswith("/"):
+                    image_path = image_path[1:]
+
                 with open(image_path, "wb") as destination:
                     for chunk in image_upload.chunks():
                         destination.write(chunk)

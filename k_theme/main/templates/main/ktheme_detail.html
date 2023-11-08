@@ -74,7 +74,8 @@
 {% block js %}
 
 <script>
-    $(document).ready(function () {
+
+    function uploadImage() {
         $(".image-label").on('click', function () {
             var form = $(this).closest('form');
             var fileInput = form.find('.image-upload')
@@ -84,38 +85,44 @@
             var form = $(this).closest('form');
             form.submit();
         })
-    })
-
-
-    for (i = 1; i < 5; i++) {
-        imageId = 'image-bubble-' + i;
-        canvasId = 'canvas-' + i;
-        var image = document.getElementById(imageId);
-        var canvas = document.getElementById(canvasId);
-        canvas.width = image.width;
-        canvas.height = image.height;
-
-        x = 17;
-        y = 17;
-        t = 10;
-        l = 11;
-        b = 7;
-        r = 17;
-
-        var context = canvas.getContext('2d');
-        context.fillStyle = 'red';
-        context.fillRect(t * 3, l * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
-
-        context.beginPath();
-        context.moveTo(x * 3, 0);
-        context.lineTo(x * 3, canvas.height);
-        context.stroke();
-
-        context.beginPath();
-        context.moveTo(0, y * 3);
-        context.lineTo(canvas.width, y * 3);
-        context.stroke();
     }
+    function drawLine() {
+        for (i = 1; i < 5; i++) {
+            imageId = 'image-bubble-' + i;
+            canvasId = 'canvas-' + i;
+            var image = document.getElementById(imageId);
+            var canvas = document.getElementById(canvasId);
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            var x = parseInt(document.getElementById('x-' + i).value);
+            var y = parseInt(document.getElementById('y-' + i).value);
+            var t = parseInt(document.getElementById('t-' + i).value);
+            var l = parseInt(document.getElementById('l-' + i).value);
+            var b = parseInt(document.getElementById('b-' + i).value);
+            var r = parseInt(document.getElementById('r-' + i).value);
+
+            var context = canvas.getContext('2d');
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+            context.strokeRect(t * 3, l * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
+            // context.fillRect(t * 3, l * 3, 50, 50)
+
+            context.beginPath();
+            context.moveTo(x * 3, 0);
+            context.lineTo(x * 3, canvas.height);
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(0, y * 3);
+            context.lineTo(canvas.width, y * 3);
+            context.stroke();
+        }
+    }
+    $(document).ready(function () {
+        uploadImage();
+        drawLine();
+    });
 
 </script>
 {% endblock %}
@@ -137,7 +144,7 @@
         {% for image_path in image_paths %}
         <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="hidden" name="action" value="upload_images">
+            <input type="hidden" name="action" value="upload_image">
             <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
             <div class="square">
                 <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
@@ -175,7 +182,7 @@
         <input type=" text" id="r-{{ forloop.counter }}" name="r-{{ forloop.counter }}" value="" style="width:100px"> -->
     </div>
     {% endfor %}
-    "s_1_x",
+    <!-- "s_1_x",
     "s_1_y",
     "s_1_t",
     "s_1_l",
@@ -198,12 +205,12 @@
     "r_2_t",
     "r_2_l",
     "r_2_b",
-    "r_2_r",
+    "r_2_r", -->
     <form method="post">
         {% csrf_token %}
-        {{ css_bubble_update_form.non_field_errors }}
-        <input type="number" id="x-1" name="x-1" style="width:100px;" value="css_bubble_update_form.s_1_x.value">
-        <button type="submit" name="action" value="css_color">적용하기</button>
+        {{ css_bubble_update_form.as_p }}
+        <!-- <input type="number" id="x-1" name="x-1" style="width:100px;" value="css_bubble_update_form.s_1_x.value"> -->
+        <button type="submit" name="action" value="css_bubble">적용하기</button>
     </form>
 </div>
 <div>

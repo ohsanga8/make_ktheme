@@ -89,7 +89,7 @@ class CssColorUpdateForm(forms.ModelForm):
 class CssBubbleUpdateForm(forms.ModelForm):
     class Meta:
         model = CssBubble
-        fields = {
+        fields = (
             "s_1_x",
             "s_1_y",
             "s_1_t",
@@ -114,4 +114,79 @@ class CssBubbleUpdateForm(forms.ModelForm):
             "r_2_l",
             "r_2_b",
             "r_2_r",
+        )
+
+        widgets = {
+            "s_1_x": forms.NumberInput(
+                attrs={"id": "x-1", "name": "x-1", "style": "width:100px;"}
+            ),
+            "s_1_y": forms.NumberInput(
+                attrs={"id": "y-1", "name": "y-1", "style": "width:100px;"}
+            ),
+            "s_1_t": forms.NumberInput(
+                attrs={"id": "t-1", "name": "t-1", "style": "width:100px;"}
+            ),
+            "s_1_l": forms.NumberInput(
+                attrs={"id": "l-1", "name": "l-1", "style": "width:100px;"}
+            ),
+            "s_1_b": forms.NumberInput(
+                attrs={"id": "b-1", "name": "b-1", "style": "width:100px;"}
+            ),
+            "s_1_r": forms.NumberInput(
+                attrs={"id": "r-1", "name": "r-1", "style": "width:100px;"}
+            ),
+            "s_2_x": forms.NumberInput(
+                attrs={"id": "x-2", "name": "x-2", "style": "width:100px;"}
+            ),
+            "s_2_y": forms.NumberInput(
+                attrs={"id": "y-2", "name": "y-2", "style": "width:100px;"}
+            ),
+            "s_2_t": forms.NumberInput(
+                attrs={"id": "t-2", "name": "t-2", "style": "width:100px;"}
+            ),
+            "s_2_l": forms.NumberInput(
+                attrs={"id": "l-2", "name": "l-2", "style": "width:100px;"}
+            ),
+            "s_2_b": forms.NumberInput(
+                attrs={"id": "b-2", "name": "b-2", "style": "width:100px;"}
+            ),
+            "s_2_r": forms.NumberInput(
+                attrs={"id": "r-2", "name": "r-2", "style": "width:100px;"}
+            ),
+            "r_1_x": forms.NumberInput(
+                attrs={"id": "x-3", "name": "x-3", "style": "width:100px;"}
+            ),
+            "r_1_y": forms.NumberInput(
+                attrs={"id": "y-3", "name": "y-3", "style": "width:100px;"}
+            ),
+            "r_1_t": forms.NumberInput(
+                attrs={"id": "t-3", "name": "t-3", "style": "width:100px;"}
+            ),
+            "r_1_l": forms.NumberInput(
+                attrs={"id": "l-3", "name": "l-3", "style": "width:100px;"}
+            ),
+            "r_1_b": forms.NumberInput(
+                attrs={"id": "b-3", "name": "b-3", "style": "width:100px;"}
+            ),
+            "r_1_r": forms.NumberInput(
+                attrs={"id": "r-3", "name": "r-3", "style": "width:100px;"}
+            ),
+            "r_2_x": forms.NumberInput(
+                attrs={"id": "x-4", "name": "x-4", "style": "width:100px;"}
+            ),
+            "r_2_y": forms.NumberInput(
+                attrs={"id": "y-4", "name": "y-4", "style": "width:100px;"}
+            ),
+            "r_2_t": forms.NumberInput(
+                attrs={"id": "t-4", "name": "t-4", "style": "width:100px;"}
+            ),
+            "r_2_l": forms.NumberInput(
+                attrs={"id": "l-4", "name": "l-4", "style": "width:100px;"}
+            ),
+            "r_2_b": forms.NumberInput(
+                attrs={"id": "b-4", "name": "b-4", "style": "width:100px;"}
+            ),
+            "r_2_r": forms.NumberInput(
+                attrs={"id": "r-4", "name": "r-4", "style": "width:100px;"}
+            ),
         }
