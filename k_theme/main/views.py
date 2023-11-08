@@ -120,6 +120,7 @@ def ktheme_detail(request, id):
 
     # src_css = os.path.join("static", "source.css")
     theme_dir = os.path.join(settings.MEDIA_ROOT, theme_id)
+    src_css = os.path.join(settings.STATIC_ROOT, "KakaoTalkTheme.css")
     theme_css = os.path.join(theme_dir, "KakaoTalkTheme.css")
     theme_images_dir = os.path.join(theme_dir, "Images")
 
@@ -130,6 +131,38 @@ def ktheme_detail(request, id):
         # ktheme_images_form = KthemeImagesForm(request.POST, instance=ktheme_images)
         css_color_update_form = CssColorUpdateForm(request.POST, instance=css_color)
         css_bubble_update_form = CssBubbleUpdateForm(request.POST, instance=css_bubble)
+
+        bg_color = css_color.bg_color
+        main_text_color = css_color.main_text_color
+        point_text_color = css_color.point_text_color
+        input_bg_color = css_color.input_bg_color
+        send_text_color = css_color.send_text_color
+        receive_text_color = css_color.receive_text_color
+
+        s_1_x = css_bubble.s_1_x
+        s_1_y = css_bubble.s_1_y
+        s_1_t = css_bubble.s_1_t
+        s_1_l = css_bubble.s_1_l
+        s_1_b = css_bubble.s_1_b
+        s_1_r = css_bubble.s_1_r
+        s_2_x = css_bubble.s_2_x
+        s_2_y = css_bubble.s_2_y
+        s_2_t = css_bubble.s_2_t
+        s_2_l = css_bubble.s_2_l
+        s_2_b = css_bubble.s_2_b
+        s_2_r = css_bubble.s_2_r
+        r_1_x = css_bubble.r_1_x
+        r_1_y = css_bubble.r_1_y
+        r_1_t = css_bubble.r_1_t
+        r_1_l = css_bubble.r_1_l
+        r_1_b = css_bubble.r_1_b
+        r_1_r = css_bubble.r_1_r
+        r_2_x = css_bubble.r_2_x
+        r_2_y = css_bubble.r_2_y
+        r_2_t = css_bubble.r_2_t
+        r_2_l = css_bubble.r_2_l
+        r_2_b = css_bubble.r_2_b
+        r_2_r = css_bubble.r_2_r
 
         if action == "ktheme_update":
             if ktheme_update_form.is_valid():
@@ -154,58 +187,71 @@ def ktheme_detail(request, id):
 
         elif action == "css_color":
             if css_color_update_form.is_valid():
-                bg_color = css_color_update_form.cleaned_data["bg_color"]
-                main_text_color = css_color_update_form.cleaned_data["main_text_color"]
-                point_text_color = css_color_update_form.cleaned_data[
-                    "point_text_color"
-                ]
-                input_bg_color = css_color_update_form.cleaned_data["input_bg_color"]
-                send_text_color = css_color_update_form.cleaned_data["send_text_color"]
-                receive_text_color = css_color_update_form.cleaned_data[
-                    "receive_text_color"
-                ]
+                css_color = css_color_update_form.save()
 
-                color_replacement = {
-                    bg_color: css_color.bg_color,
-                    main_text_color: css_color.main_text_color,
-                    point_text_color: css_color.point_text_color,
-                    input_bg_color: css_color.input_bg_color,
-                    send_text_color: css_color.send_text_color,
-                    receive_text_color: css_color.receive_text_color,
-                }
+                bg_color = css_color.bg_color
+                main_text_color = css_color.main_text_color
+                point_text_color = css_color.point_text_color
+                input_bg_color = css_color.input_bg_color
+                send_text_color = css_color.send_text_color
+                receive_text_color = css_color.receive_text_color
 
-                with open(theme_css, "r", encoding="utf-8") as f:
+                with open(src_css, "r", encoding="utf-8") as f:
                     css_content = f.read()
 
-                for cur_color, new_color in color_replacement.items():
-                    css_content = css_content.replace(cur_color, new_color)
+                css_content = (
+                    css_content.replace("#FFFFFF", bg_color)
+                    .replace("#000000", main_text_color)
+                    .replace("#FFC0CB", point_text_color)
+                    .replace("#D3D3D3", input_bg_color)
+                    .replace("#A9A9A9", send_text_color)
+                    .replace("#808080", receive_text_color)
+                )
+
+                replacement_dict = {
+                    # send
+                    r"-ios-background-image: 'chatroomBubbleSend01.png' (\d+)px (\d+)px;": lambda m: f"-ios-background-image: 'chatroomBubbleSend01.png' {s_1_x}px {s_1_y}px;",
+                    r"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' {s_1_x}px {s_1_y}px;",
+                    r"-ios-group-background-image: 'chatroomBubbleSend02.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-background-image: 'chatroomBubbleSend02.png' {s_2_x}px {s_2_y}px;",
+                    r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' {s_2_x}px {s_2_y}px;",
+                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-title-edgeinsets: {s_1_t}px {s_1_l}px {s_1_b}px {s_1_r}px;",
+                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-group-title-edgeinsets: {s_2_t}px {s_2_l}px {s_2_b}px {s_2_r}px;",
+                    # recieve
+                    r"-ios-background-image: 'chatroomBubbleReceive01.png' (\d+)px (\d+)px;": lambda m: f"-ios-background-image: 'chatroomBubbleReceive01.png' {r_1_x}px {r_1_y}px;",
+                    r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' {r_1_x}px {r_1_y}px;",
+                    r"-ios-group-background-image: 'chatroomBubbleReceive02.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-background-image: 'chatroomBubbleReceive02.png' {r_2_x}px {r_2_y}px;",
+                    r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' {r_2_x}px {r_2_y}px;",
+                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
+                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-group-title-edgeinsets: {r_2_t}px {r_2_l}px {r_2_b}px {r_2_r}px;",
+                }
+
+                for pattern, replacement in replacement_dict.items():
+                    css_content = re.sub(pattern, replacement, css_content)
 
                 with open(theme_css, "w", encoding="utf-8") as f:
                     f.write(css_content)
 
-                css_color = css_color_update_form.save()
-
         elif action == "css_bubble":
             if css_bubble_update_form.is_valid():
                 css_bubble = css_bubble_update_form.save()
-                with open(theme_css, "r") as f:
+                with open(theme_css, "r", encoding="utf-8") as f:
                     css_content = f.read()
 
                 replacement_dict = {
                     # send
-                    r"-ios-background-image: 'chatroomBubbleSend01.png' (\d+)px (\d+)px;": r'-ios-background-image: "chatroomBubbleSend01.png" {s_1_x}px {s_1_y}px;',
-                    r"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' (\d+)px (\d+)px;": r'-ios-selected-background-image: "chatroomBubbleSend01Selected.png" {s_1_x}px {s_1_y}px;',
-                    r"-ios-group-background-image: 'chatroomBubbleSend02.png' (\d+)px (\d+)px;": r"-ios-group-background-image: 'chatroomBubbleSend02.png' {s_2_x}px {s_2_y}px;",
-                    r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' (\d+)px (\d+)px;": r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' {s_2_x}px {s_2_y}px;",
-                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-title-edgeinsets: {s_1_t}px {s_1_l}px {s_1_b}px {s_1_r}px;",
-                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-group-title-edgeinsets: {s_2_t}px {s_2_l}px {s_2_b}px {s_2_r}px;",
+                    r"-ios-background-image: 'chatroomBubbleSend01.png' (\d+)px (\d+)px;": lambda m: f"-ios-background-image: 'chatroomBubbleSend01.png' {s_1_x}px {s_1_y}px;",
+                    r"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-selected-background-image: 'chatroomBubbleSend01Selected.png' {s_1_x}px {s_1_y}px;",
+                    r"-ios-group-background-image: 'chatroomBubbleSend02.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-background-image: 'chatroomBubbleSend02.png' {s_2_x}px {s_2_y}px;",
+                    r"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' {s_2_x}px {s_2_y}px;",
+                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-title-edgeinsets: {s_1_t}px {s_1_l}px {s_1_b}px {s_1_r}px;",
+                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-group-title-edgeinsets: {s_2_t}px {s_2_l}px {s_2_b}px {s_2_r}px;",
                     # recieve
-                    r"-ios-background-image: 'chatroomBubbleReceive01.png' (\d+)px (\d+)px;": r"-ios-background-image: 'chatroomBubbleReceive01.png' {r_1_x}px {r_1_y}px;",
-                    r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' (\d+)px (\d+)px;": r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' {r_1_x}px {r_1_y}px;",
-                    r"-ios-group-background-image: 'chatroomBubbleReceive02.png' (\d+)px (\d+)px;": r"-ios-group-background-image: 'chatroomBubbleReceive02.png' {r_2_x}px {r_2_y}px;",
-                    r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' (\d+)px (\d+)px;": r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' {r_2_x}px {r_2_y}px;",
-                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
-                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": r"-ios-group-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
+                    r"-ios-background-image: 'chatroomBubbleReceive01.png' (\d+)px (\d+)px;": lambda m: f"-ios-background-image: 'chatroomBubbleReceive01.png' {r_1_x}px {r_1_y}px;",
+                    r"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' {r_1_x}px {r_1_y}px;",
+                    r"-ios-group-background-image: 'chatroomBubbleReceive02.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-background-image: 'chatroomBubbleReceive02.png' {r_2_x}px {r_2_y}px;",
+                    r"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' (\d+)px (\d+)px;": lambda m: f"-ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' {r_2_x}px {r_2_y}px;",
+                    r"-ios-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-title-edgeinsets: {r_1_t}px {r_1_l}px {r_1_b}px {r_1_r}px;",
+                    r"-ios-group-title-edgeinsets: (\d+)px (\d+)px (\d+)px (\d+)px;": lambda m: f"-ios-group-title-edgeinsets: {r_2_t}px {r_2_l}px {r_2_b}px {r_2_r}px;",
                 }
 
                 for pattern, replacement in replacement_dict.items():

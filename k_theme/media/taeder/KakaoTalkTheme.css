@@ -10,45 +10,32 @@ ManifestStyle {
     -kakaotalk-theme-id: 'com.kakao.talk.theme.themeId';
 }
 
-
 /*
  TabBar Style
  */
 
 TabBarStyle-Main {
-    /* 배경 이미지 */
-    background-color: ;
+    background-color: #444444;
     -ios-background-image: 'maintabBgImage.png';
-    /* 배경 이미지 top-center-crop */
 
-    /* 친구탭 */
     -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
     -ios-friends-selected-icon-image: 'maintabIcoFriendsSelected.png';
-    /* 채팅탭 */
     -ios-chats-normal-icon-image: 'maintabIcoChats.png';
     -ios-chats-selected-icon-image: 'maintabIcoChatsSelected.png';
-    /* 친구찾기 (글로벌) */
     -ios-find-normal-icon-image: 'maintabIcoFind.png';
     -ios-find-selected-icon-image: 'maintabIcoFindSelected.png';
-    /* 채널탭 */
     -ios-browse-normal-icon-image: 'maintabIcoBrowse.png';
     -ios-browse-selected-icon-image: 'maintabIcoBrowseSelected.png';
-    /* 뷰탭 */
     -ios-view-normal-icon-image: 'maintabIcoView.png';
     -ios-view-selected-icon-image: 'maintabIcoViewSelected.png';
-    /* 만화탭 (일본) */
     -ios-piccoma-normal-icon-image: 'maintabIcoPiccoma.png';
     -ios-piccoma-selected-icon-image: 'maintabIcoPiccomaSelected.png';
-    /* 쇼핑탭 */
     -ios-shopping-normal-icon-image: 'maintabIcoShopping.png';
     -ios-shopping-selected-icon-image: 'maintabIcoShoppingSelected.png';
-    /* 콜탭 */
     -ios-call-normal-icon-image: 'maintabIcoCall.png';
     -ios-call-selected-icon-image: 'maintabIcoCallSelected.png';
-    /* 더보기탭 */
     -ios-more-normal-icon-image: 'maintabIcoMore.png';
     -ios-more-selected-icon-image: 'maintabIcoMoreSelected.png';
-    /* 오픈채팅탭 */
     -ios-openchats-normal-icon-image: 'maintabIcoOpenChats.png';
     -ios-openchats-selected-icon-image: 'maintabIcoOpenChatsSelected.png';
 }
@@ -59,52 +46,46 @@ TabBarStyle-Main {
  */
 
 HeaderStyle-Main {
-    -ios-text-color: #353535;
+    -ios-text-color: #000000;
 
-    -ios-tab-text-color: #5a5a5a;
-    -ios-tab-highlighted-text-color: #5a5a5a;
+    -ios-tab-text-color: #000000;
+    -ios-tab-highlighted-text-color: #000000;
 }
 
 MainViewStyle-Primary {
-    background-color: #3E3E40;
+    background-color: #444444;
     -ios-background-image: 'mainBgImage.png';
 
-    /* 텍스트 스타일 */
-    /* 이름변경 */
-    -ios-text-color: #ffffff;
-    /* Title : 리스트 목록*/
-    -ios-highlighted-text-color: #353535;
+    -ios-text-color: #000000;
+    -ios-highlighted-text-color: #FFC0CB;
     /* Title Pressed */
 
-    -ios-description-text-color: #d7d7d7;
-    /* Description : 상태메세지 */
-    -ios-description-highlighted-text-color: #353535;
+    -ios-description-text-color: #000000;
+    -ios-description-highlighted-text-color: #000000;
     /* Description Pressed */
 
-    -ios-paragraph-text-color: #d7d7d7;
-    /* Paragraph : 라스트메세지 */
-    -ios-paragraph-highlighted-text-color: #353535;
+    -ios-paragraph-text-color: #000000;
+    -ios-paragraph-highlighted-text-color: #000000;
     /* Paragraph Pressed*/
 
-    /* 셀 스타일 */
-    -ios-normal-background-color: #3E3E40;
+    -ios-normal-background-color: #444444;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
-    -ios-selected-background-color: #2b2b2d;
+    -ios-selected-background-color: #FFC0CB;
     /* Cell Background Pressed */
-    -ios-selected-background-alpha: 0.05;
+    -ios-selected-background-alpha: 0.0;
 }
 
 MainViewStyle-Secondary {
-    background-color: #3E3E40;
+    background-color: #000000;
 }
 
 SectionTitleStyle-Main {
-    border-color: #353535;
-    border-alpha: 0.09;
+    border-color: #000000;
+    border-alpha: 0.0;
 
-    -ios-text-color: #353535;
+    -ios-text-color: #FFC0CB;
     -ios-text-alpha: 1.0;
 }
 
@@ -113,11 +94,8 @@ SectionTitleStyle-Main {
  Feature Style
  */
 
-FeatureStyle-Primary
-
-/* Primary : 버튼 텍스트 */
-    {
-    -ios-text-color: #353535;
+FeatureStyle-Primary {
+    -ios-text-color: #FFC0CB;
 }
 
 
@@ -131,7 +109,6 @@ ButtonStyle-AddFriend {
 */
 
 DefaultProfileStyle {
-    /* 프로필 */
     -ios-profile-images: 'profileImg01.png';
 }
 
@@ -141,24 +118,21 @@ DefaultProfileStyle {
  */
 
 BackgroundStyle-ChatRoom {
-    background-color: #3E3E40;
+    background-color: #444444;
     -ios-background-image: 'chatroomBgImage.png';
 }
 
 InputBarStyle-Chat {
-    /* 입력창 배경 */
-    background-color: #39393b;
+    background-color: #D3D3D3;
 
-    /* 전송 버튼 */
-    -ios-send-normal-background-color: #3E3E40;
-    -ios-send-normal-foreground-color: #353535;
+    -ios-send-normal-background-color: #444444;
+    -ios-send-normal-foreground-color: #000000;
 
-    -ios-send-highlighted-background-color: #39393b;
-    -ios-send-highlighted-foreground-color: #353535;
+    -ios-send-highlighted-background-color: #444444;
+    -ios-send-highlighted-foreground-color: #000000;
 
-    /* 그밖의 버튼 */
-    -ios-button-normal-foreground-color: #353535;
-    -ios-button-highlighted-foreground-color: #353535;
+    -ios-button-normal-foreground-color: #000000;
+    -ios-button-highlighted-foreground-color: #000000;
 }
 
 
@@ -167,17 +141,17 @@ InputBarStyle-Chat {
  */
 
 MessageCellStyle-Send {
-    -ios-background-image: 'chatroomBubbleSend01.png' 17px 17px;
-    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 17px 17px;
-    -ios-group-background-image: 'chatroomBubbleSend02.png' 17px 17px;
-    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 17px 17px;
-    -ios-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-background-image: 'chatroomBubbleSend01.png' 10px 12px;
+    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 10px 12px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 15px 16px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 15px 16px;
+    -ios-title-edgeinsets: 20px 20px 10px 11px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-group-title-edgeinsets: 10px 17px 9px 11px;
 
-    -ios-text-color: #353535;
-    -ios-selected-text-color: #353535;
-    -ios-unread-text-color: #353535;
+    -ios-text-color: #A9A9A9;
+    -ios-selected-text-color: #A9A9A9;
+    -ios-unread-text-color: #A9A9A9;
 }
 
 MessageCellStyle-Receive {
@@ -185,13 +159,13 @@ MessageCellStyle-Receive {
     -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 20px 17px;
     -ios-group-background-image: 'chatroomBubbleReceive02.png' 20px 17px;
     -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 20px 17px;
-    -ios-title-edgeinsets: 10px 17px 9px 11px;
+    -ios-title-edgeinsets: 20px 20px 10px 11px;
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 10px 17px 9px 11px;
 
-    -ios-text-color: #ffffff;
-    -ios-selected-text-color: #ffffff;
-    -ios-unread-text-color: #353535;
+    -ios-text-color: #808080;
+    -ios-selected-text-color: #808080;
+    -ios-unread-text-color: #808080;
 }
 
 
@@ -200,12 +174,12 @@ MessageCellStyle-Receive {
  */
 
 BackgroundStyle-Passcode {
-    background-color: #3E3E40;
+    background-color: #444444;
     -ios-background-image: 'passcodeBgImage.png';
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #353535;
+    -ios-text-color: #000000;
 }
 
 
@@ -220,8 +194,8 @@ PasscodeStyle {
     -ios-bullet-selected-third-image: 'passcodeImgCode03Selected.png';
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
-    -ios-keypad-background-color: #3E3E40;
-    -ios-keypad-text-normal-color: #353535;
+    -ios-keypad-background-color: #444444;
+    -ios-keypad-text-normal-color: #000000;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
 }
@@ -232,15 +206,15 @@ PasscodeStyle {
  */
 
 BackgroundStyle-MessageNotificationBar {
-    background-color: #3E3E40;
+    background-color: #444444;
 }
 
 LabelStyle-MessageNotificationBarName {
-    -ios-text-color: #ffffff;
+    -ios-text-color: #000000;
 }
 
 LabelStyle-MessageNotificationBarMessage {
-    -ios-text-color: #ffffff;
+    -ios-text-color: #000000;
 }
 
 
@@ -249,15 +223,15 @@ LabelStyle-MessageNotificationBarMessage {
 */
 
 BackgroundStyle-DirectShareBar {
-    background-color: #39393b;
+    background-color: #444444;
 }
 
 LabelStyle-DirectShareBarName {
-    -ios-text-color: #353535;
+    -ios-text-color: #000000;
 }
 
 LabelStyle-DirectShareBarMessage {
-    -ios-text-color: #ffffff;
+    -ios-text-color: #000000;
 }
 
 
@@ -266,5 +240,17 @@ LabelStyle-DirectShareBarMessage {
  */
 
 BottomBannerStyle {
-    background-color: #39393b;
+    background-color: #444444;
 }
+
+/* 
+    theme_id
+    theme_name
+    bg_color
+    main_text_color
+    point_text_color
+    input_bg_color
+    send_text_color
+    receive_text_color
+
+*/

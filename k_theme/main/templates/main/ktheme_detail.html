@@ -168,7 +168,7 @@
     <form method="post">
         {% csrf_token %}
         {{ css_color_update_form.as_p }}
-        <button type="submit" name="action" value="css_bubble">적용하기</button>
+        <button type="submit" name="action" value="css_color">적용하기</button>
     </form>
 </div>
 
@@ -180,42 +180,12 @@
         <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}">
         <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
         <p id="v-{{ forloop.counter }}"></p>
-        <!-- <input type="text" id="x-{{ forloop.counter }}" name="x-{{ forloop.counter }}" value="" style="width:100px">
-        <input type=" text" id="y-{{ forloop.counter }}" name="y-{{ forloop.counter }}" value="" style="width:100px">
-        <input type=" text" id="t-{{ forloop.counter }}" name="t-{{ forloop.counter }}" value="" style="width:100px">
-        <input type=" text" id="l-{{ forloop.counter }}" name="l-{{ forloop.counter }}" value="" style="width:100px">
-        <input type=" text" id="b-{{ forloop.counter }}" name="b-{{ forloop.counter }}" value="" style="width:100px">
-        <input type=" text" id="r-{{ forloop.counter }}" name="r-{{ forloop.counter }}" value="" style="width:100px"> -->
     </div>
     {% endfor %}
-    <!-- "s_1_x",
-    "s_1_y",
-    "s_1_t",
-    "s_1_l",
-    "s_1_b",
-    "s_1_r",
-    "s_2_x",
-    "s_2_y",
-    "s_2_t",
-    "s_2_l",
-    "s_2_b",
-    "s_2_r",
-    "r_1_x",
-    "r_1_y",
-    "r_1_t",
-    "r_1_l",
-    "r_1_b",
-    "r_1_r",
-    "r_2_x",
-    "r_2_y",
-    "r_2_t",
-    "r_2_l",
-    "r_2_b",
-    "r_2_r", -->
+
     <form method="post">
         {% csrf_token %}
         {{ css_bubble_update_form.as_p }}
-        <!-- <input type="number" id="x-1" name="x-1" style="width:100px;" value="css_bubble_update_form.s_1_x.value"> -->
         <button type="submit" name="action" value="css_bubble">적용하기</button>
     </form>
 </div>

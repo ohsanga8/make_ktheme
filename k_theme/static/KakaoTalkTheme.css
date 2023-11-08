@@ -15,39 +15,27 @@ ManifestStyle {
  */
 
 TabBarStyle-Main {
-    /* 배경 이미지 */
     background-color: #FFFFFF;
     -ios-background-image: 'maintabBgImage.png';
-    /* 배경 이미지 top-center-crop */
 
-    /* 친구탭 */
     -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
     -ios-friends-selected-icon-image: 'maintabIcoFriendsSelected.png';
-    /* 채팅탭 */
     -ios-chats-normal-icon-image: 'maintabIcoChats.png';
     -ios-chats-selected-icon-image: 'maintabIcoChatsSelected.png';
-    /* 친구찾기 (글로벌) */
     -ios-find-normal-icon-image: 'maintabIcoFind.png';
     -ios-find-selected-icon-image: 'maintabIcoFindSelected.png';
-    /* 채널탭 */
     -ios-browse-normal-icon-image: 'maintabIcoBrowse.png';
     -ios-browse-selected-icon-image: 'maintabIcoBrowseSelected.png';
-    /* 뷰탭 */
     -ios-view-normal-icon-image: 'maintabIcoView.png';
     -ios-view-selected-icon-image: 'maintabIcoViewSelected.png';
-    /* 만화탭 (일본) */
     -ios-piccoma-normal-icon-image: 'maintabIcoPiccoma.png';
     -ios-piccoma-selected-icon-image: 'maintabIcoPiccomaSelected.png';
-    /* 쇼핑탭 */
     -ios-shopping-normal-icon-image: 'maintabIcoShopping.png';
     -ios-shopping-selected-icon-image: 'maintabIcoShoppingSelected.png';
-    /* 콜탭 */
     -ios-call-normal-icon-image: 'maintabIcoCall.png';
     -ios-call-selected-icon-image: 'maintabIcoCallSelected.png';
-    /* 더보기탭 */
     -ios-more-normal-icon-image: 'maintabIcoMore.png';
     -ios-more-selected-icon-image: 'maintabIcoMoreSelected.png';
-    /* 오픈채팅탭 */
     -ios-openchats-normal-icon-image: 'maintabIcoOpenChats.png';
     -ios-openchats-selected-icon-image: 'maintabIcoOpenChatsSelected.png';
 }
@@ -68,24 +56,18 @@ MainViewStyle-Primary {
     background-color: #FFFFFF;
     -ios-background-image: 'mainBgImage.png';
 
-    /* 텍스트 스타일 */
-    /* 이름변경 */
     -ios-text-color: #000000;
-    /* Title : 리스트 목록*/
     -ios-highlighted-text-color: #FFC0CB;
     /* Title Pressed */
 
     -ios-description-text-color: #000000;
-    /* Description : 상태메세지 */
     -ios-description-highlighted-text-color: #000000;
     /* Description Pressed */
 
     -ios-paragraph-text-color: #000000;
-    /* Paragraph : 라스트메세지 */
     -ios-paragraph-highlighted-text-color: #000000;
     /* Paragraph Pressed*/
 
-    /* 셀 스타일 */
     -ios-normal-background-color: #FFFFFF;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
@@ -112,10 +94,7 @@ SectionTitleStyle-Main {
  Feature Style
  */
 
-FeatureStyle-Primary
-
-/* Primary : 버튼 텍스트 */
-    {
+FeatureStyle-Primary {
     -ios-text-color: #FFC0CB;
 }
 
@@ -130,7 +109,6 @@ ButtonStyle-AddFriend {
 */
 
 DefaultProfileStyle {
-    /* 프로필 */
     -ios-profile-images: 'profileImg01.png';
 }
 
@@ -145,17 +123,14 @@ BackgroundStyle-ChatRoom {
 }
 
 InputBarStyle-Chat {
-    /* 입력창 배경 */
     background-color: #D3D3D3;
 
-    /* 전송 버튼 */
     -ios-send-normal-background-color: #FFFFFF;
     -ios-send-normal-foreground-color: #000000;
 
     -ios-send-highlighted-background-color: #FFFFFF;
     -ios-send-highlighted-foreground-color: #000000;
 
-    /* 그밖의 버튼 */
     -ios-button-normal-foreground-color: #000000;
     -ios-button-highlighted-foreground-color: #000000;
 }
