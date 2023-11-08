@@ -101,11 +101,13 @@
             var l = parseInt(document.getElementById('l-' + i).value);
             var b = parseInt(document.getElementById('b-' + i).value);
             var r = parseInt(document.getElementById('r-' + i).value);
+            var v = document.getElementById('v-' + i);
+            v.innerHTML = "x: " + x + ", y: " + y + ", t: " + t + ", l: " + l + ", b: " + b + ", r: " + r;
 
             var context = canvas.getContext('2d');
             context.strokeStyle = 'black';
             context.lineWidth = 2;
-            context.strokeRect(t * 3, l * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
+            context.strokeRect(l * 3, t * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
             // context.fillRect(t * 3, l * 3, 50, 50)
 
             context.beginPath();
@@ -117,8 +119,11 @@
             context.moveTo(0, y * 3);
             context.lineTo(canvas.width, y * 3);
             context.stroke();
+            console.log(v);
+
         }
     }
+
     $(document).ready(function () {
         uploadImage();
         drawLine();
@@ -174,6 +179,7 @@
     <div class="canvas-container">
         <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}">
         <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
+        <p id="v-{{ forloop.counter }}"></p>
         <!-- <input type="text" id="x-{{ forloop.counter }}" name="x-{{ forloop.counter }}" value="" style="width:100px">
         <input type=" text" id="y-{{ forloop.counter }}" name="y-{{ forloop.counter }}" value="" style="width:100px">
         <input type=" text" id="t-{{ forloop.counter }}" name="t-{{ forloop.counter }}" value="" style="width:100px">

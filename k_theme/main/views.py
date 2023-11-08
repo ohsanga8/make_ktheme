@@ -350,10 +350,10 @@ def ktheme_detail(request, id):
         f"/media/{theme_id}/Images/{filename}" for filename in image_filenames
     ]
     bubble_filenames = [
-        "chatroomBubbleReceive01@3x.png",
-        "chatroomBubbleReceive02@3x.png",
         "chatroomBubbleSend01@3x.png",
         "chatroomBubbleSend02@3x.png",
+        "chatroomBubbleReceive01@3x.png",
+        "chatroomBubbleReceive02@3x.png",
     ]
     bubble_image_paths = [
         f"/media/{theme_id}/Images/{filename}" for filename in bubble_filenames
