@@ -4,12 +4,12 @@ from .models import Ktheme, CssColor, CssBubble
 # from .models import KthemeImage
 
 
-class KthemeImageForm(forms.Form):
-    image = forms.ImageField(required=True)
+# class KthemeImageForm(forms.Form):
+#     image = forms.ImageField(required=True)
 
 
-class AnyForm(forms.Form):
-    any = forms.CharField()
+# class AnyForm(forms.Form):
+#     any = forms.CharField()
 
 
 class KthemeCreateForm(forms.ModelForm):
@@ -32,45 +32,250 @@ class KthemeUpdateForm(forms.ModelForm):
         fields = ("name",)
 
 
-# class KthemeImageForm(forms.ModelForm):
-#     class Meta:
-#         model = KthemeImage
+class KthemeImageForm(forms.Form):
+    chat_bg = forms.ImageField(required=False)
+    chat_bubble_r_1 = forms.ImageField(required=False)
+    chat_bubble_r_2 = forms.ImageField(required=False)
+    chat_bubble_s_1 = forms.ImageField(required=False)
+    chat_bubble_s_2 = forms.ImageField(required=False)
+    theme_icon = forms.ImageField(required=False)
+    main_bg = forms.ImageField(required=False)
+    tab_bg = forms.ImageField(required=False)
+    tab_ico_1 = forms.ImageField(required=False)
+    tab_ico_1_s = forms.ImageField(required=False)
+    tab_ico_2 = forms.ImageField(required=False)
+    tab_ico_2_s = forms.ImageField(required=False)
+    tab_ico_3 = forms.ImageField(required=False)
+    tab_ico_3_s = forms.ImageField(required=False)
+    tab_ico_4 = forms.ImageField(required=False)
+    tab_ico_4_s = forms.ImageField(required=False)
+    tab_ico_5 = forms.ImageField(required=False)
+    tab_ico_5_s = forms.ImageField(required=False)
+    passcode_bg = forms.ImageField(required=False)
+    passcode_img_1 = forms.ImageField(required=False)
+    passcode_img_1_s = forms.ImageField(required=False)
+    passcode_img_2 = forms.ImageField(required=False)
+    passcode_img_2_s = forms.ImageField(required=False)
+    passcode_img_3 = forms.ImageField(required=False)
+    passcode_img_3_s = forms.ImageField(required=False)
+    passcode_img_4 = forms.ImageField(required=False)
+    passcode_img_4_s = forms.ImageField(required=False)
+    passcode_pressed = forms.ImageField(required=False)
+    profile_img = forms.ImageField(required=False)
 
 
-# class KthemeImagesForm(forms.ModelForm):
-#     class Meta:
-#         model = KthemeImages
-#         fields = (
-#             "chat_bg",
-#             "chat_bubble_r_1",
-#             "chat_bubble_r_2",
-#             "chat_bubble_s_1",
-#             "chat_bubble_s_2",
-#             "theme_icon",
-#             "main_bg",
-#             "tab_bg",
-#             "tab_ico_1",
-#             "tab_ico_2",
-#             "tab_ico_3",
-#             "tab_ico_4",
-#             "tab_ico_5",
-#             "tab_ico_s_1",
-#             "tab_ico_s_2",
-#             "tab_ico_s_3",
-#             "tab_ico_s_4",
-#             "tab_ico_s_5",
-#             "passcode_bg",
-#             "passcode_1",
-#             "passcode_2",
-#             "passcode_3",
-#             "passcode_4",
-#             "passcode_s_1",
-#             "passcode_s_2",
-#             "passcode_s_3",
-#             "passcode_s_4",
-#             "passcode_pressed",
-#             "profile_img",
-#         )
+#         widgets = {
+#             "chat_bg": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-1",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "chat_bubble_r_1": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-2",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "chat_bubble_r_2": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-3",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "chat_bubble_s_1": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-4",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "chat_bubble_s_2": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-5",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "theme_icon": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-6",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "add_friend": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-7",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "main_bg": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-8",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_bg": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-9",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_1": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-10",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_1_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-11",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_2": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-12",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_2_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-13",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_3": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-14",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_3_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-15",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_4": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-16",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_4_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-17",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_5": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-18",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "tab_ico_5_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-19",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_bg": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-20",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_1": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-21",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_1_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-22",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_2": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-23",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_2_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-24",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_3": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-25",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_3_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-26",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_4": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-27",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_img_4_s": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-28",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "passcode_pressed": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-29",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#             "profile_img": forms.FileInput(
+#                 attrs={
+#                     "name": "image_upload",
+#                     "id": "file-input-30",
+#                     "class": "image-upload hidden-file-input",
+#                 }
+#             ),
+#         }
 
 
 class CssColorUpdateForm(forms.ModelForm):

@@ -108,7 +108,7 @@
             context.strokeStyle = 'black';
             context.lineWidth = 2;
             context.strokeRect(l * 3, t * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
-            // context.fillRect(t * 3, l * 3, 50, 50)
+            // context.fillRect(50, 50, 50, 50)
 
             context.beginPath();
             context.moveTo(x * 3, 0);
@@ -145,7 +145,25 @@
 
 <div>
     <h1>이미지</h1>
-    <div class="squares-container">
+
+
+    {% for key, filenames in image_dic.items %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="{{ key }}">{{ key }}</label>
+        <input type="file" name="{{ key }}" accept="image/png">
+        <button type="submit" name="action" value="upload_image">적용하기</button>
+    </form>
+    {% endfor %}
+
+
+    {% for image_path in image_paths %}
+    <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
+
+    {% endfor %}
+
+    <!-- <div class="squares-container">
         {% for image_path in image_paths %}
         <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
@@ -155,12 +173,13 @@
                 <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
                     class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
                 <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
-                    <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" class="image-preview">
+                    <img src="{{ image_path }}" alt="{{ image_path }}" class="image-preview">
                 </label>
             </div>
         </form>
         {% endfor %}
-    </div>
+    </div> -->
+
 </div>
 
 <div>

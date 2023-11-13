@@ -19,29 +19,6 @@ class Ktheme(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-    # def theme_dir(self):
-    #     return os.path.join(settings.MEDIA_ROOT, self.name)
-
-    # def set_dir(self):
-    #     theme_dir_path = self.theme_dir()
-    #     os.makedires(theme_dir_path, exist_ok=True)
-
-    #     image_dir_path = os.path.join(theme_dir_path, "Images")
-    #     os.makedires(image_dir_path, exist_ok=True)
-
-    #     src_dir_path = os.path.join(settings.STATIC_ROOT, "Images")
-
-    #     for filename in os.listdir(src_dir_path):
-    #         src_image_path = os.path.join(src_dir_path, filename)
-    #         dest_image_path = os.path.join(image_dir_path, filename)
-    #         shutil.copy2(src_image_path, dest_image_path)
-
-    # def save(self, *args, **kwargs):
-    # super(Ktheme, self).save(*args, **kwargs)
-    # if not self.id:
-    #     CssColor.objects.create(parent=self)
-    #     CssBubble.objects.create(parent=self)
-
 
 name_dic = {
     "chat_bg": ["chatroomBgImage@3x.png"],
@@ -157,30 +134,125 @@ name_dic = {
 }
 
 
-class KthemeImages(models.Model):
-    ktheme = models.OneToOneField(
-        Ktheme, on_delete=models.CASCADE, related_name="ktheme_images"
-    )
+def ktheme_images_path(instance, filename):
+    return f"media/{instance.ktheme.id}/{filename}"
 
 
-# class KthemeImage(models.Model):
-#     ktheme_images = models.ForeignKey(
-#         KthemeImages, on_delete=models.CASCADE, related_name="ktheme_images"
+# class KthemeImages(models.Model):
+#     ktheme = models.OneToOneField(
+#         Ktheme, on_delete=models.CASCADE, related_name="ktheme_images"
 #     )
-#     field_name = models.CharField(max_length=255)
-#     image_path = models.CharField(max_length=255)
 
+#     chat_bg = models.ImageField(
+#         upload_to="media/Images",
+#         default="static/Images/chatroomBgImage@3x.png",
+#     )
+#     chat_bubble_r_1 = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/chatroomBubbleReceive01@3x.png",
+#     )
+#     chat_bubble_r_2 = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/chatroomBubbleReceive02@3x.png",
+#     )
 
-# def create_images(instance):
-#     for field_name, filenames in name_dic.items():
-#         for filename in filenames:
-#             image_path = f"ktheme_images/{filename}"
-#             image = KthemeImage(
-#                 ktheme_images=instance,
-#                 field_name=field_name,
-#                 image_path=image_path,
-#             )
-#             image.save()
+#     chat_bubble_s_1 = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/chatroomBubbleSend01@3x.png",
+#     )
+#     chat_bubble_s_2 = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/chatroomBubbleSend02@3x.png",
+#     )
+
+#     theme_icon = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/commonIcoTheme.png"
+#     )
+#     # add_friend = models.ImageField(
+#     #     upload_to=ktheme_images_path, default="static/Images/findBtnAddFriend@3x.png"
+#     # )
+
+#     main_bg = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/mainBgImage@3x.png"
+#     )
+
+#     tab_bg = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabBgImage@3x.png"
+#     )
+#     tab_ico_1 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabIcoFriends@3x.png"
+#     )
+#     tab_ico_1_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/maintabIcoFriendsSelected@3x.png",
+#     )
+#     tab_ico_2 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabIcoChats@3x.png"
+#     )
+#     tab_ico_2_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/aintabIcoChatsSelected@3x.png",
+#     )
+#     tab_ico_3 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabIcoOpenChats@3x.png"
+#     )
+#     tab_ico_3_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/maintabIcoOpenChatsSelected@3x.png",
+#     )
+#     tab_ico_4 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabIcoShopping@3x.png"
+#     )
+#     tab_ico_4_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/maintabIcoShoppingSelected@3x.png",
+#     )
+#     tab_ico_5 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/maintabIcoMore@3x.png"
+#     )
+#     tab_ico_5_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/maintabIcoMoreSelected@3x.png",
+#     )
+
+#     passcode_bg = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/passcodeBgImage@3x.png"
+#     )
+#     passcode_img_1 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/passcodeImgCode01@3x.png"
+#     )
+#     passcode_img_1_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/passcodeImgCode01Selected@3x.png",
+#     )
+#     passcode_img_2 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/passcodeImgCode02@3x.png"
+#     )
+#     passcode_img_2_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/passcodeImgCode02Selected@3x.png",
+#     )
+#     passcode_img_3 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/passcodeImgCode03@3x.png"
+#     )
+#     passcode_img_3_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/passcodeImgCode03Selected@3x.png",
+#     )
+#     passcode_img_4 = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/passcodeImgCode04@3x.png"
+#     )
+#     passcode_img_4_s = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/passcodeImgCode04Selected@3x.png",
+#     )
+#     passcode_pressed = models.ImageField(
+#         upload_to=ktheme_images_path,
+#         default="static/Images/passcodeKeypadPressed@3x.png",
+#     )
+#     profile_img = models.ImageField(
+#         upload_to=ktheme_images_path, default="static/Images/profileImg01@3x.png"
+#     )
 
 
 class CssColor(models.Model):
@@ -247,6 +319,12 @@ def create_css_model(sender, instance, created, **kwargs):
     if created:
         CssColor.objects.get_or_create(ktheme=instance)
         CssBubble.objects.get_or_create(ktheme=instance)
+
+
+# @receiver(post_save, sender=Ktheme)
+# def create_image_model(sender, instance, created, **kwargs):
+#     if created:
+#         KthemeImages.objects.get_or_create(ktheme=instance)
 
 
 @receiver(post_save, sender=Ktheme)
