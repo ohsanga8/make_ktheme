@@ -59,7 +59,7 @@ def main(request):
                 with open(theme_css, "w", encoding="utf-8") as f:
                     f.write(css_content)
 
-            return redirect("ktheme_detail", theme_id=theme_id)
+            return redirect("ktheme_detail", id=theme_id)
 
             # try:
             #     with open(src_css, "r") as f:
@@ -76,7 +76,11 @@ def main(request):
     return render(
         request,
         "main/main.html",
-        {"user_theme_list": user_theme_list, "form": form},
+        {
+            "user_theme_list": user_theme_list,
+            "form": form,
+            "user": user,
+        },
     )
 
 
@@ -242,6 +246,118 @@ def ktheme_detail(request, id):
             "passcodeKeypadPressed@3x.png",
         ],
         "profile_img": [
+            "profileImg01@3x.png",
+        ],
+    }
+    image_dic = {
+        "채팅 배경": ["chatroomBgImage@3x.png"],
+        "보낸 말풍선 1": [
+            "chatroomBubbleReceive01@3x.png",
+            "chatroomBubbleReceive01@2x.png",
+            "chatroomBubbleReceive01Selected@2x.png",
+            "chatroomBubbleReceive01Selected@3x.png",
+        ],
+        "보낸 말풍선 2": [
+            "chatroomBubbleReceive02@3x.png",
+            "chatroomBubbleReceive02@2x.png",
+            "chatroomBubbleReceive02Selected@2x.png",
+            "chatroomBubbleReceive02Selected@3x.png",
+        ],
+        "받은 말풍선 1": [
+            "chatroomBubbleSend01@3x.png",
+            "chatroomBubbleSend01@2x.png",
+            "chatroomBubbleSend01Selected@2x.png",
+            "chatroomBubbleSend01Selected@3x.png",
+        ],
+        "받은 말풍선 2": [
+            "chatroomBubbleSend02@3x.png",
+            "chatroomBubbleSend02@2x.png",
+            "chatroomBubbleSend02Selected@2x.png",
+            "chatroomBubbleSend02Selected@3x.png",
+        ],
+        "테마 아이콘": ["commonIcoTheme.png"],
+        "메인 배경": ["mainBgImage@3x.png"],
+        "탭 배경": [
+            "maintabBgImage@3x.png",
+            "maintabBgImage@2x.png",
+        ],
+        "탭 아이콘 1": [
+            "maintabIcoFriends@3x.png",
+            "maintabIcoFriends@2x.png",
+        ],
+        "탭 아이콘 2": [
+            "maintabIcoChats@3x.png",
+            "maintabIcoChats@2x.png",
+        ],
+        "탭 아이콘 3": [
+            "maintabIcoOpenChats@3x.png",
+            "maintabIcoOpenChats@2x.png",
+            "maintabIcoPiccoma@2x.png",
+            "maintabIcoPiccoma@3x.png",
+        ],
+        "탭 아이콘 4": [
+            "maintabIcoShopping@3x.png",
+            "maintabIcoShopping@2x.png",
+            "maintabIcoCall@2x.png",
+            "maintabIcoCall@3x.png",
+        ],
+        "탭 아이콘 5": [
+            "maintabIcoMore@3x.png",
+            "maintabIcoMore@2x.png",
+        ],
+        "탭 아이콘 1 선택": [
+            "maintabIcoFriendsSelected@3x.png",
+            "maintabIcoFriendsSelected@2x.png",
+        ],
+        "탭 아이콘 2 선택": [
+            "maintabIcoChatsSelected@3x.png",
+            "maintabIcoChatsSelected@2x.png",
+        ],
+        "탭 아이콘 3 선택": [
+            "maintabIcoOpenChatsSelected@3x.png",
+            "maintabIcoOpenChatsSelected@2x.png",
+            "maintabIcoPiccomaSelected@2x.png",
+            "maintabIcoPiccomaSelected@3x.png",
+        ],
+        "탭 아이콘 4 선택": [
+            "maintabIcoShoppingSelected@3x.png",
+            "maintabIcoShoppingSelected@2x.png",
+            "maintabIcoCallSelected@2x.png",
+            "maintabIcoCallSelected@3x.png",
+        ],
+        "탭 아이콘 5 선택": [
+            "maintabIcoMoreSelected@3x.png",
+            "maintabIcoMoreSelected@2x.png",
+        ],
+        "암호 배경": ["passcodeBgImage@3x.png"],
+        "암호 1": [
+            "passcodeImgCode01@3x.png",
+        ],
+        "암호 2": [
+            "passcodeImgCode02@3x.png",
+        ],
+        "암호 3": [
+            "passcodeImgCode03@3x.png",
+        ],
+        "암호 4": [
+            "passcodeImgCode04@3x.png",
+        ],
+        "암호 1 선택": [
+            "passcodeImgCode01Selected@3x.png",
+        ],
+        "암호 2 선택": [
+            "passcodeImgCode02Selected@3x.png",
+        ],
+        "암호 3 선택": [
+            "passcodeImgCode03Selected@3x.png",
+        ],
+        "암호 4 선택": [
+            "passcodeImgCode04Selected@3x.png",
+        ],
+        "암호 눌림": [
+            "passcodeKeypadPressed@3x.png",
+        ],
+        "프로필 이미지": [
             "profileImg01@3x.png",
         ],
     }
@@ -533,10 +649,10 @@ def ktheme_detail(request, id):
     ]
 
     bubble_filenames = [
-        "chatroomBubbleSend01@3x.png",
-        "chatroomBubbleSend02@3x.png",
         "chatroomBubbleReceive01@3x.png",
         "chatroomBubbleReceive02@3x.png",
+        "chatroomBubbleSend01@3x.png",
+        "chatroomBubbleSend02@3x.png",
     ]
 
     bubble_image_paths = [

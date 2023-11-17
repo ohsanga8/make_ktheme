@@ -14,7 +14,7 @@ def ktheme_save_path(instance, filename):
 class Ktheme(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     id = models.CharField(max_length=50, unique=True, primary_key=True)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, verbose_name="테마 이름")
 
     def __str__(self):
         return f"{self.name}"
@@ -259,12 +259,22 @@ class CssColor(models.Model):
     ktheme = models.OneToOneField(
         Ktheme, on_delete=models.CASCADE, related_name="css_color"
     )
-    bg_color = models.CharField(max_length=7, default="#FFFFFF")
-    main_text_color = models.CharField(max_length=7, default="#000000")
-    point_text_color = models.CharField(max_length=7, default="#FFC0CB")
-    input_bg_color = models.CharField(max_length=7, default="#D3D3D3")
-    send_text_color = models.CharField(max_length=7, default="#A9A9A9")
-    receive_text_color = models.CharField(max_length=7, default="#808080")
+    bg_color = models.CharField(max_length=7, default="#FFFFFF", verbose_name="배경 컬러")
+    main_text_color = models.CharField(
+        max_length=7, default="#000000", verbose_name="메인 텍스트 컬러"
+    )
+    point_text_color = models.CharField(
+        max_length=7, default="#FFC0CB", verbose_name="강조 텍스트 컬러"
+    )
+    input_bg_color = models.CharField(
+        max_length=7, default="#D3D3D3", verbose_name="입력창 컬러"
+    )
+    receive_text_color = models.CharField(
+        max_length=7, default="#808080", verbose_name="받은 말풍선 텍스트 컬러"
+    )
+    send_text_color = models.CharField(
+        max_length=7, default="#A9A9A9", verbose_name="보낸 말풍선 텍스트 컬러"
+    )
 
 
 class CssBubble(models.Model):

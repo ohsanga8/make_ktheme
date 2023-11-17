@@ -33,35 +33,35 @@ class KthemeUpdateForm(forms.ModelForm):
 
 
 class KthemeImageForm(forms.Form):
-    chat_bg = forms.ImageField(required=False)
-    chat_bubble_r_1 = forms.ImageField(required=False)
-    chat_bubble_r_2 = forms.ImageField(required=False)
-    chat_bubble_s_1 = forms.ImageField(required=False)
-    chat_bubble_s_2 = forms.ImageField(required=False)
-    theme_icon = forms.ImageField(required=False)
-    main_bg = forms.ImageField(required=False)
-    tab_bg = forms.ImageField(required=False)
-    tab_ico_1 = forms.ImageField(required=False)
-    tab_ico_1_s = forms.ImageField(required=False)
-    tab_ico_2 = forms.ImageField(required=False)
-    tab_ico_2_s = forms.ImageField(required=False)
-    tab_ico_3 = forms.ImageField(required=False)
-    tab_ico_3_s = forms.ImageField(required=False)
-    tab_ico_4 = forms.ImageField(required=False)
-    tab_ico_4_s = forms.ImageField(required=False)
-    tab_ico_5 = forms.ImageField(required=False)
-    tab_ico_5_s = forms.ImageField(required=False)
-    passcode_bg = forms.ImageField(required=False)
-    passcode_img_1 = forms.ImageField(required=False)
-    passcode_img_1_s = forms.ImageField(required=False)
-    passcode_img_2 = forms.ImageField(required=False)
-    passcode_img_2_s = forms.ImageField(required=False)
-    passcode_img_3 = forms.ImageField(required=False)
-    passcode_img_3_s = forms.ImageField(required=False)
-    passcode_img_4 = forms.ImageField(required=False)
-    passcode_img_4_s = forms.ImageField(required=False)
-    passcode_pressed = forms.ImageField(required=False)
-    profile_img = forms.ImageField(required=False)
+    chat_bg = forms.ImageField(required=False, label="채팅창 배경")
+    chat_bubble_r_1 = forms.ImageField(required=False, label="보낸 말풍선 1")
+    chat_bubble_r_2 = forms.ImageField(required=False, label="보낸 말풍선 2")
+    chat_bubble_s_1 = forms.ImageField(required=False, label="받은 말풍선 1")
+    chat_bubble_s_2 = forms.ImageField(required=False, label="받은 말풍선 2")
+    theme_icon = forms.ImageField(required=False, label="테마 아이콘")
+    main_bg = forms.ImageField(required=False, label="메인 배경")
+    tab_bg = forms.ImageField(required=False, label="탭 배경")
+    tab_ico_1 = forms.ImageField(required=False, label="탭 아이콘 1")
+    tab_ico_1_s = forms.ImageField(required=False, label="탭 아이콘 1 선택")
+    tab_ico_2 = forms.ImageField(required=False, label="탭 아이콘 2")
+    tab_ico_2_s = forms.ImageField(required=False, label="탭 아이콘 2 선택")
+    tab_ico_3 = forms.ImageField(required=False, label="탭 아이콘 3")
+    tab_ico_3_s = forms.ImageField(required=False, label="탭 아이콘 3 선택")
+    tab_ico_4 = forms.ImageField(required=False, label="탭 아이콘 4")
+    tab_ico_4_s = forms.ImageField(required=False, label="탭 아이콘 4 선택")
+    tab_ico_5 = forms.ImageField(required=False, label="탭 아이콘 5")
+    tab_ico_5_s = forms.ImageField(required=False, label="탭 아이콘 5 선택")
+    passcode_bg = forms.ImageField(required=False, label="암호 입력 배경")
+    passcode_img_1 = forms.ImageField(required=False, label="암호 1")
+    passcode_img_1_s = forms.ImageField(required=False, label="암호 1 선택")
+    passcode_img_2 = forms.ImageField(required=False, label="암호 2")
+    passcode_img_2_s = forms.ImageField(required=False, label="암호 2 선택")
+    passcode_img_3 = forms.ImageField(required=False, label="암호 3")
+    passcode_img_3_s = forms.ImageField(required=False, label="암호 3 선택")
+    passcode_img_4 = forms.ImageField(required=False, label="암호 4")
+    passcode_img_4_s = forms.ImageField(required=False, label="암호 4 선택")
+    passcode_pressed = forms.ImageField(required=False, label="암호 5")
+    profile_img = forms.ImageField(required=False, label="암호 5 선택")
 
 
 #         widgets = {
@@ -286,8 +286,8 @@ class CssColorUpdateForm(forms.ModelForm):
             "main_text_color",
             "point_text_color",
             "input_bg_color",
-            "send_text_color",
             "receive_text_color",
+            "send_text_color",
         )
 
 
@@ -320,78 +320,200 @@ class CssBubbleUpdateForm(forms.ModelForm):
             "r_2_b",
             "r_2_r",
         )
+        labels = {
+            "s_1_x": "x",
+            "s_1_y": "y",
+            "s_1_t": "top",
+            "s_1_l": "left",
+            "s_1_b": "bottom",
+            "s_1_r": "right",
+            "s_2_x": "x",
+            "s_2_y": "y",
+            "s_2_t": "top",
+            "s_2_l": "left",
+            "s_2_b": "bottom",
+            "s_2_r": "right",
+            "r_1_x": "x",
+            "r_1_y": "y",
+            "r_1_t": "top",
+            "r_1_l": "left",
+            "r_1_b": "bottom",
+            "r_1_r": "right",
+            "r_2_x": "x",
+            "r_2_y": "y",
+            "r_2_t": "top",
+            "r_2_l": "left",
+            "r_2_b": "bottom",
+            "r_2_r": "right",
+        }
 
         widgets = {
             "s_1_x": forms.NumberInput(
-                attrs={"id": "x-1", "name": "x-1", "style": "width:100px;"}
+                attrs={
+                    "id": "x-1",
+                    "name": "x-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_1_y": forms.NumberInput(
-                attrs={"id": "y-1", "name": "y-1", "style": "width:100px;"}
+                attrs={
+                    "id": "y-1",
+                    "name": "y-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_1_t": forms.NumberInput(
-                attrs={"id": "t-1", "name": "t-1", "style": "width:100px;"}
+                attrs={
+                    "id": "t-1",
+                    "name": "t-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_1_l": forms.NumberInput(
-                attrs={"id": "l-1", "name": "l-1", "style": "width:100px;"}
+                attrs={
+                    "id": "l-1",
+                    "name": "l-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_1_b": forms.NumberInput(
-                attrs={"id": "b-1", "name": "b-1", "style": "width:100px;"}
+                attrs={
+                    "id": "b-1",
+                    "name": "b-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_1_r": forms.NumberInput(
-                attrs={"id": "r-1", "name": "r-1", "style": "width:100px;"}
+                attrs={
+                    "id": "r-1",
+                    "name": "r-1",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_x": forms.NumberInput(
-                attrs={"id": "x-2", "name": "x-2", "style": "width:100px;"}
+                attrs={
+                    "id": "x-2",
+                    "name": "x-2",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_y": forms.NumberInput(
-                attrs={"id": "y-2", "name": "y-2", "style": "width:100px;"}
+                attrs={
+                    "id": "y-2",
+                    "name": "y-2",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_t": forms.NumberInput(
-                attrs={"id": "t-2", "name": "t-2", "style": "width:100px;"}
+                attrs={
+                    "id": "t-2",
+                    "name": "t-2",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_l": forms.NumberInput(
-                attrs={"id": "l-2", "name": "l-2", "style": "width:100px;"}
+                attrs={
+                    "id": "l-2",
+                    "name": "l-2",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_b": forms.NumberInput(
-                attrs={"id": "b-2", "name": "b-2", "style": "width:100px;"}
+                attrs={
+                    "id": "b-2",
+                    "name": "b-2",
+                    "style": "width:30px;",
+                }
             ),
             "s_2_r": forms.NumberInput(
-                attrs={"id": "r-2", "name": "r-2", "style": "width:100px;"}
+                attrs={
+                    "id": "r-2",
+                    "name": "r-2",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_x": forms.NumberInput(
-                attrs={"id": "x-3", "name": "x-3", "style": "width:100px;"}
+                attrs={
+                    "id": "x-3",
+                    "name": "x-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_y": forms.NumberInput(
-                attrs={"id": "y-3", "name": "y-3", "style": "width:100px;"}
+                attrs={
+                    "id": "y-3",
+                    "name": "y-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_t": forms.NumberInput(
-                attrs={"id": "t-3", "name": "t-3", "style": "width:100px;"}
+                attrs={
+                    "id": "t-3",
+                    "name": "t-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_l": forms.NumberInput(
-                attrs={"id": "l-3", "name": "l-3", "style": "width:100px;"}
+                attrs={
+                    "id": "l-3",
+                    "name": "l-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_b": forms.NumberInput(
-                attrs={"id": "b-3", "name": "b-3", "style": "width:100px;"}
+                attrs={
+                    "id": "b-3",
+                    "name": "b-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_1_r": forms.NumberInput(
-                attrs={"id": "r-3", "name": "r-3", "style": "width:100px;"}
+                attrs={
+                    "id": "r-3",
+                    "name": "r-3",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_x": forms.NumberInput(
-                attrs={"id": "x-4", "name": "x-4", "style": "width:100px;"}
+                attrs={
+                    "id": "x-4",
+                    "name": "x-4",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_y": forms.NumberInput(
-                attrs={"id": "y-4", "name": "y-4", "style": "width:100px;"}
+                attrs={
+                    "id": "y-4",
+                    "name": "y-4",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_t": forms.NumberInput(
-                attrs={"id": "t-4", "name": "t-4", "style": "width:100px;"}
+                attrs={
+                    "id": "t-4",
+                    "name": "t-4",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_l": forms.NumberInput(
-                attrs={"id": "l-4", "name": "l-4", "style": "width:100px;"}
+                attrs={
+                    "id": "l-4",
+                    "name": "l-4",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_b": forms.NumberInput(
-                attrs={"id": "b-4", "name": "b-4", "style": "width:100px;"}
+                attrs={
+                    "id": "b-4",
+                    "name": "b-4",
+                    "style": "width:30px;",
+                }
             ),
             "r_2_r": forms.NumberInput(
-                attrs={"id": "r-4", "name": "r-4", "style": "width:100px;"}
+                attrs={
+                    "id": "r-4",
+                    "name": "r-4",
+                    "style": "width:30px;",
+                }
             ),
         }

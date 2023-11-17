@@ -1,12 +1,60 @@
 {% extends "base.html" %}
 
-{% block title %}Detail{% endblock %}
+{% block title %}{{ ktheme.id }}{% endblock %}
 
 {% block style %}
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
+    body,
+    input {
+        font-family: 'Noto Sans KR', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+    }
+
+    nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    nav ul li {
+        margin: 0;
+    }
+
+    nav ul li a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    .square-img {
+        margin: 2px solid black;
+        width: 150px;
+    }
+
+
+    .container {
+        margin: 20px auto;
+        max-width: 1000px;
+    }
+
+    footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+    }
+
     .square {
         width: 100px;
         height: 100px;
@@ -20,6 +68,7 @@
     }
 
     .square img {
+
         max-width: 100%;
         max-height: 100%;
     }
@@ -55,8 +104,6 @@
         height: auto;
     }
 
-
-
     .canvas-container {
         position: relative;
         display: inline-block;
@@ -68,11 +115,22 @@
         top: 0;
         left: 0;
     }
+
+    .inline-div {
+        display: inline-block;
+    }
+
+    .inline {
+        display: inline;
+    }
+
+    .center-div {
+        text-align: center;
+    }
 </style>
 {% endblock %}
 
 {% block js %}
-
 <script>
 
     function uploadImage() {
@@ -101,8 +159,8 @@
             var l = parseInt(document.getElementById('l-' + i).value);
             var b = parseInt(document.getElementById('b-' + i).value);
             var r = parseInt(document.getElementById('r-' + i).value);
-            var v = document.getElementById('v-' + i);
-            v.innerHTML = "x: " + x + ", y: " + y + ", t: " + t + ", l: " + l + ", b: " + b + ", r: " + r;
+            // var v = document.getElementById('v-' + i);
+            // v.innerHTML = "x: " + x + " / y: " + y + " / t: " + t + " / l: " + l + " / b: " + b + " / r: " + r;
 
             var context = canvas.getContext('2d');
             context.strokeStyle = 'black';
@@ -119,7 +177,7 @@
             context.moveTo(0, y * 3);
             context.lineTo(canvas.width, y * 3);
             context.stroke();
-            console.log(v);
+            // console.log(v);
 
         }
     }
@@ -128,92 +186,126 @@
         uploadImage();
         drawLine();
     });
-
 </script>
 {% endblock %}
 
 {% block content %}
-
 <div>
-    <h1>테마 이름 / ID</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ ktheme_update_form.as_p }}
-        <button type="submit" name="action" value="ktheme_update">적용하기</button>
-    </form>
-</div>
-
-<div>
-    <h1>이미지</h1>
-
-
-    {% for key, filenames in image_dic.items %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <label for="{{ key }}">{{ key }}</label>
-        <input type="file" name="{{ key }}" accept="image/png">
-        <button type="submit" name="action" value="upload_image">적용하기</button>
-    </form>
-    {% endfor %}
-
-
-    {% for image_path in image_paths %}
-    <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
-
-    {% endfor %}
-
-    <!-- <div class="squares-container">
-        {% for image_path in image_paths %}
-        <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="action" value="upload_image">
-            <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
-            <div class="square">
-                <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
-                    class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
-                <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
-                    <img src="{{ image_path }}" alt="{{ image_path }}" class="image-preview">
-                </label>
-            </div>
-        </form>
-        {% endfor %}
-    </div> -->
-
-</div>
-
-<div>
-    <h1>테마 컬러</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ css_color_update_form.as_p }}
-        <button type="submit" name="action" value="css_color">적용하기</button>
-    </form>
-</div>
-
-<div>
-    <h1>말풍선 수치</h1>
-
-    {% for bubble_image_path in bubble_image_paths %}
-    <div class="canvas-container">
-        <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}">
-        <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
-        <p id="v-{{ forloop.counter }}"></p>
+    <div>
+        <div>
+            <h1>&lt; {{ ktheme.name }} &gt;</h1>
+        </div>
+        <div>
+            <form method="post">
+                {% csrf_token %}
+                <h2>{{ ktheme_update_form }}</h2>
+                <button type="submit" name="action" value="ktheme_update">적용하기</button>
+            </form>
+        </div>
     </div>
-    {% endfor %}
 
-    <form method="post">
-        {% csrf_token %}
-        {{ css_bubble_update_form.as_p }}
-        <button type="submit" name="action" value="css_bubble">적용하기</button>
-    </form>
-</div>
-<div>
-    <h1>Create ZIP</h2>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" name="action" value="create_zip">Create ZIP</button>
-        </form>
-</div>
+    <div>
+        <div>
+            <h1>이미지 가공</h1>
+        </div>
+        <div>
+            {% for key, filenames in image_dic.items %}
+            <div>
+                <h2>{{ key }}</h2>
+            </div>
+            <div class="inline-div">
+                <div>
+                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}" alt="{{ filenames.0 }}"
+                        class="square-img">
+                </div>
+                <div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="{{ key }}" accept="image/png">
+                        <button type="submit" name="action" value="upload_image">적용하기</button>
+                    </form>
+                </div>
+            </div>
+            <div class="inline-div">
+                {% for filename in filenames %}
+                <h4>{{ filename }}</h4>
+                {% endfor %}
+            </div>
+            {% endfor %}
 
+        </div>
+        <!-- 
+        {% for image_path in image_paths %}
+        <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
+        {% endfor %} -->
+    </div>
+    <div>
+        <div>
+            <div>
+                <h1>CSS 편집</h1>
+            </div>
+            <div>
+                <h2>테마 컬러</h2>
+                <h3>텍스트 컬러와 배경 컬러를 지정합니다.</h3>
+            </div>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <h3>{{ css_color_update_form.as_p }}</h3>
+                    <button type="submit" name="action" value="css_color">적용하기</button>
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <div>
+                <h2>말풍선</h2>
+                <h3>말풍선이 늘어나는 지점과 텍스트 삽입 위치를 조절합니다.</h3>
+            </div>
+
+
+            <div>
+                {% for bubble_image_path in bubble_image_paths %}
+                <div class="canvas-container">
+                    <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}"
+                        class="square-img">
+                    <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
+                    <!-- <h3 id="v-{{ forloop.counter }}"></h3> -->
+                </div>
+                {% endfor %}
+            </div>
+            <div class="inline-div">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for field in css_bubble_update_form %}
+                    <div class="inline-div">
+                        <label for="{{ field.id_for_label }}">
+                            <h3 class="inline">{{ field.label_tag }}</h3>
+                        </label>
+                        {{ field }}
+                    </div>
+                    {% if forloop.counter|divisibleby:"6"%}
+            </div>
+            <div>
+                <br>
+                {% endif %}
+                {% endfor %}
+                <button type="submit" name="action" value="css_bubble">적용하기</button>
+                </form>
+            </div>
+        </div>
+        <div>
+            <div>
+                <h1>Create ZIP</h2>
+            </div>
+            <div>
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" name="action" value="create_zip">Create ZIP</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div></div>
 {% endblock %}

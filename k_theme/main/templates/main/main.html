@@ -1,21 +1,23 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h2>Create Theme</h2>
+<h1>테마 만들기</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">생성하기</button>
 </form>
 
-<h2>Your Themes</h2>
+<h1>{{ user }}의 테마</h1>
 <ul>
     {% for theme in user_theme_list %}
+    <img src="{% static 'factory.png' %}" alt="factory.png">
     <li><a href="{% url 'ktheme_detail' theme.id %}">{{ theme.name }}</a></li>
     {% empty %}
-    <li>No themes found.</li>
+    <li>테마가 없습니다.</li>
     {% endfor %}
 </ul>
 

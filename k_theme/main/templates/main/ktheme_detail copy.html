@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+
+{% block title %}Detail{% endblock %}
+
+{% block style %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<style>
+    .square {
+        width: 100px;
+        height: 100px;
+        border: 1px solid #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .square img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .squares-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .placeholder-image {
+        /* position: absolute;
+        width: 100%;
+        height: 100%; */
+    }
+
+    .hidden-file-input {
+        position: absolute;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+    }
+
+    .image-label {
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .image-label img {
+        max-width: 100%;
+        height: auto;
+    }
+
+
+
+    .canvas-container {
+        position: relative;
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    input {
+        font
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+
+<script>
+
+    function uploadImage() {
+        $(".image-label").on('click', function () {
+            var form = $(this).closest('form');
+            var fileInput = form.find('.image-upload')
+            fileInput.click();
+        });
+        $(".image-upload").on('change', function () {
+            var form = $(this).closest('form');
+            form.submit();
+        })
+    }
+    function drawLine() {
+        for (i = 1; i < 5; i++) {
+            imageId = 'image-bubble-' + i;
+            canvasId = 'canvas-' + i;
+            var image = document.getElementById(imageId);
+            var canvas = document.getElementById(canvasId);
+            canvas.width = image.width;
+            canvas.height = image.height;
+
+            var x = parseInt(document.getElementById('x-' + i).value);
+            var y = parseInt(document.getElementById('y-' + i).value);
+            var t = parseInt(document.getElementById('t-' + i).value);
+            var l = parseInt(document.getElementById('l-' + i).value);
+            var b = parseInt(document.getElementById('b-' + i).value);
+            var r = parseInt(document.getElementById('r-' + i).value);
+            var v = document.getElementById('v-' + i);
+            v.innerHTML = "x: " + x + ", y: " + y + ", t: " + t + ", l: " + l + ", b: " + b + ", r: " + r;
+
+            var context = canvas.getContext('2d');
+            context.strokeStyle = 'black';
+            context.lineWidth = 2;
+            context.strokeRect(l * 3, t * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
+            // context.fillRect(50, 50, 50, 50)
+
+            context.beginPath();
+            context.moveTo(x * 3, 0);
+            context.lineTo(x * 3, canvas.height);
+            context.stroke();
+
+            context.beginPath();
+            context.moveTo(0, y * 3);
+            context.lineTo(canvas.width, y * 3);
+            context.stroke();
+            console.log(v);
+
+        }
+    }
+
+    $(document).ready(function () {
+        uploadImage();
+        drawLine();
+    });
+
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <h1>테마 이름 / ID</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ ktheme_update_form.as_p }}
+        <button type="submit" name="action" value="ktheme_update">적용하기</button>
+    </form>
+</div>
+
+<div>
+    <h1>이미지</h1>
+
+
+    {% for key, filenames in image_dic.items %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <label for="{{ key }}">{{ key }}</label></h2>
+        <input type="file" name="{{ key }}" accept="image/png">
+        <button type="submit" name="action" value="upload_image">적용하기</button>
+    </form>
+    {% endfor %}
+
+
+    {% for image_path in image_paths %}
+    <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
+
+    {% endfor %}
+
+    <!-- <div class="squares-container">
+        {% for image_path in image_paths %}
+        <form name="upload_form" class="upload-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="upload_image">
+            <input type="hidden" name="image_path" value="{{ image_path }}" id="image-path">
+            <div class="square">
+                <input type="file" name="image_upload" id="file-input-{{ forloop.counter }}"
+                    class="image-upload hidden-file-input" accept="n_images/*" data-image-path="{{ image_path }}">
+                <label for="file-input-{{ forloop.counter }}" class="image-label" data-image-path="{{ image_path }}">
+                    <img src="{{ image_path }}" alt="{{ image_path }}" class="image-preview">
+                </label>
+            </div>
+        </form>
+        {% endfor %}
+    </div> -->
+
+</div>
+
+<div>
+    <h1>테마 컬러</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ css_color_update_form.as_p }}
+        <button type="submit" name="action" value="css_color">적용하기</button>
+    </form>
+</div>
+
+<div>
+    <h1>말풍선 수치</h1>
+
+    {% for bubble_image_path in bubble_image_paths %}
+    <div class="canvas-container">
+        <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}">
+        <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
+        <p id="v-{{ forloop.counter }}"></p>
+    </div>
+    {% endfor %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ css_bubble_update_form.as_p }}
+        <button type="submit" name="action" value="css_bubble">적용하기</button>
+    </form>
+</div>
+<div>
+    <h1>Create ZIP</h2>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="action" value="create_zip">Create ZIP</button>
+        </form>
+</div>
+
+{% endblock %}
