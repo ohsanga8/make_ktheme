@@ -281,6 +281,20 @@ class CssBubble(models.Model):
     ktheme = models.OneToOneField(
         Ktheme, on_delete=models.CASCADE, related_name="css_bubble"
     )
+    r_1_x = models.PositiveIntegerField(default=17)
+    r_1_y = models.PositiveIntegerField(default=17)
+    r_1_t = models.PositiveIntegerField(default=10)
+    r_1_l = models.PositiveIntegerField(default=11)
+    r_1_b = models.PositiveIntegerField(default=9)
+    r_1_r = models.PositiveIntegerField(default=17)
+
+    r_2_x = models.PositiveIntegerField(default=17)
+    r_2_y = models.PositiveIntegerField(default=17)
+    r_2_t = models.PositiveIntegerField(default=10)
+    r_2_l = models.PositiveIntegerField(default=11)
+    r_2_b = models.PositiveIntegerField(default=9)
+    r_2_r = models.PositiveIntegerField(default=17)
+
     s_1_x = models.PositiveIntegerField(default=20)
     s_1_y = models.PositiveIntegerField(default=17)
     s_1_t = models.PositiveIntegerField(default=10)
@@ -295,19 +309,6 @@ class CssBubble(models.Model):
     s_2_b = models.PositiveIntegerField(default=9)
     s_2_r = models.PositiveIntegerField(default=11)
 
-    r_1_x = models.PositiveIntegerField(default=17)
-    r_1_y = models.PositiveIntegerField(default=17)
-    r_1_t = models.PositiveIntegerField(default=10)
-    r_1_l = models.PositiveIntegerField(default=11)
-    r_1_b = models.PositiveIntegerField(default=9)
-    r_1_r = models.PositiveIntegerField(default=17)
-
-    r_2_x = models.PositiveIntegerField(default=17)
-    r_2_y = models.PositiveIntegerField(default=17)
-    r_2_t = models.PositiveIntegerField(default=10)
-    r_2_l = models.PositiveIntegerField(default=11)
-    r_2_b = models.PositiveIntegerField(default=9)
-    r_2_r = models.PositiveIntegerField(default=17)
 
 
 # @receiver(post_save, sender=KthemeImages)

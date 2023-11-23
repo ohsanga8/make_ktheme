@@ -3,6 +3,22 @@
 
 {% block title %}Home{% endblock %}
 
+{% block style %}
+<style>
+    .containter-img {
+        position: relative;
+    }
+
+    .text-block {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
 <h1>테마 만들기</h1>
 <form method="post">
@@ -12,14 +28,23 @@
 </form>
 
 <h1>{{ user }}의 테마</h1>
-<ul>
+<div>
     {% for theme in user_theme_list %}
-    <img src="{% static 'factory.png' %}" alt="factory.png">
-    <li><a href="{% url 'ktheme_detail' theme.id %}">{{ theme.name }}</a></li>
+    <div>
+        <!-- <div class="containter-img">
+            <a href="{% url 'ktheme_detail' theme.id %}">
+                <img src="{% static 'factory.png' %}" alt="factory" style="width:200px;">
+                <div class="text-block">
+                    <h3>{{ theme.id }}</h3>
+                </div>
+            </a>
+        </div> -->
+        <a href="{% url 'ktheme_detail' theme.id %}"><h2>{{ theme.name }}</h2></a>
+    </div>
     {% empty %}
     <li>테마가 없습니다.</li>
     {% endfor %}
-</ul>
+</div>
 
 
 {% endblock %}

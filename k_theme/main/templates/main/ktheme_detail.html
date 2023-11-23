@@ -6,6 +6,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
+
     body,
     input {
         font-family: 'Noto Sans KR', sans-serif;
@@ -39,13 +40,13 @@
 
     .square-img {
         margin: 2px solid black;
-        width: 150px;
+        width: 80px;
     }
 
 
     .container {
         margin: 20px auto;
-        max-width: 1000px;
+        max-width: 1200px;
     }
 
     footer {
@@ -68,10 +69,14 @@
     }
 
     .square img {
-
         max-width: 100%;
         max-height: 100%;
     }
+
+    /* .theme-img {
+        width: 100px;
+        height: auto;
+    } */
 
     .squares-container {
         display: flex;
@@ -127,23 +132,37 @@
     .center-div {
         text-align: center;
     }
+
+    .image-section {
+        width: 60%;
+        float: left;
+    }
+
+    .css-section {
+        width: 40%;
+        float: left;
+    }
+
+    .section-mother {
+        overflow: auto;
+    }
 </style>
 {% endblock %}
 
 {% block js %}
 <script>
 
-    function uploadImage() {
-        $(".image-label").on('click', function () {
-            var form = $(this).closest('form');
-            var fileInput = form.find('.image-upload')
-            fileInput.click();
-        });
-        $(".image-upload").on('change', function () {
-            var form = $(this).closest('form');
-            form.submit();
-        })
-    }
+    // function uploadImage() {
+    //     $(".image-label").on('click', function () {
+    //         var form = $(this).closest('form');
+    //         var fileInput = form.find('.image-upload')
+    //         fileInput.click();
+    //     });
+    //     $(".image-upload").on('change', function () {
+    //         var form = $(this).closest('form');
+    //         form.submit();
+    //     })
+    // }
     function drawLine() {
         for (i = 1; i < 5; i++) {
             imageId = 'image-bubble-' + i;
@@ -181,16 +200,30 @@
 
         }
     }
+    function resizeImage() {
+        var imgs = document.getElementsByClassName('theme-img');
+        var imgLength = imgs.length;
+
+        for (var i = 0; i <= imgLength - 1; i++) {
+
+            var imgWidth = imgs[i].clientWidth;
+            var imgHeight = imgs[i].clientHeight;
+
+            $('img').eq(i).attr({ width: imgWidth / 2, height: imgHeight / 2 });
+
+        }
+    }
 
     $(document).ready(function () {
-        uploadImage();
+        // uploadImage();
         drawLine();
+        resizeImage();
     });
 </script>
 {% endblock %}
 
 {% block content %}
-<div>
+<div class="section-mother">
     <div>
         <div>
             <h1>&lt; {{ ktheme.name }} &gt;</h1>
@@ -198,48 +231,167 @@
         <div>
             <form method="post">
                 {% csrf_token %}
-                <h2>{{ ktheme_update_form }}</h2>
+                <h1 style="display: inline;">{{ ktheme_update_form }}</h1>
                 <button type="submit" name="action" value="ktheme_update">적용하기</button>
             </form>
         </div>
     </div>
 
-    <div>
+    <div class="image-section">
         <div>
             <h1>이미지 가공</h1>
         </div>
         <div>
-            {% for key, filenames in image_dic.items %}
-            <div>
-                <h2>{{ key }}</h2>
-            </div>
-            <div class="inline-div">
-                <div>
-                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}" alt="{{ filenames.0 }}"
-                        class="square-img">
-                </div>
-                <div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="{{ key }}" accept="image/png">
-                        <button type="submit" name="action" value="upload_image">적용하기</button>
-                    </form>
-                </div>
-            </div>
-            <div class="inline-div">
-                {% for filename in filenames %}
-                <h4>{{ filename }}</h4>
-                {% endfor %}
-            </div>
-            {% endfor %}
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
 
+                <h2>테마 아이콘</h2>
+                {% for key, filenames in icon_img_dic.items %}
+                <p>{{ key }}</p>
+                <input type="file" name="{{ key }}" accept="image/png">
+                {% endfor %}
+
+                <h2>메인 화면</h2>
+                {% for key, filenames in main_img_dic.items %}
+                <p>{{ key }}</p>
+                <input type="file" name="{{ key }}" accept="image/png">
+                {% endfor %}
+
+                <h2>채팅 화면</h2>
+                {% for key, filenames in chat_img_dic.items %}
+                <p>{{ key }}</p>
+                <input type="file" name="{{ key }}" accept="image/png">
+                {% endfor %}
+
+                <h2>암호 화면</h2>
+                {% for key, filenames in passcode_img_dic.items %}
+                <p>{{ key }}</p>
+                <input type="file" name="{{ key }}" accept="image/png">
+                {% endfor %}
+                <button type="submit" name="action" value="upload_image">적용하기</button>
+            </form>
         </div>
+
         <!-- 
         {% for image_path in image_paths %}
         <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
         {% endfor %} -->
     </div>
-    <div>
+    <div class="css-section">
+        <div>
+            <!-- <div>
+                <h1>테마 아이콘</h1>
+            </div> -->
+            {% for key, filenames in icon_img_dic.items %}
+            <!-- <div>
+                <h2>{{ key }}</h2>
+            </div> -->
+            <div class="inline-div">
+                <div>
+                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
+                        class="theme-img">
+                </div>
+                <!-- <div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="{{ key }}" accept="image/png">
+                        <br>
+                        <button type="submit" name="action" value="upload_image">적용하기</button>
+                    </form>
+                </div> -->
+            </div>
+            <!-- <div class="inline-div">
+                {% for filename in filenames %}
+                <h4>{{ filename }}</h4>
+                {% endfor %}
+            </div> -->
+            {% endfor %}
+        </div>
+        <div>
+            <!-- <div>
+                <h1>메인 이미지</h1>
+            </div> -->
+            {% for key, filenames in main_img_dic.items %}
+            <!-- <div>
+                <h2>{{ key }}</h2>
+            </div> -->
+            <div class="inline-div">
+                <div>
+                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
+                        class="theme-img">
+                </div>
+                <!-- <div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="{{ key }}" accept="image/png">
+                        <button type="submit" name="action" value="upload_image">적용하기</button>
+                    </form>
+                </div> -->
+            </div>
+            <!-- <div class="inline-div">
+                {% for filename in filenames %}
+                <h4>{{ filename }}</h4>
+                {% endfor %}
+            </div> -->
+            {% endfor %}
+        </div>
+        <div>
+            <!-- <div>
+                <h1>채팅 이미지</h1>
+            </div> -->
+            {% for key, filenames in chat_img_dic.items %}
+
+            <!-- <div>
+                <h2>{{ key }}</h2>
+            </div> -->
+            <div class="inline-div">
+                <div>
+                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
+                        class="theme-img">
+                </div>
+                <!-- <div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="{{ key }}" accept="image/png">
+                        <button type="submit" name="action" value="upload_image">적용하기</button>
+                    </form>
+                </div> -->
+            </div>
+            <!-- <div class="inline-div">
+                {% for filename in filenames %}
+                <h4>{{ filename }}</h4>
+                {% endfor %}
+            </div> -->
+            {% endfor %}
+        </div>
+        <div>
+            <!-- <div>
+                <h1>암호 이미지</h1>
+            </div> -->
+            {% for key, filenames in passcode_img_dic.items %}
+            <!-- <div>
+                <h2>{{ key }}</h2>
+            </div> -->
+            <div class="inline-div">
+                <div>
+                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
+                        class="theme-img">
+                </div>
+                <!-- <div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="file" name="{{ key }}" accept="image/png">
+                        <button type="submit" name="action" value="upload_image">적용하기</button>
+                    </form>
+                </div> -->
+            </div>
+            <!-- <div class="inline-div">
+                {% for filename in filenames %}
+                <h4>{{ filename }}</h4>
+                {% endfor %}
+            </div> -->
+            {% endfor %}
+        </div>
         <div>
             <div>
                 <h1>CSS 편집</h1>
@@ -256,7 +408,8 @@
                 </form>
             </div>
         </div>
-
+        <br>
+        <hr>
         <div>
             <div>
                 <h2>말풍선</h2>
@@ -267,8 +420,8 @@
             <div>
                 {% for bubble_image_path in bubble_image_paths %}
                 <div class="canvas-container">
-                    <img src="{{ bubble_image_path }}" alt="Image" id="image-bubble-{{ forloop.counter }}"
-                        class="square-img">
+                    <img src="{{ bubble_image_path }}?={{ version }}" alt="Image"
+                        id="image-bubble-{{ forloop.counter }}">
                     <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
                     <!-- <h3 id="v-{{ forloop.counter }}"></h3> -->
                 </div>

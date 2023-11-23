@@ -249,87 +249,101 @@ def ktheme_detail(request, id):
             "profileImg01@3x.png",
         ],
     }
-    image_dic = {
-        "채팅 배경": ["chatroomBgImage@3x.png"],
-        "보낸 말풍선 1": [
+
+    icon_img_dic = {
+        "테마 아이콘": ["commonIcoTheme.png"],
+    }
+    chat_img_dic = {
+        "받은 말풍선 1": [
             "chatroomBubbleReceive01@3x.png",
             "chatroomBubbleReceive01@2x.png",
             "chatroomBubbleReceive01Selected@2x.png",
             "chatroomBubbleReceive01Selected@3x.png",
         ],
-        "보낸 말풍선 2": [
+        "받은 말풍선 2": [
             "chatroomBubbleReceive02@3x.png",
             "chatroomBubbleReceive02@2x.png",
             "chatroomBubbleReceive02Selected@2x.png",
             "chatroomBubbleReceive02Selected@3x.png",
         ],
-        "받은 말풍선 1": [
+        "보낸 말풍선 1": [
             "chatroomBubbleSend01@3x.png",
             "chatroomBubbleSend01@2x.png",
             "chatroomBubbleSend01Selected@2x.png",
             "chatroomBubbleSend01Selected@3x.png",
         ],
-        "받은 말풍선 2": [
+        "보낸 말풍선 2": [
             "chatroomBubbleSend02@3x.png",
             "chatroomBubbleSend02@2x.png",
             "chatroomBubbleSend02Selected@2x.png",
             "chatroomBubbleSend02Selected@3x.png",
         ],
-        "테마 아이콘": ["commonIcoTheme.png"],
-        "메인 배경": ["mainBgImage@3x.png"],
-        "탭 배경": [
-            "maintabBgImage@3x.png",
-            "maintabBgImage@2x.png",
-        ],
-        "탭 아이콘 1": [
+        "채팅 배경": ["chatroomBgImage@3x.png"],
+    }
+    main_img_dic = {
+
+
+        "친구 아이콘": [
             "maintabIcoFriends@3x.png",
             "maintabIcoFriends@2x.png",
         ],
-        "탭 아이콘 2": [
+        "친구 아이콘 선택": [
+            "maintabIcoFriendsSelected@3x.png",
+            "maintabIcoFriendsSelected@2x.png",
+        ],
+        "채팅 아이콘": [
             "maintabIcoChats@3x.png",
             "maintabIcoChats@2x.png",
         ],
-        "탭 아이콘 3": [
+        "채팅 아이콘 선택": [
+            "maintabIcoChatsSelected@3x.png",
+            "maintabIcoChatsSelected@2x.png",
+        ],
+        "오픈채팅 아이콘": [
             "maintabIcoOpenChats@3x.png",
             "maintabIcoOpenChats@2x.png",
             "maintabIcoPiccoma@2x.png",
             "maintabIcoPiccoma@3x.png",
         ],
-        "탭 아이콘 4": [
-            "maintabIcoShopping@3x.png",
-            "maintabIcoShopping@2x.png",
-            "maintabIcoCall@2x.png",
-            "maintabIcoCall@3x.png",
-        ],
-        "탭 아이콘 5": [
-            "maintabIcoMore@3x.png",
-            "maintabIcoMore@2x.png",
-        ],
-        "탭 아이콘 1 선택": [
-            "maintabIcoFriendsSelected@3x.png",
-            "maintabIcoFriendsSelected@2x.png",
-        ],
-        "탭 아이콘 2 선택": [
-            "maintabIcoChatsSelected@3x.png",
-            "maintabIcoChatsSelected@2x.png",
-        ],
-        "탭 아이콘 3 선택": [
+        "오픈채팅 아이콘 선택": [
             "maintabIcoOpenChatsSelected@3x.png",
             "maintabIcoOpenChatsSelected@2x.png",
             "maintabIcoPiccomaSelected@2x.png",
             "maintabIcoPiccomaSelected@3x.png",
         ],
-        "탭 아이콘 4 선택": [
+        "쇼핑 아이콘": [
+            "maintabIcoShopping@3x.png",
+            "maintabIcoShopping@2x.png",
+            "maintabIcoCall@2x.png",
+            "maintabIcoCall@3x.png",
+        ],
+        "쇼핑 아이콘 선택": [
             "maintabIcoShoppingSelected@3x.png",
             "maintabIcoShoppingSelected@2x.png",
             "maintabIcoCallSelected@2x.png",
             "maintabIcoCallSelected@3x.png",
         ],
-        "탭 아이콘 5 선택": [
+        "더보기 아이콘": [
+            "maintabIcoMore@3x.png",
+            "maintabIcoMore@2x.png",
+        ],
+
+        
+        "더보기 아이콘 선택": [
             "maintabIcoMoreSelected@3x.png",
             "maintabIcoMoreSelected@2x.png",
         ],
-        "암호 배경": ["passcodeBgImage@3x.png"],
+        "탭 배경": [
+            "maintabBgImage@3x.png",
+            "maintabBgImage@2x.png",
+        ],
+        "메인 배경": ["mainBgImage@3x.png"],
+        
+        "프로필 이미지": [
+            "profileImg01@3x.png",
+        ],
+    }
+    passcode_img_dic = {
         "암호 1": [
             "passcodeImgCode01@3x.png",
         ],
@@ -354,13 +368,14 @@ def ktheme_detail(request, id):
         "암호 4 선택": [
             "passcodeImgCode04Selected@3x.png",
         ],
+        "암호 배경": ["passcodeBgImage@3x.png"],
         "암호 눌림": [
             "passcodeKeypadPressed@3x.png",
         ],
-        "프로필 이미지": [
-            "profileImg01@3x.png",
-        ],
     }
+
+
+
 
     if request.method == "POST":
         ktheme_update_form = KthemeUpdateForm(request.POST, instance=ktheme)
@@ -411,6 +426,13 @@ def ktheme_detail(request, id):
                     f.write(css_content)
 
         elif action == "upload_image":
+
+            image_dic = {}
+            image_dic.update(icon_img_dic)
+            image_dic.update(main_img_dic)
+            image_dic.update(chat_img_dic)
+            image_dic.update(passcode_img_dic)
+
             if ktheme_image_form.is_valid():
                 for key, filenames in image_dic.items():
                     image = request.FILES.get(key)
@@ -473,8 +495,12 @@ def ktheme_detail(request, id):
                 for pattern, replacement in replacement_dict.items():
                     css_content = re.sub(pattern, replacement, css_content)
 
+                css_content = css_content.replace("themeId", ktheme.id).replace(
+                    "themeName", ktheme.name
+                )
                 with open(theme_css, "w", encoding="utf-8") as f:
                     f.write(css_content)
+
 
         elif action == "css_bubble":
             if css_bubble_update_form.is_valid():
@@ -506,6 +532,12 @@ def ktheme_detail(request, id):
                     f.write(css_content)
 
         elif action == "create_zip":
+            # with open(src_css, "r", encoding="utf-8") as f:
+            #         css_content = f.read()
+            # css_content = css_content.replace('-s-', '').replace('-r-', '')
+            # with open(theme_css, "w", encoding="utf-8") as f:
+            #     f.write(css_content)
+
             theme_zip = os.path.join(theme_dir, f"{theme_name}.ktheme")
             with zipfile.ZipFile(theme_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
                 zipf.write(theme_css, os.path.basename(theme_css))
@@ -665,7 +697,11 @@ def ktheme_detail(request, id):
         {
             "version": version,
             "ktheme": ktheme,
-            "image_dic": image_dic,
+            # "image_dic": image_dic,
+            "chat_img_dic": chat_img_dic,
+            "main_img_dic": main_img_dic,
+            "passcode_img_dic": passcode_img_dic,
+            "icon_img_dic": icon_img_dic,
             # "ktheme_images": ktheme_images,
             "ktheme_image_form": ktheme_image_form,
             "ktheme_update_form": ktheme_update_form,

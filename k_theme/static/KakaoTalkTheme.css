@@ -57,7 +57,7 @@ MainViewStyle-Primary {
     -ios-background-image: 'mainBgImage.png';
 
     -ios-text-color: #000000;
-    -ios-highlighted-text-color: #FFC0CB;
+    -ios-highlighted-text-color: #000000;
     /* Title Pressed */
 
     -ios-description-text-color: #000000;
@@ -78,7 +78,7 @@ MainViewStyle-Primary {
 }
 
 MainViewStyle-Secondary {
-    background-color: #000000;
+    background-color: #FFFFFF;
 }
 
 SectionTitleStyle-Main {
@@ -151,7 +151,7 @@ MessageCellStyle-Send {
 
     -ios-text-color: #A9A9A9;
     -ios-selected-text-color: #A9A9A9;
-    -ios-unread-text-color: #A9A9A9;
+    -ios-unread-text-color: #FFC0CB;
 }
 
 MessageCellStyle-Receive {
@@ -165,7 +165,7 @@ MessageCellStyle-Receive {
 
     -ios-text-color: #808080;
     -ios-selected-text-color: #808080;
-    -ios-unread-text-color: #808080;
+    -ios-unread-text-color: #FFC0CB;
 }
 
 
@@ -179,7 +179,7 @@ BackgroundStyle-Passcode {
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFC0CB;
 }
 
 
@@ -195,7 +195,7 @@ PasscodeStyle {
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
     -ios-keypad-background-color: #FFFFFF;
-    -ios-keypad-text-normal-color: #000000;
+    -ios-keypad-text-normal-color: #FFC0CB;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
 }

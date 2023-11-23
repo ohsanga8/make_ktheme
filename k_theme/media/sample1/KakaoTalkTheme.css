@@ -3,11 +3,11 @@
  */
 
 ManifestStyle {
-    -kakaotalk-theme-name: 'sample';
+    -kakaotalk-theme-name: 'christmas';
     -kakaotalk-theme-version: '9.9.5';
     -kakaotalk-theme-url: 'http://www.kakao.com';
     -kakaotalk-author-name: 'Kakao Corp.';
-    -kakaotalk-theme-id: 'com.kakao.talk.theme.sample1';
+    -kakaotalk-theme-id: 'com.kakao.talk.theme.treeBubble';
 }
 
 /*
@@ -57,7 +57,7 @@ MainViewStyle-Primary {
     -ios-background-image: 'mainBgImage.png';
 
     -ios-text-color: #000000;
-    -ios-highlighted-text-color: #FFC0CB;
+    -ios-highlighted-text-color: #000000;
     /* Title Pressed */
 
     -ios-description-text-color: #000000;
@@ -72,20 +72,20 @@ MainViewStyle-Primary {
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
-    -ios-selected-background-color: #FFC0CB;
+    -ios-selected-background-color: #d3d995;
     /* Cell Background Pressed */
     -ios-selected-background-alpha: 0.0;
 }
 
 MainViewStyle-Secondary {
-    background-color: #000000;
+    background-color: #FFFFFF;
 }
 
 SectionTitleStyle-Main {
     border-color: #000000;
     border-alpha: 0.0;
 
-    -ios-text-color: #FFC0CB;
+    -ios-text-color: #000000;
     -ios-text-alpha: 1.0;
 }
 
@@ -95,7 +95,7 @@ SectionTitleStyle-Main {
  */
 
 FeatureStyle-Primary {
-    -ios-text-color: #FFC0CB;
+    -ios-text-color: #d3d995;
 }
 
 
@@ -123,7 +123,7 @@ BackgroundStyle-ChatRoom {
 }
 
 InputBarStyle-Chat {
-    background-color: #D3D3D3;
+    background-color: #c3cfe2;
 
     -ios-send-normal-background-color: #FFFFFF;
     -ios-send-normal-foreground-color: #000000;
@@ -141,32 +141,33 @@ InputBarStyle-Chat {
  */
 
 MessageCellStyle-Send {
-    -ios-background-image: 'chatroomBubbleSend01.png' 19px 17px;
-    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 19px 17px;
-    -ios-group-background-image: 'chatroomBubbleSend02.png' 10px 18px;
-    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 10px 18px;
-    -ios-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-background-image: 'chatroomBubbleSend01.png' 10px 5px;
+    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 10px 5px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 10px 5px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 10px 5px;
+    -ios-title-edgeinsets: 10px 10px 7px 23px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-group-title-edgeinsets: 10px 10px 7px 23px;
 
-    -ios-text-color: #A9A9A9;
-    -ios-selected-text-color: #A9A9A9;
-    -ios-unread-text-color: #A9A9A9;
+    -ios-text-color: #000000;
+    -ios-selected-text-color: #000000;
+    -ios-unread-text-color: #000000;
 }
 
 MessageCellStyle-Receive {
-    -ios-background-image: 'chatroomBubbleReceive01.png' 17px 17px;
-    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 17px 17px;
-    -ios-group-background-image: 'chatroomBubbleReceive02.png' 15px 17px;
-    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 15px 17px;
-    -ios-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-background-image: 'chatroomBubbleReceive01.png' 30px 5px;
+    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 30px 5px;
+    -ios-group-background-image: 'chatroomBubbleReceive02.png' 30px 5px;
+    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 30px 5px;
+    -ios-title-edgeinsets: 10px 24px 7px 9px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 10px 11px 9px 17px;
+    -ios-group-title-edgeinsets: 10px 24px 7px 9px;
 
-    -ios-text-color: #808080;
-    -ios-selected-text-color: #808080;
-    -ios-unread-text-color: #808080;
+    -ios-text-color: #000000;
+    -ios-selected-text-color: #000000;
+    -ios-unread-text-color: #000000;
 }
+
 
 
 /*
