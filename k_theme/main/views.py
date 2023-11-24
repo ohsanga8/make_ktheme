@@ -439,22 +439,24 @@ def ktheme_detail(request, id):
                     # image = ktheme_image_form.cleaned_data[key]
                     if image:
                         with Image.open(image) as img:
+                            width, height = img.size
+                            width = int(width * 2 / 3)
+                            height = int(height * 2 / 3)
+                            re_img = img.resize(
+                                (width, height), Image.ANTIALIAS
+                            )
+
                             for filename in filenames:
                                 filepath = os.path.join(theme_images_dir, filename)
 
                                 if "@2x" in filename:
-                                    # if isinstance(image.size, tuple):
-                                    width, height = img.size
-                                    width = int(width * 2 / 3)
-                                    height = int(height * 2 / 3)
-                                    img = img.resize(
-                                        (width, height), Image.ANTIALIAS
-                                    )
-
-                                img.save(filepath, format='PNG')
-                                # with open(filepath, "wb") as file:
-                                #     for chunk in img.chunks():
-                                #         file.write(chunk)
+                                    re_img.save(filepath, format='PNG')
+                                    # with open(filepath, "wb") as file:
+                                    #     for chunk in img.chunks():
+                                    #         file.write(chunk)
+                                else:
+                                    img.save(filepath, format='PNG')
+                                
 
         elif action == "css_color":
             if css_color_update_form.is_valid():

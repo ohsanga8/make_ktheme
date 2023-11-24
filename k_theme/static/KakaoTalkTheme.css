@@ -126,13 +126,13 @@ InputBarStyle-Chat {
     background-color: #D3D3D3;
 
     -ios-send-normal-background-color: #FFFFFF;
-    -ios-send-normal-foreground-color: #000000;
+    -ios-send-normal-foreground-color: #FFC0CB;
 
     -ios-send-highlighted-background-color: #FFFFFF;
-    -ios-send-highlighted-foreground-color: #000000;
+    -ios-send-highlighted-foreground-color: #FFC0CB;
 
-    -ios-button-normal-foreground-color: #000000;
-    -ios-button-highlighted-foreground-color: #000000;
+    -ios-button-normal-foreground-color: #FFC0CB;
+    -ios-button-highlighted-foreground-color: #FFC0CB;
 }
 
 
