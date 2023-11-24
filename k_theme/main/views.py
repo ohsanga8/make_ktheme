@@ -436,22 +436,26 @@ def ktheme_detail(request, id):
             if ktheme_image_form.is_valid():
                 for key, filenames in image_dic.items():
                     image = request.FILES.get(key)
+                    # image = ktheme_image_form.cleaned_data[key]
                     if image:
-                        for filename in filenames:
-                            filepath = os.path.join(theme_images_dir, filename)
+                        with Image.open(image) as img:
+                            for filename in filenames:
+                                filepath = os.path.join(theme_images_dir, filename)
 
-                            if "@2x" in filename:
-                                if isinstance(image.size, tuple):
-                                    width, height = image.size
+                                if "@2x" in filename:
+                                    # if isinstance(image.size, tuple):
+                                    width, height = img.size
                                     width = int(width * 2 / 3)
                                     height = int(height * 2 / 3)
-                                    image = image.resize(
+                                    img = img.resize(
                                         (width, height), Image.ANTIALIAS
                                     )
 
-                            with open(filepath, "wb") as file:
-                                for chunk in image.chunks():
-                                    file.write(chunk)
+                                img.save(filepath, format='PNG')
+                                # with open(filepath, "wb") as file:
+                                #     for chunk in img.chunks():
+                                #         file.write(chunk)
+
         elif action == "css_color":
             if css_color_update_form.is_valid():
                 css_color = css_color_update_form.save()
@@ -597,82 +601,7 @@ def ktheme_detail(request, id):
         instance=css_bubble, initial=initial_bubble
     )
 
-    # image_filenames = [
-    #     "chatroomBgImage@3x.png",
-    #     "chatroomBubbleReceive01@2x.png",
-    #     "chatroomBubbleReceive01@3x.png",
-    #     "chatroomBubbleReceive01Selected@2x.png",
-    #     "chatroomBubbleReceive01Selected@3x.png",
-    #     "chatroomBubbleReceive02@2x.png",
-    #     "chatroomBubbleReceive02@3x.png",
-    #     "chatroomBubbleReceive02Selected@2x.png",
-    #     "chatroomBubbleReceive02Selected@3x.png",
-    #     "chatroomBubbleSend01@2x.png",
-    #     "chatroomBubbleSend01@3x.png",
-    #     "chatroomBubbleSend01Selected@2x.png",
-    #     "chatroomBubbleSend01Selected@3x.png",
-    #     "chatroomBubbleSend02@2x.png",
-    #     "chatroomBubbleSend02@3x.png",
-    #     "chatroomBubbleSend02Selected@2x.png",
-    #     "chatroomBubbleSend02Selected@3x.png",
-    #     "commonIcoTheme.png",
-    #     "findBtnAddFriend@2x.png",
-    #     "findBtnAddFriend@3x.png",
-    #     "mainBgImage@3x.png",
-    #     "maintabBgImage@2x.png",
-    #     "maintabBgImage@3x.png",
-    #     "maintabIcoBrowse@2x.png",
-    #     "maintabIcoBrowse@3x.png",
-    #     "maintabIcoBrowseSelected@2x.png",
-    #     "maintabIcoBrowseSelected@3x.png",
-    #     "maintabIcoCall@2x.png",
-    #     "maintabIcoCall@3x.png",
-    #     "maintabIcoCallSelected@2x.png",
-    #     "maintabIcoCallSelected@3x.png",
-    #     "maintabIcoChats@2x.png",
-    #     "maintabIcoChats@3x.png",
-    #     "maintabIcoChatsSelected@2x.png",
-    #     "maintabIcoChatsSelected@3x.png",
-    #     "maintabIcoFind@2x.png",
-    #     "maintabIcoFind@3x.png",
-    #     "maintabIcoFindSelected@2x.png",
-    #     "maintabIcoFindSelected@3x.png",
-    #     "maintabIcoFriends@2x.png",
-    #     "maintabIcoFriends@3x.png",
-    #     "maintabIcoFriendsSelected@2x.png",
-    #     "maintabIcoFriendsSelected@3x.png",
-    #     "maintabIcoMore@2x.png",
-    #     "maintabIcoMore@3x.png",
-    #     "maintabIcoMoreSelected@2x.png",
-    #     "maintabIcoMoreSelected@3x.png",
-    #     "maintabIcoOpenChats@2x.png",
-    #     "maintabIcoOpenChats@3x.png",
-    #     "maintabIcoOpenChatsSelected@2x.png",
-    #     "maintabIcoOpenChatsSelected@3x.png",
-    #     "maintabIcoPiccoma@2x.png",
-    #     "maintabIcoPiccoma@3x.png",
-    #     "maintabIcoPiccomaSelected@2x.png",
-    #     "maintabIcoPiccomaSelected@3x.png",
-    #     "maintabIcoShopping@2x.png",
-    #     "maintabIcoShopping@3x.png",
-    #     "maintabIcoShoppingSelected@2x.png",
-    #     "maintabIcoShoppingSelected@3x.png",
-    #     "maintabIcoView@2x.png",
-    #     "maintabIcoView@3x.png",
-    #     "maintabIcoViewSelected@2x.png",
-    #     "maintabIcoViewSelected@3x.png",
-    #     "passcodeBgImage@3x.png",
-    #     "passcodeImgCode01@3x.png",
-    #     "passcodeImgCode01Selected@3x.png",
-    #     "passcodeImgCode02@3x.png",
-    #     "passcodeImgCode02Selected@3x.png",
-    #     "passcodeImgCode03@3x.png",
-    #     "passcodeImgCode03Selected@3x.png",
-    #     "passcodeImgCode04@3x.png",
-    #     "passcodeImgCode04Selected@3x.png",
-    #     "passcodeKeypadPressed@3x.png",
-    #     "profileImg01@3x.png",
-    # ]
+
 
     image_filenames = [filenames[0] for filenames in image_dic.values()]
 

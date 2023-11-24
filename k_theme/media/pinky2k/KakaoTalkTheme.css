@@ -15,7 +15,7 @@ ManifestStyle {
  */
 
 TabBarStyle-Main {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
     -ios-background-image: 'maintabBgImage.png';
 
     -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
@@ -53,7 +53,7 @@ HeaderStyle-Main {
 }
 
 MainViewStyle-Primary {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
     -ios-background-image: 'mainBgImage.png';
 
     -ios-text-color: #000000;
@@ -68,7 +68,7 @@ MainViewStyle-Primary {
     -ios-paragraph-highlighted-text-color: #000000;
     /* Paragraph Pressed*/
 
-    -ios-normal-background-color: #ffb6d0;
+    -ios-normal-background-color: #ffc6db;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
@@ -78,7 +78,7 @@ MainViewStyle-Primary {
 }
 
 MainViewStyle-Secondary {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
 }
 
 SectionTitleStyle-Main {
@@ -118,17 +118,17 @@ DefaultProfileStyle {
  */
 
 BackgroundStyle-ChatRoom {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
     -ios-background-image: 'chatroomBgImage.png';
 }
 
 InputBarStyle-Chat {
     background-color: #ffb6d0;
 
-    -ios-send-normal-background-color: #ffb6d0;
+    -ios-send-normal-background-color: #ffc6db;
     -ios-send-normal-foreground-color: #000000;
 
-    -ios-send-highlighted-background-color: #ffb6d0;
+    -ios-send-highlighted-background-color: #ffc6db;
     -ios-send-highlighted-foreground-color: #000000;
 
     -ios-button-normal-foreground-color: #000000;
@@ -143,14 +143,14 @@ InputBarStyle-Chat {
 MessageCellStyle-Send {
     -ios-background-image: 'chatroomBubbleSend01.png' 15px 34px;
     -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 15px 34px;
-    -ios-group-background-image: 'chatroomBubbleSend02.png' 20px 17px;
-    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 20px 17px;
-    -ios-title-edgeinsets: 18px 30px 12px 15px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 15px 34px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 15px 34px;
+    -ios-title-edgeinsets: 18px 15px 12px 30px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 18px 30px 12px 15px;
+    -ios-group-title-edgeinsets: 18px 15px 12px 30px;
 
-    -ios-text-color: #812f4b;
-    -ios-selected-text-color: #812f4b;
+    -ios-text-color: #000000;
+    -ios-selected-text-color: #000000;
     -ios-unread-text-color: #f5568d;
 }
 
@@ -163,8 +163,8 @@ MessageCellStyle-Receive {
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 18px 30px 12px 15px;
 
-    -ios-text-color: #812f4b;
-    -ios-selected-text-color: #812f4b;
+    -ios-text-color: #000000;
+    -ios-selected-text-color: #000000;
     -ios-unread-text-color: #f5568d;
 }
 
@@ -174,7 +174,7 @@ MessageCellStyle-Receive {
  */
 
 BackgroundStyle-Passcode {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
     -ios-background-image: 'passcodeBgImage.png';
 }
 
@@ -194,7 +194,7 @@ PasscodeStyle {
     -ios-bullet-selected-third-image: 'passcodeImgCode03Selected.png';
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
-    -ios-keypad-background-color: #ffb6d0;
+    -ios-keypad-background-color: #ffc6db;
     -ios-keypad-text-normal-color: #f5568d;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
@@ -206,7 +206,7 @@ PasscodeStyle {
  */
 
 BackgroundStyle-MessageNotificationBar {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
 }
 
 LabelStyle-MessageNotificationBarName {
@@ -223,7 +223,7 @@ LabelStyle-MessageNotificationBarMessage {
 */
 
 BackgroundStyle-DirectShareBar {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
 }
 
 LabelStyle-DirectShareBarName {
@@ -240,7 +240,7 @@ LabelStyle-DirectShareBarMessage {
  */
 
 BottomBannerStyle {
-    background-color: #ffb6d0;
+    background-color: #ffc6db;
 }
 
 /* 
