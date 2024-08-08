@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "make_ktheme",
     "main",
     "authapp",
+    "django_extensions",
     # "main.apps.MainConfig",
 ]
 

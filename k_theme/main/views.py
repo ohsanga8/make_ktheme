@@ -55,7 +55,8 @@ def main(request):
                     css_content = f.read()
                 css_content = css_content.replace("themeId", ktheme.id).replace(
                     "themeName", ktheme.name
-                )
+                ).replace("Kakao Corp.", user.username)
+
                 with open(theme_css, "w", encoding="utf-8") as f:
                     f.write(css_content)
 
@@ -119,6 +120,7 @@ def main(request):
 
 
 def ktheme_detail(request, id):
+    user = request.user
     version = str(int(datetime.now().timestamp()))
 
     ktheme = Ktheme.objects.get(pk=id)
@@ -421,7 +423,7 @@ def ktheme_detail(request, id):
                 theme_name = ktheme.name
                 with open(theme_css, "r", encoding="utf-8") as f:
                     css_content = f.read()
-                css_content = css_content.replace("themeName", theme_name)
+                css_content = css_content.replace("themeName", theme_name).replace("Kakao Corp.", user.username)
                 with open(theme_css, "w", encoding="utf-8") as f:
                     f.write(css_content)
 
@@ -479,6 +481,7 @@ def ktheme_detail(request, id):
                     .replace("#D3D3D3", input_bg_color)
                     .replace("#A9A9A9", send_text_color)
                     .replace("#808080", receive_text_color)
+                    .replace("Kakao Corp.", user.username)
                 )
 
                 replacement_dict = {

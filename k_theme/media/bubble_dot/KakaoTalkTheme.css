@@ -1,0 +1,256 @@
+/*
+ Manifest
+ */
+
+ManifestStyle {
+    -kakaotalk-theme-name: 'bubble_dot';
+    -kakaotalk-theme-version: 'ari';
+    -kakaotalk-theme-url: 'http://www.kakao.com';
+    -kakaotalk-author-name: 'ari';
+    -kakaotalk-theme-id: 'com.kakao.talk.theme.bubble_dot';
+}
+
+/*
+ TabBar Style
+ */
+
+TabBarStyle-Main {
+    background-color: #FFFFFF;
+    -ios-background-image: 'maintabBgImage.png';
+
+    -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
+    -ios-friends-selected-icon-image: 'maintabIcoFriendsSelected.png';
+    -ios-chats-normal-icon-image: 'maintabIcoChats.png';
+    -ios-chats-selected-icon-image: 'maintabIcoChatsSelected.png';
+    -ios-find-normal-icon-image: 'maintabIcoFind.png';
+    -ios-find-selected-icon-image: 'maintabIcoFindSelected.png';
+    -ios-browse-normal-icon-image: 'maintabIcoBrowse.png';
+    -ios-browse-selected-icon-image: 'maintabIcoBrowseSelected.png';
+    -ios-view-normal-icon-image: 'maintabIcoView.png';
+    -ios-view-selected-icon-image: 'maintabIcoViewSelected.png';
+    -ios-piccoma-normal-icon-image: 'maintabIcoPiccoma.png';
+    -ios-piccoma-selected-icon-image: 'maintabIcoPiccomaSelected.png';
+    -ios-shopping-normal-icon-image: 'maintabIcoShopping.png';
+    -ios-shopping-selected-icon-image: 'maintabIcoShoppingSelected.png';
+    -ios-call-normal-icon-image: 'maintabIcoCall.png';
+    -ios-call-selected-icon-image: 'maintabIcoCallSelected.png';
+    -ios-more-normal-icon-image: 'maintabIcoMore.png';
+    -ios-more-selected-icon-image: 'maintabIcoMoreSelected.png';
+    -ios-openchats-normal-icon-image: 'maintabIcoOpenChats.png';
+    -ios-openchats-selected-icon-image: 'maintabIcoOpenChatsSelected.png';
+}
+
+
+/*
+ MainView Style
+ */
+
+HeaderStyle-Main {
+    -ios-text-color: #FFFFFF;
+
+    -ios-tab-text-color: #ffdeef;
+    -ios-tab-highlighted-text-color: #ffdeef;
+}
+
+MainViewStyle-Primary {
+    background-color: #000000;
+    -ios-background-image: 'mainBgImage.png';
+
+    -ios-text-color: #FFFFFF;
+    -ios-highlighted-text-color: #FFFFFF;
+    /* Title Pressed */
+
+    -ios-description-text-color: #FFFFFF;
+    -ios-description-highlighted-text-color: #FFFFFF;
+    /* Description Pressed */
+
+    -ios-paragraph-text-color: #FFFFFF;
+    -ios-paragraph-highlighted-text-color: #FFFFFF;
+    /* Paragraph Pressed*/
+
+    -ios-normal-background-color: #FFFFFF;
+    /* Cell Background */
+    -ios-normal-background-alpha: 0.0;
+
+    -ios-selected-background-color: #ffdeef;
+    /* Cell Background Pressed */
+    -ios-selected-background-alpha: 0.0;
+}
+
+MainViewStyle-Secondary {
+    background-color: #000000;
+}
+
+SectionTitleStyle-Main {
+    border-color: #FFFFFF;
+    border-alpha: 0.0;
+
+    -ios-text-color: #ffdeef;
+    -ios-text-alpha: 1.0;
+}
+
+
+/*
+ Feature Style
+ */
+
+FeatureStyle-Primary {
+    -ios-text-color: #ffdeef;
+}
+
+
+ButtonStyle-AddFriend {
+    -ios-image: 'findBtnAddFriend.png';
+}
+
+
+/*
+ DefaultProfile Style
+*/
+
+DefaultProfileStyle {
+    -ios-profile-images: 'profileImg01.png';
+}
+
+
+/*
+ ChatRoom Style
+ */
+
+BackgroundStyle-ChatRoom {
+    background-color: #000000;
+    -ios-background-image: 'chatroomBgImage.png';
+}
+
+InputBarStyle-Chat {
+    background-color: #000000;
+
+    -ios-send-normal-background-color: #000000;
+    -ios-send-normal-foreground-color: #ffdeef;
+
+    -ios-send-highlighted-background-color: #000000;
+    -ios-send-highlighted-foreground-color: #ffdeef;
+
+    -ios-button-normal-foreground-color: #ffdeef;
+    -ios-button-highlighted-foreground-color: #ffdeef;
+}
+
+
+/*
+ Message Style
+ */
+
+MessageCellStyle-Send {
+    -ios-background-image: 'chatroomBubbleSend01.png' 27px 27px;
+    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 27px 27px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 27px 27px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 27px 27px;
+    -ios-title-edgeinsets: 16px 23px 15px 17px;
+    /* top, left, bottom, right */
+    -ios-group-title-edgeinsets: 16px 23px 15px 17px;
+
+    -ios-text-color: #FFFFFF;
+    -ios-selected-text-color: #FFFFFF;
+    -ios-unread-text-color: #ffdeef;
+}
+
+MessageCellStyle-Receive {
+    -ios-background-image: 'chatroomBubbleReceive01.png' 27px 27px;
+    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 27px 27px;
+    -ios-group-background-image: 'chatroomBubbleReceive02.png' 27px 27px;
+    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 27px 27px;
+    -ios-title-edgeinsets: 16px 23px 15px 17px;
+    /* top, left, bottom, right */
+    -ios-group-title-edgeinsets: 16px 23px 15px 17px;
+
+    -ios-text-color: #FFFFFF;
+    -ios-selected-text-color: #FFFFFF;
+    -ios-unread-text-color: #ffdeef;
+}
+
+
+/*
+ Passcode Style
+ */
+
+BackgroundStyle-Passcode {
+    background-color: #000000;
+    -ios-background-image: 'passcodeBgImage.png';
+}
+
+LabelStyle-PasscodeTitle {
+    -ios-text-color: #FFFFFF;
+}
+
+
+PasscodeStyle {
+    -ios-bullet-first-image: 'passcodeImgCode01.png';
+    -ios-bullet-second-image: 'passcodeImgCode02.png';
+    -ios-bullet-third-image: 'passcodeImgCode03.png';
+    -ios-bullet-fourth-image: 'passcodeImgCode04.png';
+
+    -ios-bullet-selected-first-image: 'passcodeImgCode01Selected.png';
+    -ios-bullet-selected-second-image: 'passcodeImgCode02Selected.png';
+    -ios-bullet-selected-third-image: 'passcodeImgCode03Selected.png';
+    -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
+
+    -ios-keypad-background-color: #000000;
+    -ios-keypad-text-normal-color: #ffdeef;
+
+    -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
+}
+
+
+/*
+ Message Notification Bar Style
+ */
+
+BackgroundStyle-MessageNotificationBar {
+    background-color: #FFFFFF;
+}
+
+LabelStyle-MessageNotificationBarName {
+    -ios-text-color: #FFFFFF;
+}
+
+LabelStyle-MessageNotificationBarMessage {
+    -ios-text-color: #FFFFFF;
+}
+
+
+/*
+ Direct Share
+*/
+
+BackgroundStyle-DirectShareBar {
+    background-color: #FFFFFF;
+}
+
+LabelStyle-DirectShareBarName {
+    -ios-text-color: #FFFFFF;
+}
+
+LabelStyle-DirectShareBarMessage {
+    -ios-text-color: #FFFFFF;
+}
+
+
+/*
+ BottomBanner Style
+ */
+
+BottomBannerStyle {
+    background-color: #FFFFFF;
+}
+
+/* 
+    theme_id
+    theme_name
+    bg_color
+    main_text_color
+    point_text_color
+    input_bg_color
+    send_text_color
+    receive_text_color
+
+*/

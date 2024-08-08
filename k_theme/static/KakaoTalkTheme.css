@@ -48,8 +48,8 @@ TabBarStyle-Main {
 HeaderStyle-Main {
     -ios-text-color: #000000;
 
-    -ios-tab-text-color: #000000;
-    -ios-tab-highlighted-text-color: #000000;
+    -ios-tab-text-color: #FFC0CB;
+    -ios-tab-highlighted-text-color: #FFC0CB;
 }
 
 MainViewStyle-Primary {
@@ -179,7 +179,7 @@ BackgroundStyle-Passcode {
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #FFC0CB;
+    -ios-text-color: #000000;
 }
 
 
