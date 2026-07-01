@@ -68,7 +68,7 @@ def ensure_theme_dirs(theme_id):
 # CSS 내용 치환
 # ---------------------------------------------------------------------------
 
-def apply_theme_identity(css_content, theme_name, author_name):
+def apply_theme_identity(css_content, theme_name, theme_id, author_name):
     """테마 이름/id/작성자명 치환.
     문자열 placeholder("themeName" 등)를 찾는 방식 대신, CSS 속성 값을
     정규식으로 항상 덮어써서 몇 번을 재실행해도 안전하게 동작하도록 함."""
@@ -79,7 +79,7 @@ def apply_theme_identity(css_content, theme_name, author_name):
     )
     css_content = re.sub(
         r"-kakaotalk-theme-id: 'com\.kakao\.talk\.theme\.[^']*';",
-        f"-kakaotalk-theme-id: 'com.kakao.talk.theme.{theme_name}';",
+        f"-kakaotalk-theme-id: 'com.kakao.talk.theme.{theme_id}';",
         css_content,
     )
     css_content = re.sub(

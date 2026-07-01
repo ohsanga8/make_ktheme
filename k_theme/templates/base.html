@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>{% block title %}카톡테마 만들기{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,10 +22,9 @@
             --border-light: #EBEBED;
             
             /* 핵심 포인트: 카카오톡 테마 느낌을 주는 감각적인 네온 라임/그린 또는 일렉트릭 블루 */
-            --accent: #02C73C; /* 트렌디한 네온 그린 */
-            --accent-dark: #02A832;
-            --focus-ring: rgba(2, 199, 60, 0.2);
-            
+            --accent: #4f46e5; /* 트렌디한 네온 그린 */
+            --accent-dark: #4338ca;
+            --focus-ring: #c9c7f8;          
             --radius-md: 12px;
             --radius-sm: 8px;
             --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
@@ -41,6 +40,12 @@
             letter-spacing: -0.02em; /* 자간을 줄여 시각적으로 더 단단하고 세련되게 함 */
         }
 
+        html {
+            /* 모바일 사파리에서 가로 스크롤 방지 */
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         body {
             font-family: var(--font-body);
             margin: 0;
@@ -49,6 +54,10 @@
             color: var(--text-main);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            width: 100%;
+            /* 모바일 텍스트 자동 확대 방지 */
+            -webkit-text-size-adjust: 100%;
         }
 
         h1, h2, h3, h4 {
@@ -87,20 +96,60 @@
         .brand-mark {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             font-family: var(--font-display);
             font-weight: 700;
             font-size: 1.25rem;
             color: var(--text-main);
         }
 
-        /* 밤티 느낌의 물방울 대신 시크한 스퀘어/서클 인디케이터 */
-        .brand-mark .dot {
-            width: 8px;
-            height: 8px;
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            background: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .brand-logo svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .brand-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
             background: var(--accent);
-            display: inline-block;
+            border: 2px solid var(--bg-card);
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.15;
+        }
+
+        .brand-text .kr {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .brand-text .en {
+            font-size: 0.62rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+            text-transform: uppercase;
         }
 
         nav ul {
@@ -119,6 +168,10 @@
             font-weight: 500;
             padding: 4px 0;
             position: relative;
+            /* 터치 타겟 최소 높이 확보 */
+            display: inline-flex;
+            align-items: center;
+            min-height: 32px;
         }
 
         nav ul li a:hover {
@@ -145,6 +198,36 @@
             margin: 0;
             color: var(--text-muted);
             font-size: 0.9rem;
+        }
+
+        /* 로그인 유저 배지 */
+        .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px 4px 4px;
+            border-radius: 999px;
+            background: var(--bg-main);
+            border: 1px solid var(--border-light);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-main);
+            white-space: nowrap;
+        }
+
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            flex-shrink: 0;
         }
 
         /* 메인 컨테이너 영역 */
@@ -177,6 +260,11 @@
             color: var(--text-main);
             box-shadow: var(--shadow-sm);
             transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            /* 터치 타겟 최소 44px 확보 (모바일 접근성 기준) */
+            min-height: 44px;
+            /* 모바일 롱프레스 시 텍스트 선택/콜아웃 방지 */
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         button:hover, .btn:hover {
@@ -213,9 +301,11 @@
             padding: 12px 14px;
             background: var(--bg-card);
             color: var(--text-main);
-            font-size: 0.95rem;
+            /* 16px 미만이면 iOS 사파리가 포커스 시 자동 확대함 → 16px로 고정 */
+            font-size: 16px;
             width: 100%;
             transition: all 0.2s ease;
+            min-height: 44px;
         }
 
         input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus,
@@ -242,10 +332,141 @@
             margin: 40px 0;
         }
 
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                transition: none !important;
-                animation: none !important;
+        /* 이미지/미디어 기본 반응형 */
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 테이블이 있을 경우 모바일에서 가로 스크롤 허용 */
+        table {
+            display: block;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* ===== 태블릿 이하 (~768px) ===== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px 64px;
+            }
+
+            header {
+                padding: 12px 16px;
+            }
+
+            .brand {
+                gap: 10px;
+            }
+
+            .brand-mark {
+                font-size: 1.1rem;
+            }
+
+            .brand-logo {
+                width: 28px;
+                height: 28px;
+            }
+
+            .brand-text .kr {
+                font-size: 0.95rem;
+            }
+
+            .brand-text .en {
+                font-size: 0.56rem;
+            }
+
+            nav ul {
+                gap: 14px;
+            }
+
+            nav ul li a {
+                font-size: 0.88rem;
+            }
+        }
+
+        /* ===== 모바일 (~480px) ===== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 28px 16px 56px;
+            }
+
+            header {
+                padding: 10px 14px;
+            }
+
+            .brand {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .brand-mark {
+                gap: 8px;
+            }
+
+            .brand-logo {
+                width: 26px;
+                height: 26px;
+                border-radius: 7px;
+            }
+
+            .brand-logo svg {
+                width: 14px;
+                height: 14px;
+            }
+
+            .brand-text .kr {
+                font-size: 0.92rem;
+            }
+
+            /* 초소형 화면에서는 영문 서브텍스트 생략해서 공간 확보 */
+            .brand-text .en {
+                display: none;
+            }
+
+            nav ul {
+                gap: 10px;
+                justify-content: flex-end;
+            }
+
+            nav ul li {
+                font-size: 0.82rem;
+            }
+
+            nav ul li a {
+                font-size: 0.82rem;
+            }
+
+            .user-badge {
+                font-size: 0.78rem;
+                padding: 3px 10px 3px 3px;
+            }
+
+            .user-avatar {
+                width: 20px;
+                height: 20px;
+                font-size: 0.65rem;
+            }
+
+            button, .btn {
+                width: 100%;
+                padding: 12px 16px;
+            }
+
+            /* 폼 안에 인라인으로 들어가는 로그아웃 버튼처럼
+               레이아웃을 깨면 안 되는 버튼은 전체폭 강제 해제 */
+            nav form button,
+            .brand button {
+                width: auto;
+                min-height: 32px;
+                padding: 4px 0;
+            }
+
+            footer {
+                padding: 24px 16px;
+                font-size: 0.8rem;
             }
         }
 
@@ -257,12 +478,25 @@
 <body>
     <header>
         <div class="brand">
-            <a href="/" class="brand-mark"><span class="dot"></span>테마 만들기 사이트</a>
+            <a href="/" class="brand-mark">
+                <span class="brand-logo">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3.5C7.03 3.5 3 6.7 3 10.6c0 2.35 1.49 4.43 3.76 5.7-.16.88-.58 2.18-1.36 3.3a.4.4 0 00.48.6c1.72-.6 3.04-1.44 3.84-2.05.71.13 1.46.2 2.28.2 4.97 0 9-3.2 9-7.15C21 6.7 16.97 3.5 12 3.5z" stroke="#FFFFFF" stroke-width="1.4" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <span class="brand-text">
+                    <span class="kr">테마 팩토리</span>
+                    <span class="en">Theme Factory</span>
+                </span>
+            </a>
             <nav>
                 <ul>
                     <li><a href="/">홈</a></li>
                     {% if user.is_authenticated %}
-                    <li style="color: var(--text-main); font-weight: 500;">{{ user.username }}님</li>
+                    <li class="user-badge">
+                        <span class="user-avatar">{{ user.username|first|upper }}</span>
+                        <span>{{ user.username }}님</span>
+                    </li>
                     <li>
                         <form action="{% url 'logout' %}" method="post" style="display: inline;">
                             {% csrf_token %}

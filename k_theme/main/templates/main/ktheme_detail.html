@@ -3,49 +3,51 @@
 {% block title %}{{ ktheme.id }}{% endblock %}
 
 {% block style %}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <style>
-    :root {
-        --primary-color: #4f46e5;
-        --primary-hover: #4338ca;
-        --bg-main: #f8fafc;
-        --bg-card: #ffffff;
-        --border-color: #e2e8f0;
-        --text-main: #0f172a;
-        --text-muted: #64748b;
-    }
-
-    body {
-        font-family: 'Noto Sans KR', sans-serif;
-        background-color: var(--bg-main);
-        color: var(--text-main);
-        margin: 0;
-        padding: 0;
-    }
+    /* base.html의 디자인 토큰(--accent, --text-main, --border-light 등)을 그대로 상속받아 사용합니다.
+       이 페이지에서만 쓰는 색은 아래처럼 필요한 곳에 직접 지정합니다. */
 
     .editor-header {
-        background: var(--bg-card);
-        border-bottom: 1px solid var(--border-color);
-        padding: 12px 30px;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: sticky;
-        top: 0;
-        z-index: 9999 ;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-light);
+        padding: 16px 24px;
+        box-shadow: var(--shadow-sm);
     }
 
-    .editor-title h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
-    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .editor-title h1 {
+        margin: 0;
+        font-size: 1.15rem;
+    }
+
+    .header-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .header-form {
+        display: flex;
+    }
+
+    .header-actions-right {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-left: auto;
+    }
 
     /* 테마 이름 폼 줄바꿈 방지 */
     .inline-form {
-        display: flex; 
+        display: flex;
         align-items: center;
-        gap: 8px; 
-        height: 42px;
+        gap: 8px;
     }
     .inline-form p, .inline-form div {
         margin: 0;
@@ -53,26 +55,62 @@
         align-items: center;
         white-space: nowrap;
     }
-    .inline-form input {
-        height: 100%;
-        box-sizing: border-box;
-        padding: 6px 10px;
-    }
 
     .btn {
-        padding: 8px 14px;
-        border-radius: 6px;
+        padding: 10px 16px;
+        border-radius: var(--radius-sm);
         font-weight: 600;
         font-size: 0.85rem;
         cursor: pointer;
-        transition: all 0.2s;
-        border: 1px solid transparent;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        border: 1px solid var(--border-light);
         white-space: nowrap;
+        background: var(--bg-card);
+        color: var(--text-main);
+        box-shadow: var(--shadow-sm);
+        min-height: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
-    .btn-primary { background: var(--primary-color); color: white; }
-    .btn-primary:hover { background: var(--primary-hover); }
-    .btn-zip { background: #10b981; color: white; }
-    .btn-zip:hover { background: #059669; }
+    .btn:hover {
+        background: var(--bg-main);
+        border-color: #D1D1D6;
+    }
+
+    .btn-primary {
+        background: var(--text-main);
+        color: #FFFFFF;
+        border: none;
+    }
+    .btn-primary:hover {
+        background: #2E2E35;
+        transform: translateY(-1px);
+    }
+
+    .btn-zip {
+        background: var(--accent);
+        color: #FFFFFF;
+        border: none;
+    }
+    .btn-zip:hover {
+        background: var(--accent-dark);
+        transform: translateY(-1px);
+    }
+
+    .btn-danger {
+        background: #EF4444;
+        color: #FFFFFF;
+        border: none;
+    }
+    .btn-danger:hover {
+        background: #DC2626;
+        transform: translateY(-1px);
+    }
+
+    .btn-full {
+        width: 100%;
+        margin-top: 10px;
+    }
 
     /* 전체 화면 가로 폭 1920px로 확장 및 패딩 축소 */
     .main-grid-layout {
@@ -80,7 +118,7 @@
         margin: 20px auto;
         padding: 0 24px;
         display: grid;
-        grid-template-columns: 1.55fr 0.45fr; /* 우측 설정창 비율 축소 유지 */
+        grid-template-columns: 1.55fr 0.45fr;
         gap: 20px;
         align-items: start;
     }
@@ -94,10 +132,10 @@
     /* 📦 고정형 섹션 블록 */
     .editor-block {
         background: var(--bg-card);
-        border: 1px solid var(--border-color);
-        border-radius: 10px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
         padding: 16px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        box-shadow: var(--shadow-sm);
         box-sizing: border-box;
     }
 
@@ -105,12 +143,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--border-light);
         padding-bottom: 8px;
         margin-bottom: 14px;
     }
 
-    .block-title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+    .block-title {
+        margin: 0;
+        font-size: 1.05rem;
+    }
 
     /* 각 섹션별 그리드 열(Column) 배치 */
     .image-grid {
@@ -126,25 +167,25 @@
     .clickable-preview-card {
         display: flex;
         flex-direction: column;
-        background: #f8fafc;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
+        background: var(--bg-main);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
         padding: 0;
         cursor: pointer;
         overflow: hidden;
         position: relative;
-        transition: all 0.2s;
+        transition: all 0.2s ease;
     }
     .clickable-preview-card:hover {
-        border-color: var(--primary-color);
-        background: #f5f7ff;
+        border-color: var(--accent);
+        background: var(--focus-ring);
     }
 
     .preview-box {
         width: 100%;
         height: 110px;
-        background: #f1f5f9;
-        border-bottom: 1px solid var(--border-color);
+        background: var(--bg-main);
+        border-bottom: 1px solid var(--border-light);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -152,10 +193,10 @@
         position: relative;
     }
     /* 이미지 원본 비율 유지 (잘림 방지) */
-    .preview-box img { 
-        width: 100%; 
-        height: 100%; 
-        object-fit: contain; 
+    .preview-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
         padding: 4px;
         box-sizing: border-box;
     }
@@ -163,29 +204,29 @@
     .preview-overlay {
         position: absolute;
         top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(79, 70, 229, 0.15);
+        background: #616161;
         display: flex;
         justify-content: center;
         align-items: center;
         opacity: 0;
-        transition: opacity 0.2s;
+        transition: opacity 0.2s ease;
         font-size: 0.75rem;
-        color: var(--primary-color);
-        font-weight: bold;
+        color: var(--accent-dark);
+        font-weight: 700;
     }
-    .clickable-preview-card:hover .preview-overlay { opacity: 1; }
+    .clickable-preview-card:hover .preview-overlay { opacity: 0.2; }
 
-    .card-info { 
-        padding: 6px; 
+    .card-info {
+        padding: 6px;
         text-align: center;
         width: 100%;
         box-sizing: border-box;
     }
-    .card-info .title { 
-        margin: 0; 
-        font-weight: 600; 
-        font-size: 0.8rem; 
-        color: var(--text-main); 
+    .card-info .title {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.8rem;
+        color: var(--text-main);
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -198,18 +239,18 @@
         display: grid;
         grid-template-columns: 1fr;
         gap: 6px;
-        background: #f8fafc;
+        background: var(--bg-main);
         padding: 10px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
     }
     .color-flex-grid p {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background: #ffffff;
+        background: var(--bg-card);
         padding: 6px 10px;
-        border: 1px solid var(--border-color);
-        border-radius: 5px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
         margin: 0;
         font-size: 0.8rem;
     }
@@ -225,47 +266,110 @@
         flex-direction: column;
         gap: 12px;
     }
-    
+
     .bubble-preview-side {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); 
+        grid-template-columns: repeat(2, 1fr);
         gap: 8px;
         justify-items: center;
     }
-    
+
     .canvas-container {
         position: relative;
-        background: #f1f5f9;
+        background: var(--bg-main);
         padding: 4px;
-        border-radius: 6px;
-        border: 1px solid var(--border-color);
+        border-radius: var(--radius-sm);
+        border: 1px solid var(--border-light);
         display: inline-block;
     }
     .canvas { position: absolute; top: 4px; left: 4px; }
 
-    /* 6열 그리드 배치 강제 세팅 */
+    /* 6열 그리드 배치 */
     .bubble-inputs-grid {
         display: grid;
-        grid-template-columns: repeat(6, 1fr); /* 2열에서 요구사항인 6열 분할로 대폭 세분화 */
+        grid-template-columns: repeat(6, 1fr);
         gap: 4px;
-        background: #f8fafc;
+        background: var(--bg-main);
         padding: 8px;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
         margin-bottom: 8px;
     }
-    .bubble-field-card { 
-        background: #ffffff; 
-        padding: 4px; 
-        border: 1px solid var(--border-color); 
-        border-radius: 5px; 
+    .bubble-field-card {
+        background: var(--bg-card);
+        padding: 4px;
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
         display: flex;
-        flex-direction: column; /* 6열 배치를 위해 콤팩트하게 상하 구조로 전환 */
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         gap: 4px;
     }
     .bubble-field-card label h3 { margin: 0; font-size: 0.7rem; color: var(--text-muted); }
-    .bubble-field-card input { width: 100%; max-width: 45px; text-align: center; padding: 2px 0; font-size: 0.75rem; box-sizing: border-box;}
+    .bubble-field-card input { width: 100%; max-width: 45px; text-align: center; padding: 2px 0; font-size: 0.75rem; box-sizing: border-box; }
+
+    /* ===== 태블릿 이하 (~1024px): 좌우 2열 → 1열로 ===== */
+    @media (max-width: 1024px) {
+        .main-grid-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===== 태블릿 (~900px) ===== */
+    @media (max-width: 900px) {
+        .grid-main { grid-template-columns: repeat(3, 1fr); }
+        .grid-passcode { grid-template-columns: repeat(3, 1fr); }
+        .bubble-inputs-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* ===== 모바일 (~600px) ===== */
+    @media (max-width: 600px) {
+        .main-grid-layout {
+            margin: 16px auto;
+            padding: 0 16px;
+            gap: 16px;
+        }
+
+        .editor-header {
+            padding: 12px 16px;
+        }
+
+        .header-actions {
+            gap: 8px;
+        }
+
+        .header-actions .header-form,
+        .header-actions .inline-form,
+        .header-actions .btn {
+            width: 100%;
+        }
+
+        .header-actions-right {
+            width: 100%;
+            margin-left: 0;
+            flex-direction: column;
+        }
+
+        .inline-form {
+            flex-wrap: wrap;
+        }
+
+        .inline-form input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .editor-block {
+            padding: 14px;
+        }
+
+        .grid-main { grid-template-columns: repeat(2, 1fr); }
+        .grid-chat { grid-template-columns: 1fr; }
+        .grid-passcode { grid-template-columns: repeat(2, 1fr); }
+
+        .bubble-preview-side { grid-template-columns: 1fr; }
+        .bubble-inputs-grid { grid-template-columns: repeat(3, 1fr); }
+    }
 </style>
 {% endblock %}
 
@@ -282,13 +386,13 @@
         var file = inputElement.files[0];
         if (file) {
             var reader = new FileReader();
-            
+
             reader.onload = function(e) {
                 var $card = $(inputElement).closest('.clickable-preview-card');
                 $card.find('.preview-box img').attr('src', e.target.result);
-                $card.css('border-color', '#4f46e5'); 
+                $card.css('border-color', '#c9c7f8');
             }
-            
+
             reader.readAsDataURL(file);
         }
     }
@@ -300,7 +404,7 @@
             var image = document.getElementById(imageId);
             var canvas = document.getElementById(canvasId);
             if (!image || !canvas) continue;
-            
+
             canvas.width = image.width;
             canvas.height = image.height;
 
@@ -344,40 +448,40 @@ $(document).ready(function () {
 
 {% block content %}
 
-<header class="editor-header" style="flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 30px;">
-    
+<header class="editor-header">
+
     <div class="editor-title">
-        <h1 style="margin: 0; font-size: 1.2rem; font-weight: 700;">테마 이름: {{ ktheme.name }}</h1>
+        <h1>테마 이름: {{ ktheme.name }}</h1>
     </div>
-    
-    <div class="header-actions" style="width: 100%; display: flex; justify-content: flex-start; align-items: center; gap: 16px;">
-        
-        <form method="post" action="{% url 'ktheme_update_name' theme_pk=ktheme.id %}" class="inline-form" style="display: flex; align-items: center; gap: 8px; height: 38px;">
+
+    <div class="header-actions">
+
+        <form method="post" action="{% url 'ktheme_update_name' theme_pk=ktheme.id %}" class="inline-form">
             {% csrf_token %}
-            
+
             {% for field in ktheme_update_form %}
                 {{ field }}
             {% endfor %}
-            
-            <button type="submit" class="btn" style="background:#e2e8f0; color:var(--text-main); height: 100%;">이름 수정</button>
-        </form>
-        
-        <form method="post" action="{% url 'ktheme_create_zip' theme_pk=ktheme.id %}" style="display: flex; height: 38px; margin-left: auto;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-zip" style="height: 100%;">파일 다운로드</button>
+
+            <button type="submit" class="btn">이름 수정</button>
         </form>
 
-        <form action="{% url 'ktheme_delete' ktheme.id %}" method="post" style="display: inline;">
-            {% csrf_token %}
-            <button type="submit" 
-                    onclick="return confirm('정말 이 테마를 삭제할까요?');" 
-                    style="background-color: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
-                테마 삭제
-            </button>
-        </form>
-        
+        <div class="header-actions-right">
+            <form method="post" action="{% url 'ktheme_create_zip' theme_pk=ktheme.id %}" class="header-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-zip">파일 다운로드</button>
+            </form>
+
+            <form action="{% url 'ktheme_delete' ktheme.id %}" method="post" class="header-form">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 이 테마를 삭제할까요?');">
+                    테마 삭제
+                </button>
+            </form>
+        </div>
+
     </div>
-    
+
 </header>
 
 <div class="main-grid-layout">
@@ -396,7 +500,7 @@ $(document).ready(function () {
                     <div class="clickable-preview-card" onclick="triggerUpload(this)">
                         <div class="preview-box">
                             <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Icon" class="theme-img">
-                            <div class="preview-overlay">업로드</div>
+                            <!-- <div class="preview-overlay">업로드</div> -->
                         </div>
                         <div class="card-info">
                             <p class="title">{{ key }}</p>
@@ -417,7 +521,7 @@ $(document).ready(function () {
                     <div class="clickable-preview-card" onclick="triggerUpload(this)">
                         <div class="preview-box">
                             <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Main" class="theme-img">
-                            <div class="preview-overlay">업로드</div>
+                            <!-- <div class="preview-overlay">업로드</div> -->
                         </div>
                         <div class="card-info">
                             <p class="title">{{ key }}</p>
@@ -438,7 +542,7 @@ $(document).ready(function () {
                     <div class="clickable-preview-card" onclick="triggerUpload(this)">
                         <div class="preview-box">
                             <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Chat" class="theme-img">
-                            <div class="preview-overlay">업로드</div>
+                            <!-- <div class="preview-overlay">업로드</div> -->
                         </div>
                         <div class="card-info">
                             <p class="title">{{ key }}</p>
@@ -459,7 +563,7 @@ $(document).ready(function () {
                     <div class="clickable-preview-card" onclick="triggerUpload(this)">
                         <div class="preview-box">
                             <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Passcode" class="theme-img">
-                            <div class="preview-overlay"> 업로드</div>
+                            <!-- <div class="preview-overlay"> 업로드</div> -->
                         </div>
                         <div class="card-info">
                             <p class="title">{{ key }}</p>
@@ -482,7 +586,7 @@ $(document).ready(function () {
                 <div class="color-flex-grid">
                     {{ css_color_update_form.as_p }}
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">색상 적용</button>
+                <button type="submit" class="btn btn-primary btn-full">색상 적용</button>
             </form>
         </div>
 
@@ -490,7 +594,7 @@ $(document).ready(function () {
             <div class="block-header">
                 <h2 class="block-title">말풍선 수치</h2>
             </div>
-            
+
             <div class="bubble-container">
                 <div class="bubble-preview-side">
                     {% for bubble_image_path in bubble_image_paths %}
@@ -514,7 +618,7 @@ $(document).ready(function () {
                             </div>
                             {% endfor %}
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%;" onclick="setTimeout(drawLine, 250)">
+                        <button type="submit" class="btn btn-primary btn-full" onclick="setTimeout(drawLine, 250)">
                             수치 적용
                         </button>
                     </form>

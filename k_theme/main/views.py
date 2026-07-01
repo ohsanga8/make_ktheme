@@ -61,6 +61,7 @@ def main(request):
             ktheme.id = f"{user.username}_{random_suffix}"
             
             ktheme.save()
+            
 
             return redirect("ktheme_detail", theme_pk=ktheme.id)
     else:
@@ -79,7 +80,6 @@ def main(request):
 
 @login_required
 def ktheme_detail(request, theme_pk):
-    """GET 전용: 테마 편집 페이지 렌더링."""
     ktheme = _get_owned_theme(request, theme_pk)
     css_color = CssColor.objects.get(ktheme=ktheme)
     css_bubble = CssBubble.objects.get(ktheme=ktheme)
@@ -127,7 +127,7 @@ def ktheme_update_name(request, theme_pk):
 
         with open(paths["css"], "r", encoding="utf-8") as f:
             css_content = f.read()
-        css_content = apply_theme_identity(css_content, ktheme.name, request.user.username)
+        css_content = apply_theme_identity(css_content, ktheme.name, ktheme.id, request.user.username)
         with open(paths["css"], "w", encoding="utf-8") as f:
             f.write(css_content)
 
@@ -184,7 +184,7 @@ def ktheme_update_color(request, theme_pk):
 
         css_content = apply_color_theme(css_content, css_color)
         css_content = apply_bubble_css(css_content, css_bubble)
-        css_content = apply_theme_identity(css_content, ktheme.name, request.user.username)
+        css_content = apply_theme_identity(css_content, ktheme.name, ktheme.id, request.user.username)
 
         with open(paths["css"], "w", encoding="utf-8") as f:
             f.write(css_content)
@@ -219,7 +219,8 @@ def ktheme_create_zip(request, theme_pk):
     zip_path = build_theme_zip(ktheme.id, ktheme.name)
 
     with open(zip_path, "rb") as f:
-        response = HttpResponse(f.read(), content_type="application/zip")
+        # response = HttpResponse(f.read(), content_type="application/zip")
+        response = HttpResponse(f.read(), content_type='application/octet-stream')
         response["Content-Disposition"] = f'attachment; filename="{ktheme.name}.ktheme"'
         return response
 

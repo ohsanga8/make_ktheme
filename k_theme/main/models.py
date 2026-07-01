@@ -9,7 +9,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .utils import get_css_template_path, get_default_images_dir, safe_theme_dir
+from .utils import get_css_template_path, get_default_images_dir, safe_theme_dir, apply_theme_identity
 
 
 def ktheme_images_path(instance, filename):
@@ -125,3 +125,12 @@ def create_theme_dir(sender, instance, created, **kwargs):
     default_image_dir = get_default_images_dir()
     shutil.copytree(default_image_dir, theme_image_dir)
     shutil.copy2(get_css_template_path(), theme_css)
+
+    # --- 여기서부터 추가: 생성된 파일을 열어서 내용 수정 ---
+    with open(theme_css, "r", encoding="utf-8") as f:
+        css_content = f.read()
+
+    css_content = apply_theme_identity(css_content, instance.name, instance.id, instance.user.username)
+    
+    with open(theme_css, "w", encoding="utf-8") as f:
+        f.write(css_content)

@@ -5,37 +5,38 @@
 
 {% block style %}
 <style>
-    /* 전체 화면을 넓게 쓰는 와이드 컨테이너 */
+    /* base.html의 디자인 토큰(--accent, --text-main, --border-light 등)을 그대로 상속받아 사용합니다. */
+
     .home-container {
         max-width: 1920px;
         margin: 30px auto;
         padding: 0 24px;
-        font-family: 'Noto Sans KR', sans-serif;
     }
 
     .section-title {
         font-size: 1.25rem;
-        font-weight: 700;
-        color: #0f172a;
+        color: var(--text-main);
         margin-bottom: 16px;
         display: flex;
         align-items: center;
         gap: 8px;
-    }
-    
-    .section-title span {
-        font-size: 0.8rem;
-        color: #94a3b8;
-        font-weight: 400;
+        flex-wrap: wrap;
     }
 
-    /* 1. ✨ [트렌디하게 대개조] 테마 만들기 구역 */
+    .section-title span {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 400;
+        font-family: var(--font-body);
+    }
+
+    /* 1. 테마 만들기 구역 */
     .form-block {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 12px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
         padding: 16px 24px;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+        box-shadow: var(--shadow-sm);
         margin-bottom: 40px;
         display: flex;
         align-items: center;
@@ -46,91 +47,93 @@
         align-items: center;
         gap: 12px;
         width: 100%;
+        flex-wrap: wrap;
     }
 
-    /* 장고 {{ form.as_p }}의 촌스러운 밤티 스타일 완전 리셋 */
+    /* 장고 {{ form.as_p }}의 기본 스타일 리셋 */
     .form-block form p {
         margin: 0;
         display: flex;
         align-items: center;
         gap: 8px;
         flex: 1;
-        max-width: 200px; /* 입력창이 너무 광활해지지 않게 제한 */
+        min-width: 160px;
+        max-width: 280px; /* 입력창이 너무 광활해지지 않게 제한 */
     }
 
-    /* 장고가 강제로 넣는 내부 Label(글자)이 있다면 미관상 숨김 처리 */
+    /* 장고가 강제로 넣는 내부 label 숨김 처리 */
     .form-block form p label {
         display: none !important;
     }
-    
-    /* 인풋 상자 프리미엄 스타일링 */
+
+    /* 인풋 상자 스타일링 */
     .form-block form input {
         width: 100%;
-        height: 42px;
+        height: 44px;
         padding: 0 16px;
-        font-size: 0.9rem;
-        color: #0f172a;
-        background-color: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
+        /* 16px 미만이면 iOS 사파리가 포커스 시 자동 확대함 → 16px 고정 */
+        font-size: 16px;
+        color: var(--text-main);
+        background-color: var(--bg-main);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-sm);
         box-sizing: border-box;
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
-    /* 마우스 올리거나 클릭했을 때 트렌디한 효과 */
+
     .form-block form input:hover {
-        border-color: #cbd5e1;
+        border-color: #D1D1D6;
     }
     .form-block form input:focus {
-        background-color: #ffffff;
-        border-color: #4f46e5;
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        background-color: var(--bg-card);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 4px var(--focus-ring);
         outline: none;
     }
 
-    /* 생성 버튼 매칭 */
+    /* 생성 버튼 */
     .btn-submit {
-        background: #4f46e5;
-        color: #ffffff;
+        background: var(--text-main);
+        color: #FFFFFF;
         border: none;
-        border-radius: 8px;
+        border-radius: var(--radius-sm);
         padding: 0 20px;
-        height: 42px;
+        height: 44px;
         font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
-        transition: background 0.2s;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: var(--shadow-sm);
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
     }
-    .btn-submit:hover { 
-        background: #4338ca; 
+    .btn-submit:hover {
+        background: #2E2E35;
+        transform: translateY(-1px);
     }
 
     /* 2. 간결한 아이콘+제목 중심의 4열 그리드 레이아웃 */
     .theme-tile-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr); 
+        grid-template-columns: repeat(4, 1fr);
         gap: 16px;
         padding: 0;
         margin: 0;
         list-style: none;
     }
 
-    @media (max-width: 1400px) { .theme-tile-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 1024px) { .theme-tile-grid { grid-template-columns: repeat(2, 1fr); } }
-
     .theme-tile-item {
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
         transition: all 0.2s ease;
     }
 
     .theme-tile-item:hover {
-        border-color: #4f46e5;
-        background: #fcfcff;
-        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.05);
+        border-color: var(--accent);
+        background: var(--focus-ring);
+        box-shadow: var(--shadow-sm);
     }
 
     .theme-tile-link {
@@ -140,15 +143,17 @@
         padding: 14px 18px;
         text-decoration: none;
         color: inherit;
+        /* 모바일 터치 시 최소 높이 확보 */
+        min-height: 44px;
     }
 
     .tile-avatar {
         width: 42px;
         height: 42px;
-        background: #f1f5f9;
-        border-radius: 8px;
+        background: var(--bg-main);
+        border-radius: var(--radius-sm);
         overflow: hidden;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--border-light);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -170,8 +175,6 @@
 
     .tile-theme-name {
         font-size: 1rem;
-        font-weight: 600;
-        color: #0f172a;
         margin: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -180,18 +183,77 @@
 
     .tile-theme-id {
         font-size: 0.8rem;
-        color: #94a3b8;
-        font-family: monospace;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
     }
 
     .empty-block {
         grid-column: 1 / -1;
         text-align: center;
         padding: 48px 24px;
-        background: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 10px;
-        color: #64748b;
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: var(--radius-md);
+        color: var(--text-muted);
+    }
+
+    .empty-block p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    /* ===== 태블릿 (~1400px, ~1024px) ===== */
+    @media (max-width: 1400px) { .theme-tile-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 1024px) { .theme-tile-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    /* ===== 태블릿 이하 (~768px) ===== */
+    @media (max-width: 768px) {
+        .home-container {
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .form-block {
+            padding: 14px 18px;
+        }
+    }
+
+    /* ===== 모바일 (~480px) ===== */
+    @media (max-width: 480px) {
+        .home-container {
+            margin: 16px auto;
+            padding: 0 16px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+        }
+
+        .theme-tile-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-block {
+            padding: 14px 16px;
+        }
+
+        .form-block form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .form-block form p {
+            max-width: none;
+            width: 100%;
+        }
+
+        .btn-submit {
+            width: 100%;
+        }
+
+        .theme-tile-link {
+            padding: 12px 14px;
+        }
     }
 </style>
 {% endblock %}
@@ -209,29 +271,29 @@
     </div>
 
     <h2 class="section-title">{{ user.username }}님의 테마 목록 <span>클릭 시 편집 화면으로 진입</span></h2>
-    
+
     <ul class="theme-tile-grid">
         {% for theme in user_theme_list %}
         <li class="theme-tile-item">
             <a href="{% url 'ktheme_detail' theme.id %}" class="theme-tile-link">
-                
+
                 <div class="tile-avatar">
                     {% with default_img=theme.id %}
                         {% static 'factory.png' as default_img_path %}
                         <img src="/media/{{ theme.id }}/Images/commonIcoTheme.png" alt="" onerror="this.src='{{ default_img_path }}';">
                     {% endwith %}
                 </div>
-                
+
                 <div class="tile-text-zone">
                     <h3 class="tile-theme-name">{{ theme.name }}</h3>
                     <!-- <span class="tile-theme-id">ID: {{ theme.id }}</span> -->
                 </div>
-                
+
             </a>
         </li>
         {% empty %}
         <li class="empty-block">
-            <p style="margin: 0; font-size: 0.9rem;">아직 생성된 테마가 없습니다. 위에서 첫 테마를 개설해 보세요!</p>
+            <p>아직 생성된 테마가 없습니다. 위에서 첫 테마를 개설해 보세요!</p>
         </li>
         {% endfor %}
     </ul>
