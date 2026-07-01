@@ -5,22 +5,35 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 
 
+# def signup(request):
+#     if request.method == "POST":
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             if user is not None:
+#                 login(request, user)
+#                 return redirect("main")
+#             # else:
+#             #     messages.error(request, "User creation failed.")
+#         else:
+#             messages.error(request, "Invalid from data.")
+#     else:
+#         form = CustomUserCreationForm()
+#     return render(request, "authapp/signup.html", {"form": form})
+
+
 def signup(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            if user is not None:
-                login(request, user)
-                return redirect("main")
-            # else:
-            #     messages.error(request, "User creation failed.")
+            login(request, user)
+            return redirect("main")
         else:
-            messages.error(request, "Invalid from data.")
+            print(form.errors) 
     else:
         form = UserCreationForm()
     return render(request, "authapp/signup.html", {"form": form})
-
 
 def login_view(request):
     if request.method == "POST":

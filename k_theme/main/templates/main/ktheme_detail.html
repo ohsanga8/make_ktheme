@@ -6,460 +6,522 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
+    :root {
+        --primary-color: #4f46e5;
+        --primary-hover: #4338ca;
+        --bg-main: #f8fafc;
+        --bg-card: #ffffff;
+        --border-color: #e2e8f0;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+    }
 
-    body,
-    input {
+    body {
         font-family: 'Noto Sans KR', sans-serif;
+        background-color: var(--bg-main);
+        color: var(--text-main);
         margin: 0;
         padding: 0;
+    }
+
+    .editor-header {
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border-color);
+        padding: 12px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 9999 ;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .editor-title h1 { margin: 0; font-size: 1.2rem; font-weight: 700; }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+
+    /* 테마 이름 폼 줄바꿈 방지 */
+    .inline-form {
+        display: flex; 
+        align-items: center;
+        gap: 8px; 
+        height: 42px;
+    }
+    .inline-form p, .inline-form div {
+        margin: 0;
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+    }
+    .inline-form input {
+        height: 100%;
+        box-sizing: border-box;
+        padding: 6px 10px;
+    }
+
+    .btn {
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+        white-space: nowrap;
+    }
+    .btn-primary { background: var(--primary-color); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-zip { background: #10b981; color: white; }
+    .btn-zip:hover { background: #059669; }
+
+    /* 전체 화면 가로 폭 1920px로 확장 및 패딩 축소 */
+    .main-grid-layout {
+        max-width: 1920px;
+        margin: 20px auto;
+        padding: 0 24px;
+        display: grid;
+        grid-template-columns: 1.55fr 0.45fr; /* 우측 설정창 비율 축소 유지 */
+        gap: 20px;
+        align-items: start;
+    }
+
+    .left-column, .right-column {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    /* 📦 고정형 섹션 블록 */
+    .editor-block {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 10px;
+        padding: 16px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         box-sizing: border-box;
     }
 
-    header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px 20px;
-    }
-
-    nav ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+    .block-header {
         display: flex;
         justify-content: space-between;
-    }
-
-    nav ul li {
-        margin: 0;
-    }
-
-    nav ul li a {
-        text-decoration: none;
-        color: #fff;
-    }
-
-    .square-img {
-        margin: 2px solid black;
-        width: 80px;
-    }
-
-
-    .container {
-        margin: 20px auto;
-        max-width: 1200px;
-    }
-
-    footer {
-        background-color: #333;
-        color: #fff;
-        text-align: center;
-        padding: 10px;
-    }
-
-    .square {
-        width: 100px;
-        height: 100px;
-        border: 1px solid #000;
-        display: flex;
-        justify-content: center;
         align-items: center;
+        border-bottom: 1px solid #f1f5f9;
+        padding-bottom: 8px;
+        margin-bottom: 14px;
+    }
+
+    .block-title { margin: 0; font-size: 1.05rem; font-weight: 700; }
+
+    /* 각 섹션별 그리드 열(Column) 배치 */
+    .image-grid {
+        display: grid;
+        gap: 10px;
+    }
+    .grid-icon { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .grid-main { grid-template-columns: repeat(5, 1fr); }
+    .grid-chat { grid-template-columns: repeat(2, 1fr); }
+    .grid-passcode { grid-template-columns: repeat(4, 1fr); }
+
+    /* 📸 카드 및 이미지 세팅 */
+    .clickable-preview-card {
+        display: flex;
+        flex-direction: column;
+        background: #f8fafc;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0;
         cursor: pointer;
         overflow: hidden;
         position: relative;
+        transition: all 0.2s;
+    }
+    .clickable-preview-card:hover {
+        border-color: var(--primary-color);
+        background: #f5f7ff;
     }
 
-    .square img {
-        max-width: 100%;
-        max-height: 100%;
-    }
-
-    /* .theme-img {
-        width: 100px;
-        height: auto;
-    } */
-
-    .squares-container {
+    .preview-box {
+        width: 100%;
+        height: 110px;
+        background: #f1f5f9;
+        border-bottom: 1px solid var(--border-color);
         display: flex;
-        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+    }
+    /* 이미지 원본 비율 유지 (잘림 방지) */
+    .preview-box img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: contain; 
+        padding: 4px;
+        box-sizing: border-box;
     }
 
-    .placeholder-image {
-        /* position: absolute;
-        width: 100%;
-        height: 100%; */
-    }
-
-    .hidden-file-input {
+    .preview-overlay {
         position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(79, 70, 229, 0.15);
+        display: flex;
+        justify-content: center;
+        align-items: center;
         opacity: 0;
+        transition: opacity 0.2s;
+        font-size: 0.75rem;
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    .clickable-preview-card:hover .preview-overlay { opacity: 1; }
+
+    .card-info { 
+        padding: 6px; 
+        text-align: center;
         width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .card-info .title { 
+        margin: 0; 
+        font-weight: 600; 
+        font-size: 0.8rem; 
+        color: var(--text-main); 
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
     }
 
-    .image-label {
-        display: inline-block;
-        cursor: pointer;
+    .hidden-file-input { display: none; }
+
+    /* 우측 컬러 시스템 콤팩트화 */
+    .color-flex-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 6px;
+        background: #f8fafc;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .color-flex-grid p {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 6px 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        margin: 0;
+        font-size: 0.8rem;
+    }
+    .color-flex-grid input {
+        padding: 2px 4px;
+        font-size: 0.8rem;
+        max-width: 100px;
     }
 
-    .image-label img {
-        max-width: 100%;
-        height: auto;
+    /* 우측 말풍선 수치 콤팩트화 */
+    .bubble-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
-
+    
+    .bubble-preview-side {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px;
+        justify-items: center;
+    }
+    
     .canvas-container {
         position: relative;
-        display: inline-block;
-        margin: 10px;
-    }
-
-    .canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .inline-div {
+        background: #f1f5f9;
+        padding: 4px;
+        border-radius: 6px;
+        border: 1px solid var(--border-color);
         display: inline-block;
     }
+    .canvas { position: absolute; top: 4px; left: 4px; }
 
-    .inline {
-        display: inline;
+    /* 6열 그리드 배치 강제 세팅 */
+    .bubble-inputs-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr); /* 2열에서 요구사항인 6열 분할로 대폭 세분화 */
+        gap: 4px;
+        background: #f8fafc;
+        padding: 8px;
+        border-radius: 8px;
+        margin-bottom: 8px;
     }
-
-    .center-div {
-        text-align: center;
+    .bubble-field-card { 
+        background: #ffffff; 
+        padding: 4px; 
+        border: 1px solid var(--border-color); 
+        border-radius: 5px; 
+        display: flex;
+        flex-direction: column; /* 6열 배치를 위해 콤팩트하게 상하 구조로 전환 */
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
     }
-
-    .image-section {
-        width: 60%;
-        float: left;
-    }
-
-    .css-section {
-        width: 40%;
-        float: left;
-    }
-
-    .section-mother {
-        overflow: auto;
-    }
+    .bubble-field-card label h3 { margin: 0; font-size: 0.7rem; color: var(--text-muted); }
+    .bubble-field-card input { width: 100%; max-width: 45px; text-align: center; padding: 2px 0; font-size: 0.75rem; box-sizing: border-box;}
 </style>
 {% endblock %}
 
 {% block js %}
 <script>
+    function triggerUpload(cardElement) {
+        var $input = $(cardElement).find('.hidden-file-input');
+        if ($input.length > 0) {
+            $input[0].click();
+        }
+    }
 
-    // function uploadImage() {
-    //     $(".image-label").on('click', function () {
-    //         var form = $(this).closest('form');
-    //         var fileInput = form.find('.image-upload')
-    //         fileInput.click();
-    //     });
-    //     $(".image-upload").on('change', function () {
-    //         var form = $(this).closest('form');
-    //         form.submit();
-    //     })
-    // }
+    function fileChanged(inputElement) {
+        var file = inputElement.files[0];
+        if (file) {
+            var reader = new FileReader();
+            
+            reader.onload = function(e) {
+                var $card = $(inputElement).closest('.clickable-preview-card');
+                $card.find('.preview-box img').attr('src', e.target.result);
+                $card.css('border-color', '#4f46e5'); 
+            }
+            
+            reader.readAsDataURL(file);
+        }
+    }
+
     function drawLine() {
-        for (i = 1; i < 5; i++) {
-            imageId = 'image-bubble-' + i;
-            canvasId = 'canvas-' + i;
+        for (var i = 1; i <= 4; i++) {
+            var imageId = 'image-bubble-' + i;
+            var canvasId = 'canvas-' + i;
             var image = document.getElementById(imageId);
             var canvas = document.getElementById(canvasId);
+            if (!image || !canvas) continue;
+            
             canvas.width = image.width;
             canvas.height = image.height;
 
-            var x = parseInt(document.getElementById('x-' + i).value);
-            var y = parseInt(document.getElementById('y-' + i).value);
-            var t = parseInt(document.getElementById('t-' + i).value);
-            var l = parseInt(document.getElementById('l-' + i).value);
-            var b = parseInt(document.getElementById('b-' + i).value);
-            var r = parseInt(document.getElementById('r-' + i).value);
-            // var v = document.getElementById('v-' + i);
-            // v.innerHTML = "x: " + x + " / y: " + y + " / t: " + t + " / l: " + l + " / b: " + b + " / r: " + r;
+            var x = parseInt(document.getElementById('x-' + i).value) || 0;
+            var y = parseInt(document.getElementById('y-' + i).value) || 0;
+            var t = parseInt(document.getElementById('t-' + i).value) || 0;
+            var l = parseInt(document.getElementById('l-' + i).value) || 0;
+            var b = parseInt(document.getElementById('b-' + i).value) || 0;
+            var r = parseInt(document.getElementById('r-' + i).value) || 0;
 
             var context = canvas.getContext('2d');
-            context.strokeStyle = 'black';
-            context.lineWidth = 2;
+            context.strokeStyle = '#f43f5e';
+            context.lineWidth = 1.5;
             context.strokeRect(l * 3, t * 3, canvas.width - (l + r) * 3, canvas.height - (t + b) * 3);
-            // context.fillRect(50, 50, 50, 50)
 
-            context.beginPath();
-            context.moveTo(x * 3, 0);
-            context.lineTo(x * 3, canvas.height);
-            context.stroke();
-
-            context.beginPath();
-            context.moveTo(0, y * 3);
-            context.lineTo(canvas.width, y * 3);
-            context.stroke();
-            // console.log(v);
-
+            context.beginPath(); context.moveTo(x * 3, 0); context.lineTo(x * 3, canvas.height); context.stroke();
+            context.beginPath(); context.moveTo(0, y * 3); context.lineTo(canvas.width, y * 3); context.stroke();
         }
     }
+
     function resizeImage() {
         var imgs = document.getElementsByClassName('theme-img');
-        var imgLength = imgs.length;
-
-        for (var i = 0; i <= imgLength - 1; i++) {
-
+        for (var i = 0; i < imgs.length; i++) {
             var imgWidth = imgs[i].clientWidth;
             var imgHeight = imgs[i].clientHeight;
-
-            $('img').eq(i).attr({ width: imgWidth / 2, height: imgHeight / 2 });
-
+            $(imgs[i]).attr({ width: imgWidth / 2, height: imgHeight / 2 });
         }
     }
 
-    $(document).ready(function () {
-        // uploadImage();
-        drawLine();
+$(document).ready(function () {
         resizeImage();
+        setTimeout(drawLine, 200);
+
+        $('.bubble-inputs-grid input').on('input change', function() {
+            drawLine();
+        });
     });
+
 </script>
 {% endblock %}
 
 {% block content %}
 
-<div class="section-mother">
-    <div>
-        <div>
-            <h1>&lt; {{ ktheme.name }} &gt;</h1>
-        </div>
-        <div>
-            <form method="post">
-                {% csrf_token %}
-                <h1 style="display: inline;">{{ ktheme_update_form }}</h1>
-                <button type="submit" name="action" value="ktheme_update">적용하기</button>
-            </form>
-        </div>
+<header class="editor-header" style="flex-direction: column; align-items: flex-start; gap: 10px; padding: 14px 30px;">
+    
+    <div class="editor-title">
+        <h1 style="margin: 0; font-size: 1.2rem; font-weight: 700;">테마 이름: {{ ktheme.name }}</h1>
     </div>
+    
+    <div class="header-actions" style="width: 100%; display: flex; justify-content: flex-start; align-items: center; gap: 16px;">
+        
+        <form method="post" action="{% url 'ktheme_update_name' theme_pk=ktheme.id %}" class="inline-form" style="display: flex; align-items: center; gap: 8px; height: 38px;">
+            {% csrf_token %}
+            
+            {% for field in ktheme_update_form %}
+                {{ field }}
+            {% endfor %}
+            
+            <button type="submit" class="btn" style="background:#e2e8f0; color:var(--text-main); height: 100%;">이름 수정</button>
+        </form>
+        
+        <form method="post" action="{% url 'ktheme_create_zip' theme_pk=ktheme.id %}" style="display: flex; height: 38px; margin-left: auto;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-zip" style="height: 100%;">파일 다운로드</button>
+        </form>
 
-    <div class="image-section">
-        <div>
-            <h1>이미지 가공</h1>
-        </div>
-        <div>
-            <form method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-
-                <h2>테마 아이콘</h2>
-                {% for key, filenames in icon_img_dic.items %}
-                <p>{{ key }}</p>
-                <input type="file" name="{{ key }}" accept="image/png">
-                {% endfor %}
-
-                <h2>메인 화면</h2>
-                {% for key, filenames in main_img_dic.items %}
-                <p>{{ key }}</p>
-                <input type="file" name="{{ key }}" accept="image/png">
-                {% endfor %}
-
-                <h2>채팅 화면</h2>
-                {% for key, filenames in chat_img_dic.items %}
-                <p>{{ key }}</p>
-                <input type="file" name="{{ key }}" accept="image/png">
-                {% endfor %}
-
-                <h2>암호 화면</h2>
-                {% for key, filenames in passcode_img_dic.items %}
-                <p>{{ key }}</p>
-                <input type="file" name="{{ key }}" accept="image/png">
-                {% endfor %}
-                <button type="submit" name="action" value="upload_image">적용하기</button>
-            </form>
-        </div>
-
-        <!-- 
-        {% for image_path in image_paths %}
-        <img src="{{ image_path }}?={{ version }}" alt="{{ image_path }}" style="width: 100px;">
-        {% endfor %} -->
+        <form action="{% url 'ktheme_delete' ktheme.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" 
+                    onclick="return confirm('정말 이 테마를 삭제할까요?');" 
+                    style="background-color: #ef4444; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
+                테마 삭제
+            </button>
+        </form>
+        
     </div>
-    <div class="css-section">
-        <div>
-            <!-- <div>
-                <h1>테마 아이콘</h1>
-            </div> -->
-            {% for key, filenames in icon_img_dic.items %}
-            <!-- <div>
-                <h2>{{ key }}</h2>
-            </div> -->
-            <div class="inline-div">
-                <div>
-                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
-                        class="theme-img">
-                </div>
-                <!-- <div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="{{ key }}" accept="image/png">
-                        <br>
-                        <button type="submit" name="action" value="upload_image">적용하기</button>
-                    </form>
-                </div> -->
-            </div>
-            <!-- <div class="inline-div">
-                {% for filename in filenames %}
-                <h4>{{ filename }}</h4>
-                {% endfor %}
-            </div> -->
-            {% endfor %}
-        </div>
-        <div>
-            <!-- <div>
-                <h1>메인 이미지</h1>
-            </div> -->
-            {% for key, filenames in main_img_dic.items %}
-            <!-- <div>
-                <h2>{{ key }}</h2>
-            </div> -->
-            <div class="inline-div">
-                <div>
-                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
-                        class="theme-img">
-                </div>
-                <!-- <div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="{{ key }}" accept="image/png">
-                        <button type="submit" name="action" value="upload_image">적용하기</button>
-                    </form>
-                </div> -->
-            </div>
-            <!-- <div class="inline-div">
-                {% for filename in filenames %}
-                <h4>{{ filename }}</h4>
-                {% endfor %}
-            </div> -->
-            {% endfor %}
-        </div>
-        <div>
-            <!-- <div>
-                <h1>채팅 이미지</h1>
-            </div> -->
-            {% for key, filenames in chat_img_dic.items %}
+    
+</header>
 
-            <!-- <div>
-                <h2>{{ key }}</h2>
-            </div> -->
-            <div class="inline-div">
-                <div>
-                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
-                        class="theme-img">
-                </div>
-                <!-- <div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="{{ key }}" accept="image/png">
-                        <button type="submit" name="action" value="upload_image">적용하기</button>
-                    </form>
-                </div> -->
-            </div>
-            <!-- <div class="inline-div">
-                {% for filename in filenames %}
-                <h4>{{ filename }}</h4>
-                {% endfor %}
-            </div> -->
-            {% endfor %}
-        </div>
-        <div>
-            <!-- <div>
-                <h1>암호 이미지</h1>
-            </div> -->
-            {% for key, filenames in passcode_img_dic.items %}
-            <!-- <div>
-                <h2>{{ key }}</h2>
-            </div> -->
-            <div class="inline-div">
-                <div>
-                    <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="{{ filenames.0 }}"
-                        class="theme-img">
-                </div>
-                <!-- <div>
-                    <form method="post" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <input type="file" name="{{ key }}" accept="image/png">
-                        <button type="submit" name="action" value="upload_image">적용하기</button>
-                    </form>
-                </div> -->
-            </div>
-            <!-- <div class="inline-div">
-                {% for filename in filenames %}
-                <h4>{{ filename }}</h4>
-                {% endfor %}
-            </div> -->
-            {% endfor %}
-        </div>
-        <div>
-            <div>
-                <h1>CSS 편집</h1>
-            </div>
-            <div>
-                <h2>테마 컬러</h2>
-                <h3>텍스트 컬러와 배경 컬러를 지정합니다.</h3>
-            </div>
-            <div>
-                <form method="post">
-                    {% csrf_token %}
-                    <h3>{{ css_color_update_form.as_p }}</h3>
-                    <button type="submit" name="action" value="css_color">적용하기</button>
-                </form>
-            </div>
-        </div>
-        <br>
-        <hr>
-        <div>
-            <div>
-                <h2>말풍선</h2>
-                <h3>말풍선이 늘어나는 지점과 텍스트 삽입 위치를 조절합니다.</h3>
-            </div>
+<div class="main-grid-layout">
 
+    <div class="left-column">
+        <form method="post" enctype="multipart/form-data" action="{% url 'ktheme_upload_image' theme_pk=ktheme.id %}" style="display: contents;">
+            {% csrf_token %}
 
-            <div>
-                {% for bubble_image_path in bubble_image_paths %}
-                <div class="canvas-container">
-                    <img src="{{ bubble_image_path }}?={{ version }}" alt="Image"
-                        id="image-bubble-{{ forloop.counter }}">
-                    <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
-                    <!-- <h3 id="v-{{ forloop.counter }}"></h3> -->
+            <div class="editor-block">
+                <div class="block-header">
+                    <h2 class="block-title">테마 아이콘</h2>
+                    <button type="submit" class="btn btn-primary">적용</button>
                 </div>
-                {% endfor %}
-            </div>
-            <div class="inline-div">
-                <form method="post">
-                    {% csrf_token %}
-                    {% for field in css_bubble_update_form %}
-                    <div class="inline-div">
-                        <label for="{{ field.id_for_label }}">
-                            <h3 class="inline">{{ field.label_tag }}</h3>
-                        </label>
-                        {{ field }}
+                <div class="image-grid grid-icon">
+                    {% for key, filenames in icon_img_dic.items %}
+                    <div class="clickable-preview-card" onclick="triggerUpload(this)">
+                        <div class="preview-box">
+                            <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Icon" class="theme-img">
+                            <div class="preview-overlay">업로드</div>
+                        </div>
+                        <div class="card-info">
+                            <p class="title">{{ key }}</p>
+                        </div>
+                        <input type="file" name="{{ key }}" accept="image/png,image/jpeg" class="hidden-file-input" onchange="fileChanged(this)">
                     </div>
-                    {% if forloop.counter|divisibleby:"6"%}
+                    {% endfor %}
+                </div>
             </div>
-            <div>
-                <br>
-                {% endif %}
-                {% endfor %}
-                <button type="submit" name="action" value="css_bubble">적용하기</button>
-                </form>
+
+            <div class="editor-block">
+                <div class="block-header">
+                    <h2 class="block-title">메인 탭 & 배경</h2>
+                    <button type="submit" class="btn btn-primary">적용</button>
+                </div>
+                <div class="image-grid grid-main">
+                    {% for key, filenames in main_img_dic.items %}
+                    <div class="clickable-preview-card" onclick="triggerUpload(this)">
+                        <div class="preview-box">
+                            <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Main" class="theme-img">
+                            <div class="preview-overlay">업로드</div>
+                        </div>
+                        <div class="card-info">
+                            <p class="title">{{ key }}</p>
+                        </div>
+                        <input type="file" name="{{ key }}" accept="image/png,image/jpeg" class="hidden-file-input" onchange="fileChanged(this)">
+                    </div>
+                    {% endfor %}
+                </div>
             </div>
+
+            <div class="editor-block">
+                <div class="block-header">
+                    <h2 class="block-title">채팅방</h2>
+                    <button type="submit" class="btn btn-primary">적용</button>
+                </div>
+                <div class="image-grid grid-chat">
+                    {% for key, filenames in chat_img_dic.items %}
+                    <div class="clickable-preview-card" onclick="triggerUpload(this)">
+                        <div class="preview-box">
+                            <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Chat" class="theme-img">
+                            <div class="preview-overlay">업로드</div>
+                        </div>
+                        <div class="card-info">
+                            <p class="title">{{ key }}</p>
+                        </div>
+                        <input type="file" name="{{ key }}" accept="image/png,image/jpeg" class="hidden-file-input" onchange="fileChanged(this)">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="editor-block">
+                <div class="block-header">
+                    <h2 class="block-title">잠금화면</h2>
+                    <button type="submit" class="btn btn-primary">적용</button>
+                </div>
+                <div class="image-grid grid-passcode">
+                    {% for key, filenames in passcode_img_dic.items %}
+                    <div class="clickable-preview-card" onclick="triggerUpload(this)">
+                        <div class="preview-box">
+                            <img src="/media/{{ ktheme.id }}/Images/{{ filenames.0 }}?={{ version }}" alt="Passcode" class="theme-img">
+                            <div class="preview-overlay"> 업로드</div>
+                        </div>
+                        <div class="card-info">
+                            <p class="title">{{ key }}</p>
+                        </div>
+                        <input type="file" name="{{ key }}" accept="image/png,image/jpeg" class="hidden-file-input" onchange="fileChanged(this)">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="right-column">
+        <div class="editor-block">
+            <div class="block-header">
+                <h2 class="block-title">컬러</h2>
+            </div>
+            <form method="post" action="{% url 'ktheme_update_color' theme_pk=ktheme.id %}">
+                {% csrf_token %}
+                <div class="color-flex-grid">
+                    {{ css_color_update_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px; width: 100%;">색상 적용</button>
+            </form>
         </div>
-        <div>
-            <div>
-                <h1>Create ZIP</h2>
+
+        <div class="editor-block">
+            <div class="block-header">
+                <h2 class="block-title">말풍선 수치</h2>
             </div>
-            <div>
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" name="action" value="create_zip">Create ZIP</button>
-                </form>
+            
+            <div class="bubble-container">
+                <div class="bubble-preview-side">
+                    {% for bubble_image_path in bubble_image_paths %}
+                    <div class="canvas-container">
+                        <img src="{{ bubble_image_path }}?={{ version }}" alt="Bubble" id="image-bubble-{{ forloop.counter }}">
+                        <canvas id="canvas-{{ forloop.counter }}" class="canvas"></canvas>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="bubble-input-side">
+                    <form method="post" action="{% url 'ktheme_update_bubble' theme_pk=ktheme.id %}">
+                        {% csrf_token %}
+                        <div class="bubble-inputs-grid">
+                            {% for field in css_bubble_update_form %}
+                            <div class="bubble-field-card">
+                                <label for="{{ field.id_for_label }}">
+                                    <h3>{{ field.label }}</h3>
+                                </label>
+                                {{ field }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;" onclick="setTimeout(drawLine, 250)">
+                            수치 적용
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
 </div>
-<div></div>
 {% endblock %}

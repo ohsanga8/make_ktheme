@@ -141,13 +141,13 @@ InputBarStyle-Chat {
  */
 
 MessageCellStyle-Send {
-    -ios-background-image: 'chatroomBubbleSend01.png' 27px 27px;
-    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 27px 27px;
-    -ios-group-background-image: 'chatroomBubbleSend02.png' 27px 27px;
-    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 27px 27px;
-    -ios-title-edgeinsets: 16px 23px 15px 17px;
+    -ios-background-image: 'chatroomBubbleSend01.png' 25px 25px;
+    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 25px 25px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 25px 25px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 25px 25px;
+    -ios-title-edgeinsets: 16px 20px 16px 20px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 16px 23px 15px 17px;
+    -ios-group-title-edgeinsets: 16px 20px 16px 20px;
 
     -ios-text-color: #FFFFFF;
     -ios-selected-text-color: #FFFFFF;
@@ -155,13 +155,13 @@ MessageCellStyle-Send {
 }
 
 MessageCellStyle-Receive {
-    -ios-background-image: 'chatroomBubbleReceive01.png' 27px 27px;
-    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 27px 27px;
-    -ios-group-background-image: 'chatroomBubbleReceive02.png' 27px 27px;
-    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 27px 27px;
-    -ios-title-edgeinsets: 16px 23px 15px 17px;
+    -ios-background-image: 'chatroomBubbleReceive01.png' 25px 25px;
+    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 25px 25px;
+    -ios-group-background-image: 'chatroomBubbleReceive02.png' 25px 25px;
+    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 25px 25px;
+    -ios-title-edgeinsets: 16px 20px 16px 20px;
     /* top, left, bottom, right */
-    -ios-group-title-edgeinsets: 16px 23px 15px 17px;
+    -ios-group-title-edgeinsets: 16px 20px 16px 20px;
 
     -ios-text-color: #FFFFFF;
     -ios-selected-text-color: #FFFFFF;

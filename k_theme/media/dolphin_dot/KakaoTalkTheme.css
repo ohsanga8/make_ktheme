@@ -15,7 +15,7 @@ ManifestStyle {
  */
 
 TabBarStyle-Main {
-    background-color: #FFFFFF;
+    background-color: #000000;
     -ios-background-image: 'maintabBgImage.png';
 
     -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
@@ -46,46 +46,46 @@ TabBarStyle-Main {
  */
 
 HeaderStyle-Main {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 
-    -ios-tab-text-color: #F6C6F0;
-    -ios-tab-highlighted-text-color: #F6C6F0;
+    -ios-tab-text-color: #CDE7F7;
+    -ios-tab-highlighted-text-color: #CDE7F7;
 }
 
 MainViewStyle-Primary {
-    background-color: #FFFFFF;
+    background-color: #000000;
     -ios-background-image: 'mainBgImage.png';
 
-    -ios-text-color: #000000;
-    -ios-highlighted-text-color: #000000;
+    -ios-text-color: #FFFFFF;
+    -ios-highlighted-text-color: #FFFFFF;
     /* Title Pressed */
 
-    -ios-description-text-color: #000000;
-    -ios-description-highlighted-text-color: #000000;
+    -ios-description-text-color: #FFFFFF;
+    -ios-description-highlighted-text-color: #FFFFFF;
     /* Description Pressed */
 
-    -ios-paragraph-text-color: #000000;
-    -ios-paragraph-highlighted-text-color: #000000;
+    -ios-paragraph-text-color: #FFFFFF;
+    -ios-paragraph-highlighted-text-color: #FFFFFF;
     /* Paragraph Pressed*/
 
     -ios-normal-background-color: #FFFFFF;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
-    -ios-selected-background-color: #F6C6F0;
+    -ios-selected-background-color: #CDE7F7;
     /* Cell Background Pressed */
     -ios-selected-background-alpha: 0.0;
 }
 
 MainViewStyle-Secondary {
-    background-color: #FFFFFF;
+    background-color: #000000;
 }
 
 SectionTitleStyle-Main {
-    border-color: #000000;
+    border-color: #FFFFFF;
     border-alpha: 0.0;
 
-    -ios-text-color: #F6C6F0;
+    -ios-text-color: #CDE7F7;
     -ios-text-alpha: 1.0;
 }
 
@@ -95,7 +95,7 @@ SectionTitleStyle-Main {
  */
 
 FeatureStyle-Primary {
-    -ios-text-color: #F6C6F0;
+    -ios-text-color: #CDE7F7;
 }
 
 
@@ -118,21 +118,21 @@ DefaultProfileStyle {
  */
 
 BackgroundStyle-ChatRoom {
-    background-color: #FFFFFF;
+    background-color: #000000;
     -ios-background-image: 'chatroomBgImage.png';
 }
 
 InputBarStyle-Chat {
-    background-color: #FFFFFF;
+    background-color: #000000;
 
     -ios-send-normal-background-color: #FFFFFF;
-    -ios-send-normal-foreground-color: #F6C6F0;
+    -ios-send-normal-foreground-color: #CDE7F7;
 
     -ios-send-highlighted-background-color: #FFFFFF;
-    -ios-send-highlighted-foreground-color: #F6C6F0;
+    -ios-send-highlighted-foreground-color: #CDE7F7;
 
-    -ios-button-normal-foreground-color: #F6C6F0;
-    -ios-button-highlighted-foreground-color: #F6C6F0;
+    -ios-button-normal-foreground-color: #CDE7F7;
+    -ios-button-highlighted-foreground-color: #CDE7F7;
 }
 
 
@@ -141,31 +141,31 @@ InputBarStyle-Chat {
  */
 
 MessageCellStyle-Send {
-    -ios-background-image: 'chatroomBubbleSend01.png' 16px 25px;
-    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 16px 25px;
-    -ios-group-background-image: 'chatroomBubbleSend02.png' 16px 25px;
-    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 16px 25px;
+    -ios-background-image: 'chatroomBubbleSend01.png' 33px 25px;
+    -ios-selected-background-image: 'chatroomBubbleSend01Selected.png' 33px 25px;
+    -ios-group-background-image: 'chatroomBubbleSend02.png' 33px 25px;
+    -ios-group-selected-background-image: 'chatroomBubbleSend02Selected.png' 33px 25px;
     -ios-title-edgeinsets: 15px 27px 17px 10px;
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 15px 27px 17px 10px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #F6C6F0;
+    -ios-text-color: #FFFFFF;
+    -ios-selected-text-color: #FFFFFF;
+    -ios-unread-text-color: #CDE7F7;
 }
 
 MessageCellStyle-Receive {
-    -ios-background-image: 'chatroomBubbleReceive01.png' 30px 25px;
-    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 30px 25px;
-    -ios-group-background-image: 'chatroomBubbleReceive02.png' 30px 25px;
-    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 30px 25px;
+    -ios-background-image: 'chatroomBubbleReceive01.png' 30px 18px;
+    -ios-selected-background-image: 'chatroomBubbleReceive01Selected.png' 30px 18px;
+    -ios-group-background-image: 'chatroomBubbleReceive02.png' 30px 18px;
+    -ios-group-selected-background-image: 'chatroomBubbleReceive02Selected.png' 30px 18px;
     -ios-title-edgeinsets: 15px 27px 17px 10px;
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 15px 27px 17px 10px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #F6C6F0;
+    -ios-text-color: #FFFFFF;
+    -ios-selected-text-color: #FFFFFF;
+    -ios-unread-text-color: #CDE7F7;
 }
 
 
@@ -174,12 +174,12 @@ MessageCellStyle-Receive {
  */
 
 BackgroundStyle-Passcode {
-    background-color: #FFFFFF;
+    background-color: #000000;
     -ios-background-image: 'passcodeBgImage.png';
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -194,8 +194,8 @@ PasscodeStyle {
     -ios-bullet-selected-third-image: 'passcodeImgCode03Selected.png';
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
-    -ios-keypad-background-color: #FFFFFF;
-    -ios-keypad-text-normal-color: #F6C6F0;
+    -ios-keypad-background-color: #000000;
+    -ios-keypad-text-normal-color: #CDE7F7;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
 }
@@ -206,15 +206,15 @@ PasscodeStyle {
  */
 
 BackgroundStyle-MessageNotificationBar {
-    background-color: #FFFFFF;
+    background-color: #000000;
 }
 
 LabelStyle-MessageNotificationBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 LabelStyle-MessageNotificationBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -223,15 +223,15 @@ LabelStyle-MessageNotificationBarMessage {
 */
 
 BackgroundStyle-DirectShareBar {
-    background-color: #FFFFFF;
+    background-color: #000000;
 }
 
 LabelStyle-DirectShareBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 LabelStyle-DirectShareBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -240,7 +240,7 @@ LabelStyle-DirectShareBarMessage {
  */
 
 BottomBannerStyle {
-    background-color: #FFFFFF;
+    background-color: #000000;
 }
 
 /* 

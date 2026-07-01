@@ -46,33 +46,33 @@ TabBarStyle-Main {
  */
 
 HeaderStyle-Main {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 
-    -ios-tab-text-color: #FFC0CB;
-    -ios-tab-highlighted-text-color: #FFC0CB;
+    -ios-tab-text-color: #c28f98;
+    -ios-tab-highlighted-text-color: #c28f98;
 }
 
 MainViewStyle-Primary {
     background-color: #FFFFFF;
     -ios-background-image: 'mainBgImage.png';
 
-    -ios-text-color: #000000;
-    -ios-highlighted-text-color: #000000;
+    -ios-text-color: #8c5760;
+    -ios-highlighted-text-color: #8c5760;
     /* Title Pressed */
 
-    -ios-description-text-color: #000000;
-    -ios-description-highlighted-text-color: #000000;
+    -ios-description-text-color: #8c5760;
+    -ios-description-highlighted-text-color: #8c5760;
     /* Description Pressed */
 
-    -ios-paragraph-text-color: #000000;
-    -ios-paragraph-highlighted-text-color: #000000;
+    -ios-paragraph-text-color: #8c5760;
+    -ios-paragraph-highlighted-text-color: #8c5760;
     /* Paragraph Pressed*/
 
     -ios-normal-background-color: #FFFFFF;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
-    -ios-selected-background-color: #FFC0CB;
+    -ios-selected-background-color: #c28f98;
     /* Cell Background Pressed */
     -ios-selected-background-alpha: 0.0;
 }
@@ -82,10 +82,10 @@ MainViewStyle-Secondary {
 }
 
 SectionTitleStyle-Main {
-    border-color: #000000;
+    border-color: #8c5760;
     border-alpha: 0.0;
 
-    -ios-text-color: #FFC0CB;
+    -ios-text-color: #c28f98;
     -ios-text-alpha: 1.0;
 }
 
@@ -95,7 +95,7 @@ SectionTitleStyle-Main {
  */
 
 FeatureStyle-Primary {
-    -ios-text-color: #FFC0CB;
+    -ios-text-color: #c28f98;
 }
 
 
@@ -126,13 +126,13 @@ InputBarStyle-Chat {
     background-color: #FFFFFF;
 
     -ios-send-normal-background-color: #FFFFFF;
-    -ios-send-normal-foreground-color: #FFC0CB;
+    -ios-send-normal-foreground-color: #c28f98;
 
     -ios-send-highlighted-background-color: #FFFFFF;
-    -ios-send-highlighted-foreground-color: #FFC0CB;
+    -ios-send-highlighted-foreground-color: #c28f98;
 
-    -ios-button-normal-foreground-color: #FFC0CB;
-    -ios-button-highlighted-foreground-color: #FFC0CB;
+    -ios-button-normal-foreground-color: #c28f98;
+    -ios-button-highlighted-foreground-color: #c28f98;
 }
 
 
@@ -149,9 +149,9 @@ MessageCellStyle-Send {
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 20px 18px 17px 18px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #FFC0CB;
+    -ios-text-color: #8c5760;
+    -ios-selected-text-color: #8c5760;
+    -ios-unread-text-color: #c28f98;
 }
 
 MessageCellStyle-Receive {
@@ -163,9 +163,9 @@ MessageCellStyle-Receive {
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 20px 18px 17px 18px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #FFC0CB;
+    -ios-text-color: #8c5760;
+    -ios-selected-text-color: #8c5760;
+    -ios-unread-text-color: #c28f98;
 }
 
 
@@ -179,7 +179,7 @@ BackgroundStyle-Passcode {
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 }
 
 
@@ -195,7 +195,7 @@ PasscodeStyle {
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
     -ios-keypad-background-color: #FFFFFF;
-    -ios-keypad-text-normal-color: #FFC0CB;
+    -ios-keypad-text-normal-color: #c28f98;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
 }
@@ -210,11 +210,11 @@ BackgroundStyle-MessageNotificationBar {
 }
 
 LabelStyle-MessageNotificationBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 }
 
 LabelStyle-MessageNotificationBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 }
 
 
@@ -227,11 +227,11 @@ BackgroundStyle-DirectShareBar {
 }
 
 LabelStyle-DirectShareBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 }
 
 LabelStyle-DirectShareBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #8c5760;
 }
 
 

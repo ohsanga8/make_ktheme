@@ -1,90 +1,292 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Your Website{% endblock %}</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
-            rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        {% block style %}
-        <style>
-            body {
-                font-family: 'Noto Sans KR', sans-serif;
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}카톡테마 만들기{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        :root {
+            /* 힙하고 트렌디한 모노톤 + 포인트 컬러 스케일 */
+            --bg-main: #FAFAFB;
+            --bg-card: #FFFFFF;
+            --text-main: #1A1A1E;
+            --text-muted: #64646F;
+            --border-light: #EBEBED;
+            
+            /* 핵심 포인트: 카카오톡 테마 느낌을 주는 감각적인 네온 라임/그린 또는 일렉트릭 블루 */
+            --accent: #02C73C; /* 트렌디한 네온 그린 */
+            --accent-dark: #02A832;
+            --focus-ring: rgba(2, 199, 60, 0.2);
+            
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 12px 32px -12px rgba(0, 0, 0, 0.08);
+            
+            --font-display: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif;
+            --font-body: 'Noto Sans KR', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            letter-spacing: -0.02em; /* 자간을 줄여 시각적으로 더 단단하고 세련되게 함 */
+        }
+
+        body {
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            background: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            margin: 0 0 0.5em;
+            color: var(--text-main);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.2s ease;
+        }
+
+        /* 상단 네비게이션 바 미니멀화 */
+        header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1040px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .brand-mark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-main);
+        }
+
+        /* 밤티 느낌의 물방울 대신 시크한 스퀘어/서클 인디케이터 */
+        .brand-mark .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: inline-block;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 4px 0;
+            position: relative;
+        }
+
+        nav ul li a:hover {
+            color: var(--text-main);
+        }
+
+        /* 하단 바 형태의 세련된 언더라인 효과 */
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--text-main);
+            transition: width 0.2s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* 메인 컨테이너 영역 */
+        .container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 64px 24px 96px;
+        }
+
+        /* 하단 푸터 깔끔하게 변경 */
+        footer {
+            background: var(--bg-card);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-light);
+        }
+
+        /* 공용 버튼: 너무 둥글지 않고 플랫하고 시크하게 */
+        button, .btn {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 10px 20px;
+            cursor: pointer;
+            background: var(--bg-card);
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        button:hover, .btn:hover {
+            background: var(--bg-main);
+            border-color: #D1D1D6;
+        }
+
+        /* 초점 효과 수정 */
+        button:focus-visible, .btn:focus-visible,
+        input:focus-visible, textarea:focus-visible, select:focus-visible,
+        a:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 1px;
+        }
+
+        /* 강조용 프라이머리 버튼 */
+        button.btn-primary, .btn.btn-primary {
+            background: var(--text-main);
+            color: #FFFFFF;
+            border: none;
+        }
+
+        button.btn-primary:hover, .btn.btn-primary:hover {
+            background: #2E2E35;
+            transform: translateY(-1px);
+        }
+
+        /* 인풋 필드 고도화 */
+        input[type="text"], input[type="number"], input[type="password"],
+        input[type="email"], input[type="file"], textarea, select {
+            font-family: var(--font-body);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px 14px;
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 0.95rem;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:focus,
+        input[type="email"]:focus, textarea:focus, select:focus {
+            border-color: var(--text-main);
+            outline: none;
+        }
+
+        input[type="number"] {
+            font-family: var(--font-mono);
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.88rem;
+            margin-bottom: 6px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border-light);
+            margin: 40px 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+                animation: none !important;
             }
+        }
 
-            header {
-                background-color: #333;
-                color: #fff;
-                padding: 10px 20px;
-            }
+        {% block style %}{% endblock %}
+    </style>
+    {% block js %}{% endblock %}
+</head>
 
-            nav ul {
-                list-style: none;
-                padding: 0;
-                margin: 0;
-                display: flex;
-                justify-content: space-between;
-            }
-
-            nav ul li {
-                margin: 0;
-            }
-
-            nav ul li a {
-                text-decoration: none;
-                color: #fff;
-            }
-
-
-            .container {
-                margin: 20px auto;
-                max-width: 800px;
-            }
-
-            footer {
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                padding: 10px;
-            }
-        </style>
-        {% endblock %}
-        {% block js %}{% endblock %}
-    </head>
-
-    <body>
-        <header>
+<body>
+    <header>
+        <div class="brand">
+            <a href="/" class="brand-mark"><span class="dot"></span>테마 만들기 사이트</a>
             <nav>
                 <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                    <li><a href="{% url 'signup' %}">Sign Up</a></li>
+                    <li><a href="/">홈</a></li>
                     {% if user.is_authenticated %}
-                    <li>Welcome, {{ user.username }} | <a href="{% url 'logout' %}">logout</a></li>
+                    <li style="color: var(--text-main); font-weight: 500;">{{ user.username }}님</li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 0;">
+                                로그아웃
+                            </button>
+                        </form>
+                    </li>
                     {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'signup' %}">회원가입</a></li>
+                    <li><a href="{% url 'login' %}">로그인</a></li>
                     {% endif %}
                 </ul>
             </nav>
-        </header>
-
-        <div class="container">
-            {% block content %}{% endblock %}
         </div>
+    </header>
 
-        <footer>
-            <p>&copy; {% now "Y" %} 테마팩토리</p>
-        </footer>
-    </body>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <!-- <p>&copy; {% now "Y" %} 테마 팩토리 · 요즘 감성으로 만드는 나만의 카카오톡 테마</p> -->
+    </footer>
+</body>
 
 </html>

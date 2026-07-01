@@ -1,10 +1,10 @@
-/*
+  /*
  Manifest
  */
 
 ManifestStyle {
     -kakaotalk-theme-name: 'planet_dot';
-    -kakaotalk-theme-version: 'ari';
+    -kakaotalk-theme-version: '9.9.5';
     -kakaotalk-theme-url: 'http://www.kakao.com';
     -kakaotalk-author-name: 'ari';
     -kakaotalk-theme-id: 'com.kakao.talk.theme.planet_dot';
@@ -15,7 +15,7 @@ ManifestStyle {
  */
 
 TabBarStyle-Main {
-    background-color: #FFFFFF;
+    background-color: #000001;
     -ios-background-image: 'maintabBgImage.png';
 
     -ios-friends-normal-icon-image: 'maintabIcoFriends.png';
@@ -46,46 +46,46 @@ TabBarStyle-Main {
  */
 
 HeaderStyle-Main {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 
-    -ios-tab-text-color: #000000;
-    -ios-tab-highlighted-text-color: #000000;
+    -ios-tab-text-color: #FFFFFF;
+    -ios-tab-highlighted-text-color: #FFFFFF;
 }
 
 MainViewStyle-Primary {
-    background-color: #FFFFFF;
+    background-color: #000001;
     -ios-background-image: 'mainBgImage.png';
 
-    -ios-text-color: #000000;
-    -ios-highlighted-text-color: #000000;
+    -ios-text-color: #FFFFFF;
+    -ios-highlighted-text-color: #FFFFFF;
     /* Title Pressed */
 
-    -ios-description-text-color: #000000;
-    -ios-description-highlighted-text-color: #000000;
+    -ios-description-text-color: #FFFFFF;
+    -ios-description-highlighted-text-color: #FFFFFF;
     /* Description Pressed */
 
-    -ios-paragraph-text-color: #000000;
-    -ios-paragraph-highlighted-text-color: #000000;
+    -ios-paragraph-text-color: #FFFFFF;
+    -ios-paragraph-highlighted-text-color: #FFFFFF;
     /* Paragraph Pressed*/
 
-    -ios-normal-background-color: #FFFFFF;
+    -ios-normal-background-color: #000001;
     /* Cell Background */
     -ios-normal-background-alpha: 0.0;
 
-    -ios-selected-background-color: #000000;
+    -ios-selected-background-color: #FFFFFF;
     /* Cell Background Pressed */
     -ios-selected-background-alpha: 0.0;
 }
 
 MainViewStyle-Secondary {
-    background-color: #FFFFFF;
+    background-color: #000001;
 }
 
 SectionTitleStyle-Main {
-    border-color: #000000;
+    border-color: #FFFFFF;
     border-alpha: 0.0;
 
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
     -ios-text-alpha: 1.0;
 }
 
@@ -95,7 +95,7 @@ SectionTitleStyle-Main {
  */
 
 FeatureStyle-Primary {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -118,21 +118,21 @@ DefaultProfileStyle {
  */
 
 BackgroundStyle-ChatRoom {
-    background-color: #FFFFFF;
+    background-color: #000001;
     -ios-background-image: 'chatroomBgImage.png';
 }
 
 InputBarStyle-Chat {
-    background-color: #FFFFFF;
+    background-color: #000001;
 
-    -ios-send-normal-background-color: #FFFFFF;
-    -ios-send-normal-foreground-color: #000000;
+    -ios-send-normal-background-color: #000001;
+    -ios-send-normal-foreground-color: #FFFFFF;
 
-    -ios-send-highlighted-background-color: #FFFFFF;
-    -ios-send-highlighted-foreground-color: #000000;
+    -ios-send-highlighted-background-color: #000001;
+    -ios-send-highlighted-foreground-color: #FFFFFF;
 
-    -ios-button-normal-foreground-color: #000000;
-    -ios-button-highlighted-foreground-color: #000000;
+    -ios-button-normal-foreground-color: #FFFFFF;
+    -ios-button-highlighted-foreground-color: #FFFFFF;
 }
 
 
@@ -149,9 +149,9 @@ MessageCellStyle-Send {
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 20px 15px 16px 15px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #000000;
+    -ios-text-color: #000001;
+    -ios-selected-text-color: #000001;
+    -ios-unread-text-color: #FFFFFF;
 }
 
 MessageCellStyle-Receive {
@@ -163,9 +163,9 @@ MessageCellStyle-Receive {
     /* top, left, bottom, right */
     -ios-group-title-edgeinsets: 20px 15px 16px 15px;
 
-    -ios-text-color: #000000;
-    -ios-selected-text-color: #000000;
-    -ios-unread-text-color: #000000;
+    -ios-text-color: #000001;
+    -ios-selected-text-color: #000001;
+    -ios-unread-text-color: #FFFFFF;
 }
 
 
@@ -174,12 +174,12 @@ MessageCellStyle-Receive {
  */
 
 BackgroundStyle-Passcode {
-    background-color: #FFFFFF;
+    background-color: #000001;
     -ios-background-image: 'passcodeBgImage.png';
 }
 
 LabelStyle-PasscodeTitle {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -194,8 +194,8 @@ PasscodeStyle {
     -ios-bullet-selected-third-image: 'passcodeImgCode03Selected.png';
     -ios-bullet-selected-fourth-image: 'passcodeImgCode04Selected.png';
 
-    -ios-keypad-background-color: #FFFFFF;
-    -ios-keypad-text-normal-color: #000000;
+    -ios-keypad-background-color: #000001;
+    -ios-keypad-text-normal-color: #FFFFFF;
 
     -ios-keypad-number-highlighted-image: 'passcodeKeypadPressed.png';
 }
@@ -206,15 +206,15 @@ PasscodeStyle {
  */
 
 BackgroundStyle-MessageNotificationBar {
-    background-color: #FFFFFF;
+    background-color: #000001;
 }
 
 LabelStyle-MessageNotificationBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 LabelStyle-MessageNotificationBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -223,15 +223,15 @@ LabelStyle-MessageNotificationBarMessage {
 */
 
 BackgroundStyle-DirectShareBar {
-    background-color: #FFFFFF;
+    background-color: #000001;
 }
 
 LabelStyle-DirectShareBarName {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 LabelStyle-DirectShareBarMessage {
-    -ios-text-color: #000000;
+    -ios-text-color: #FFFFFF;
 }
 
 
@@ -240,7 +240,7 @@ LabelStyle-DirectShareBarMessage {
  */
 
 BottomBannerStyle {
-    background-color: #FFFFFF;
+    background-color: #000001;
 }
 
 /* 
