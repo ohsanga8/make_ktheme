@@ -5,3 +5,5 @@ asgiref
 sqlparse
 django-extensions
 whitenoise
+cloudinary==1.40.0
+django-cloudinary-storage==0.3.0
