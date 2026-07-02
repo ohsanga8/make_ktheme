@@ -123,6 +123,8 @@ def create_theme_dir(sender, instance, created, **kwargs):
         return
 
     default_image_dir = get_default_images_dir()
+
+    
     shutil.copytree(default_image_dir, theme_image_dir)
     shutil.copy2(get_css_template_path(), theme_css)
 

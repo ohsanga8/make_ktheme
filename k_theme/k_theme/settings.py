@@ -31,7 +31,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-fallback-key')
 # DEBUG = True
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'ohsanga8.pythonanywhere.com'
+]
 
 
 # Application definition
@@ -58,6 +60,8 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
+
+
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -139,7 +143,7 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "main", "static")]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "main", "static")]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATIC_URL = "/static/"
 
