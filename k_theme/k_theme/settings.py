@@ -32,7 +32,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'default-fallback-key')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = [
-    'ohsanga8.pythonanywhere.com'
+    'ohsanga8.pythonanywhere.com',
+    '127.0.0.1',
+    'localhost'
 ]
 
 
