@@ -5,6 +5,8 @@ import zipfile
 from django.conf import settings
 from django.contrib.staticfiles.finders import find
 
+from .constants import ORIGINAL_CSS_COLORS
+
 
 # ---------------------------------------------------------------------------
 # 경로 관련
@@ -91,14 +93,20 @@ def apply_theme_identity(css_content, theme_name, theme_id, author_name):
 
 
 def apply_color_theme(css_content, css_color):
-    return (
-        css_content.replace("#FFFFFF", css_color.bg_color)
-        .replace("#000000", css_color.main_text_color)
-        .replace("#FFC0CB", css_color.point_text_color)
-        .replace("#D3D3D3", css_color.input_bg_color)
-        .replace("#A9A9A9", css_color.send_text_color)
-        .replace("#808080", css_color.receive_text_color)
-    )
+    """ORIGINAL_CSS_COLORS에 정의된 '원본 플레이스홀더 색상'을 찾아
+    사용자가 지정한 색상으로 치환한다.
+
+    예전에는 이 자리에 #FFC0CB / #A9A9A9 / #808080 같은 값이 하드코딩돼
+    있었는데, 실제 static/KakaoTalkTheme.css 템플릿의 강조 텍스트/보낸-받은
+    말풍선 텍스트 색상이 이미 #414141 / #000002 / #000001로 바뀌어 있어서
+    저 세 replace()가 전부 매치되지 않는(=조용히 아무 일도 안 하는) 상태였다.
+    그 결과 배경/메인 텍스트/입력창 색은 바뀌는데 나머지 텍스트 색만
+    아무리 바꿔도 반영되지 않는 버그가 있었다. 이제는 constants.py의
+    ORIGINAL_CSS_COLORS 한 곳만 보고 판단하므로 템플릿 색상이 또 바뀌면
+    거기만 고치면 된다."""
+    for field_name, placeholder in ORIGINAL_CSS_COLORS.items():
+        css_content = css_content.replace(placeholder, getattr(css_color, field_name))
+    return css_content
 
 
 def _bubble_replacements(css_bubble):
@@ -179,9 +187,20 @@ def validate_uploaded_image(uploaded_file):
 # ZIP 생성
 # ---------------------------------------------------------------------------
 
+_UNSAFE_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|]')
+
+
+def safe_ktheme_filename(theme_name):
+    """테마 이름을 파일명으로 써도 안전하게 정리한 '<이름>.ktheme'.
+    Windows/서버 파일시스템에서 금지된 문자(\\ / : * ? " < > |)를 제거해서
+    build_theme_zip()이 엉뚱한 하위 경로에 쓰거나 실패하는 것을 막는다."""
+    cleaned = _UNSAFE_FILENAME_CHARS.sub("_", theme_name).strip()
+    return f"{cleaned or 'theme'}.ktheme"
+
+
 def build_theme_zip(theme_id, theme_name):
     paths = theme_paths(theme_id)
-    zip_path = os.path.join(paths["dir"], f"{theme_name}.ktheme")
+    zip_path = os.path.join(paths["dir"], safe_ktheme_filename(theme_name))
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
         zipf.write(paths["css"], os.path.basename(paths["css"]))

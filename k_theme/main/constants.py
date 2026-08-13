@@ -104,6 +104,19 @@ PASSCODE_IMG_DIC = {
     "암호 눌림": ["passcodeKeypadPressed@3x.png"],
 }
 
+# 원본 static/KakaoTalkTheme.css 템플릿에 실제로 박혀 있는 "플레이스홀더" 색상값.
+# apply_color_theme()이 이 값을 찾아서 사용자가 지정한 색상으로 치환하므로,
+# 여기 값은 템플릿 파일 및 main/models.py의 CssColor 필드 default와 반드시 일치해야 한다.
+# (틀어지면 그 색상은 아무리 바꿔도 결과물에 절대 반영되지 않는다 — 실제 발생했던 버그)
+ORIGINAL_CSS_COLORS = {
+    "bg_color": "#FFFFFF",
+    "main_text_color": "#000000",
+    "point_text_color": "#414141",
+    "input_bg_color": "#D3D3D3",
+    "send_text_color": "#000002",
+    "receive_text_color": "#000001",
+}
+
 BUBBLE_PREVIEW_FILENAMES = [
     "chatroomBubbleReceive01@3x.png",
     "chatroomBubbleReceive02@3x.png",

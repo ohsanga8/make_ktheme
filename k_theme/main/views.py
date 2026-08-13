@@ -1,6 +1,7 @@
 import os
 import uuid
 from datetime import datetime
+from urllib.parse import quote
 import shutil
 
 from django.contrib.auth.decorators import login_required
@@ -217,11 +218,19 @@ def ktheme_update_bubble(request, theme_pk):
 def ktheme_create_zip(request, theme_pk):
     ktheme = _get_owned_theme(request, theme_pk)
     zip_path = build_theme_zip(ktheme.id, ktheme.name)
+    filename = os.path.basename(zip_path)  # build_theme_zip()이 이미 안전한 이름으로 정리해둠
 
     with open(zip_path, "rb") as f:
-        # response = HttpResponse(f.read(), content_type="application/zip")
-        response = HttpResponse(f.read(), content_type='application/octet-stream')
-        response["Content-Disposition"] = f'attachment; filename="{ktheme.name}.ktheme"'
+        response = HttpResponse(f.read(), content_type="application/octet-stream")
+
+        # 테마 이름이 한글이면(거의 항상 그렇다) filename="테마.ktheme" 처럼 그냥
+        # 넣었을 때 브라우저가 Content-Disposition을 못 읽어서 확장자 없는
+        # "download"로 뜨는 문제가 있었다. RFC 5987 filename*= 형식으로 함께
+        # 보내면 최신 브라우저는 이걸 읽고, 옛날 브라우저는 ASCII 대체값을 쓴다.
+        ascii_fallback = filename.encode("ascii", "ignore").decode("ascii") or "theme.ktheme"
+        response["Content-Disposition"] = (
+            f'attachment; filename="{ascii_fallback}"; filename*=UTF-8\'\'{quote(filename)}'
+        )
         return response
 
 @login_required
